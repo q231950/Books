@@ -10,17 +10,11 @@ import SwiftUI
 
 struct ContentView : View {
     @State private var selection = 0
- 
+    
     var body: some View {
         TabbedView(selection: $selection){
-            Text("First View")
-                .font(.title)
-                .tabItemLabel(Image("first"))
-                .tag(0)
-            Text("Second View")
-                .font(.title)
-                .tabItemLabel(Image("second"))
-                .tag(1)
+            LoansView()
+            AccountView()
         }
     }
 }
@@ -32,3 +26,4 @@ struct ContentView_Previews : PreviewProvider {
     }
 }
 #endif
+

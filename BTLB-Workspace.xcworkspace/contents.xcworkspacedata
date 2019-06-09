@@ -5,6 +5,6 @@
       location = "group:Books/Books.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Core">
+      location = "group:LibraryCore">
    </FileRef>
 </Workspace>
