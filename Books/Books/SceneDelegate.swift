@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import LibraryCore
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,10 +21,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Use a UIHostingController as window root view controller
+
+        let libraryCore = LibraryCore()
+
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = UIHostingController(rootView: ContentView())
+
+        window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(libraryCore.authentication))
+
         self.window = window
         window.makeKeyAndVisible()
+
+        libraryCore.authenticate()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -56,7 +64,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-
-
 }
 
