@@ -9,7 +9,6 @@
 import Foundation
 import os
 
-@available(iOS 10.0, *)
 class AuthenticationManager : NSObject {
 
     let log = OSLog(subsystem: "com.elbedev.books", category: "\(type(of: self))")
