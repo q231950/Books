@@ -7,4 +7,7 @@
    <FileRef
       location = "group:LibraryCore">
    </FileRef>
+   <FileRef
+      location = "group:Books.xctestplan">
+   </FileRef>
 </Workspace>

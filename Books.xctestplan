@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Books.xcodeproj",
+        "identifier" : "3B47FDE522ABAFE800D39567",
+        "name" : "BooksTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Books.xcodeproj",
+        "identifier" : "3B47FDF022ABAFE800D39567",
+        "name" : "BooksUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
