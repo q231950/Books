@@ -11,7 +11,7 @@ import LibraryCore
 
 struct ContentView : View {
     @State private var selection = 0
-    @EnvironmentObject var authentication: Authentication
+    @ObjectBinding var authentication: Authentication
     
     var body: some View {
         Group {
@@ -26,3 +26,13 @@ struct ContentView : View {
         }
     }
 }
+
+#if DEBUG
+struct ContentView_Previews : PreviewProvider {
+    static var previews: some View {
+        let authentication = Authentication()
+        return ContentView(authentication: authentication)
+    }
+}
+#endif
+
