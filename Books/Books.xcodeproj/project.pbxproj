@@ -60,12 +60,12 @@
 		3B47FDF122ABAFE800D39567 /* BooksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BooksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDF522ABAFE800D39567 /* BooksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksUITests.swift; sourceTree = "<group>"; };
 		3B47FDF722ABAFE800D39567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "session-identifier-request-body-template.xml"; path = "Books/Request Body Templates/session-identifier-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "account-request-body-template.xml"; path = "Books/Request Body Templates/account-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "renew-request-body-template.xml"; path = "Books/Request Body Templates/renew-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "loans-request-body-template.xml"; path = "Books/Request Body Templates/loans-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "credits-request-body-template.xml"; path = "Books/Request Body Templates/credits-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "item-details-request-body-template.xml"; path = "Books/Request Body Templates/item-details-request-body-template.xml"; sourceTree = "<group>"; };
+		3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "session-identifier-request-body-template.xml"; sourceTree = "<group>"; };
+		3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "account-request-body-template.xml"; sourceTree = "<group>"; };
+		3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "renew-request-body-template.xml"; sourceTree = "<group>"; };
+		3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "loans-request-body-template.xml"; sourceTree = "<group>"; };
+		3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "credits-request-body-template.xml"; sourceTree = "<group>"; };
+		3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "item-details-request-body-template.xml"; sourceTree = "<group>"; };
 		3B99B70E22AC002E000CBEAD /* LoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansView.swift; sourceTree = "<group>"; };
 		3B99B71022AC0121000CBEAD /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,12 +99,6 @@
 		3B47FDC422ABAFE600D39567 = {
 			isa = PBXGroup;
 			children = (
-				3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */,
-				3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */,
-				3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */,
-				3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */,
-				3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */,
-				3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */,
 				3B47FDCF22ABAFE600D39567 /* Books */,
 				3B47FDE922ABAFE800D39567 /* BooksTests */,
 				3B47FDF422ABAFE800D39567 /* BooksUITests */,
@@ -126,10 +120,10 @@
 		3B47FDCF22ABAFE600D39567 /* Books */ = {
 			isa = PBXGroup;
 			children = (
+				3B4CA9B722B51F4D00EEFBB5 /* Resources */,
 				3B47FDD022ABAFE600D39567 /* AppDelegate.swift */,
 				3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */,
 				3B99B70D22AC0010000CBEAD /* Views */,
-				3B47FDD922ABAFE800D39567 /* Assets.xcassets */,
 				3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */,
 				3B47FDE122ABAFE800D39567 /* Info.plist */,
 				3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */,
@@ -162,6 +156,28 @@
 				3B47FDF722ABAFE800D39567 /* Info.plist */,
 			);
 			path = BooksUITests;
+			sourceTree = "<group>";
+		};
+		3B4CA9B722B51F4D00EEFBB5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3B4CA9B822B51F5800EEFBB5 /* Request Templates */,
+				3B47FDD922ABAFE800D39567 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3B4CA9B822B51F5800EEFBB5 /* Request Templates */ = {
+			isa = PBXGroup;
+			children = (
+				3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */,
+				3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */,
+				3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */,
+				3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */,
+				3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */,
+				3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */,
+			);
+			path = "Request Templates";
 			sourceTree = "<group>";
 		};
 		3B99B70D22AC0010000CBEAD /* Views */ = {
