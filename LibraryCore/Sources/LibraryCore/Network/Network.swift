@@ -8,21 +8,20 @@
 
 import Foundation
 
-@objc protocol Network: AnyObject {
+protocol Network: AnyObject {
 
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 
 }
 
-class NetworkClient: NSObject, Network {
+class NetworkClient: Network {
 
     let session: URLSession
 
-    override init() {
+    init() {
         let configuration = URLSessionConfiguration.default
         configuration.httpCookieStorage?.cookieAcceptPolicy = .always
         session = URLSession(configuration: configuration)
-        super.init()
     }
 
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {

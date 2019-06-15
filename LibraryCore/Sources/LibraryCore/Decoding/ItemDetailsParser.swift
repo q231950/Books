@@ -9,7 +9,7 @@
 import Foundation
 import AEXML
 
-class FlamingoInfoPair: NSObject {
+class FlamingoInfoPair {
     let title: String
     let content: String
 
@@ -18,17 +18,14 @@ class FlamingoInfoPair: NSObject {
         self.content = content
     }
 
-    override func isEqual(_ object: Any?) -> Bool {
-        guard let object = object as? FlamingoInfoPair else {
-            return false
-        }
-
-        return title == object.title && content == object.content
+    static func ==(lhs: FlamingoInfoPair, rhs: FlamingoInfoPair) -> Bool {
+        return lhs.title == rhs.title && lhs.content == rhs.content
     }
+}
 
-    override var debugDescription: String {
+extension FlamingoInfoPair: CustomDebugStringConvertible {
+    var debugDescription: String {
         return "FlamingoInfoPair(title: \"\(title)\", content: \"\(content)\")"
-
     }
 }
 

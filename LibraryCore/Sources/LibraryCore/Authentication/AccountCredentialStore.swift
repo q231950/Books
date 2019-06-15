@@ -10,19 +10,19 @@ import Foundation
 
 /// The Account Credential Store provides
 /// a facility to store account credentials
-@objc class AccountCredentialStore: NSObject {
+class AccountCredentialStore {
 
     let keychainProvider: KeychainProvider
 
     /// The account credential store requires a keychain provider to store and retrieve passwords and account from.
     /// - parameter keychainProvider: The keychain provider to use
-    @objc init(keychainProvider: KeychainProvider) {
+    init(keychainProvider: KeychainProvider) {
         self.keychainProvider = keychainProvider
     }
 
     /// Stores the given credential. Storing the credential might throw an error when the underlying keychain provider fails to add the password and username.
     /// - parameter credential: The credential to store
-    @objc func store(_ password: String, of accountIdentifier: String) throws {
+    func store(_ password: String, of accountIdentifier: String) throws {
         let account = "com.elbedev.books.account.password.\(accountIdentifier)"
         try keychainProvider.add(password: password, to: account)
     }
@@ -36,7 +36,7 @@ import Foundation
 
     /// Get the password of a user with the given user identifier
     /// - parameter accountIdentifier: The user account's identifier
-    @objc func password(for accountIdentifier: String?) -> String? {
+    func password(for accountIdentifier: String?) -> String? {
         guard let accountIdentifier = accountIdentifier else {
             return nil
         }

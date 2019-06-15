@@ -9,20 +9,20 @@
 import Foundation
 import os
 
-class AuthenticationManager : NSObject {
+class AuthenticationManager {
 
-    let log = OSLog(subsystem: "com.elbedev.books", category: "\(type(of: self))")
+    let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
     let network: Network
     let keychainManager: KeychainProvider
     let credentialStore: AccountCredentialStore
 
-    @objc required init(network: Network = NetworkClient(), keychainManager: KeychainProvider = KeychainManager()) {
+    public init(network: Network = NetworkClient(), keychainManager: KeychainProvider = KeychainManager()) {
         self.network = network
         self.keychainManager = keychainManager
         self.credentialStore = AccountCredentialStore(keychainProvider: keychainManager)
     }
     
-    @objc func authenticateAccount(_ accountIdentifier: String, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+    func authenticateAccount(_ accountIdentifier: String, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
         guard let password = credentialStore.password(for: accountIdentifier) else {
             completion(false, NSError.missingPasswordError())
             return
@@ -38,7 +38,7 @@ class AuthenticationManager : NSObject {
      - returns: The optional session identifier if one was found
      - parameter accountIdentifier: The identifier of the belonging account
      */
-    @objc func sessionIdentifier(for accountIdentifier: String) -> String? {
+    func sessionIdentifier(for accountIdentifier: String) -> String? {
         let account = "com.elbedev.books.session.account.\(accountIdentifier)"
         return keychainManager.password(for: account)
     }

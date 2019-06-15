@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc protocol KeychainProvider {
+protocol KeychainProvider {
 
     /**
      Stores a password of an account in the keychain
@@ -33,7 +33,7 @@ import Foundation
     func password(for account: String) -> String?
 }
 
-@objc class KeychainManager: NSObject, KeychainProvider {
+class KeychainManager: KeychainProvider {
 
     func add(password: String, to account: String) throws {
         deletePassword(of: account)

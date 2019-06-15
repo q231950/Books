@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc extension NSError {
+extension NSError {
     
     enum Codes: Int {
         case unknownErrorCode = 0
@@ -18,7 +18,7 @@ import Foundation
         case requestFailureErrorCode
     }
     
-    @objc static func authenticationError() -> NSError {
+    static func authenticationError() -> NSError {
         let domain = "com.elbedev.books"
         let localizedDescription = NSLocalizedString("AUTHENTICATION_FAILED", tableName: "Applicationwide", bundle: Bundle.main, value: "Authentication failed", comment: "Incorrect credentials message")
         let localizedFailureReason = NSLocalizedString("AUTHENTICATION_FAILED_ADVICE", tableName: "Applicationwide", bundle: Bundle.main, value: "Please check your username, password and the selected library.", comment: "Incorrect credentials message")
@@ -26,7 +26,7 @@ import Foundation
             NSLocalizedFailureReasonErrorKey : localizedFailureReason])
     }
 
-   @objc static func missingCredentialsError() -> NSError {
+   static func missingCredentialsError() -> NSError {
         let domain = "com.elbedev.books"
         let localizedDescription = NSLocalizedString("AUTHENTICATION_FAILED", tableName: "Applicationwide", bundle: Bundle.main, value: "Authentication failed", comment: "Incorrect credentials message")
         let localizedFailureReason = NSLocalizedString("NOT_ACTIVATED_DUE_TO_MISSING_CREDENTIALS", tableName: "Applicationwide", bundle: Bundle.main, value: "Please enter your username and password.", comment: "Missing username and password message")

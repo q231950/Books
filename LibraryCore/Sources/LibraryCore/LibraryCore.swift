@@ -1,36 +1,22 @@
 import Combine
 import SwiftUI
 
-public struct Account {
-    public init() {}
-}
-
-@available(iOS 13.0, *)
+/// LibraryCore represents the interface to the real world library
 public class LibraryCore {
-    let authenticationManager = AuthenticationManager()
-    public var authentication = Authentication()
 
+    // MARK: Private
+
+    let authenticationManager = AuthenticationManager()
     public init() {}
+
+    // MARK: Public
+
+    /// authentication is a bindable object that allows to observe the authentication state
+    public let authentication = Authentication()
 
     public func authenticate() {
         authenticationManager.authenticateAccount("") { (valid, error) in
             self.authentication.authenticated = valid
         }
     }
-}
-
-@available(iOS 13.0, *)
-public class Authentication: BindableObject {
-
-    public var authenticated: Bool = false {
-        didSet {
-            DispatchQueue.main.async {
-                self.didChange.send(self)
-            }
-        }
-    }
-
-    public init() {}
-
-    public var didChange = PassthroughSubject<Authentication, Never>()
 }
