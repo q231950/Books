@@ -6,8 +6,23 @@
 //
 
 import Foundation
+import SwiftUI
+import Combine
 
-struct Account {
-    var username: String?
-    var password: String?
+public class Account: BindableObject {
+    public var username: String = "usr" {
+        didSet {
+            didChange.send(self)
+        }
+    }
+
+    public var password: String = "pwd" {
+        didSet {
+            didChange.send(self)
+        }
+    }
+
+    init() {}
+
+    public var didChange = PassthroughSubject<Account, Never>()
 }
