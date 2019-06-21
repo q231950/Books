@@ -12,23 +12,32 @@ import Combine
 
 struct ContentView : View {
     @State private var selection = 0
-    @EnvironmentObject private var libraryCore: LibraryCore
     @ObjectBinding var authentication: Authentication
+    @ObjectBinding var account: Account
     var body: some View {
         Group {
-            if libraryCore.authentication.authenticated == true {
+            if authentication.authenticated {
                 TabbedView(selection: $selection){
                     LoansView()
                     AccountView()
                 }
             } else {
-                VStack() {
-                    TextField($libraryCore.account.username.binding)
-
-                    TextField($libraryCore.account.password.binding) {
-                        self.libraryCore.authenticate()
+                VStack(){
+                    HStack() {
+                        Spacer()
+                        TextField($account.username.binding, placeholder: Text("Username"))
+                        Spacer()
                     }
-                }
+                    HStack() {
+                        Spacer()
+                        TextField($account.password.binding, placeholder: Text("Password")) {
+                            self.authentication.authenticate(account: self.account)
+                        }
+                        Spacer()
+                    }
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+
             }
         }
     }
@@ -37,9 +46,8 @@ struct ContentView : View {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        let authentication = Authentication()
         let libraryCore = LibraryCore()
-        return ContentView(authentication: authentication).environmentObject(libraryCore)
+        return ContentView(authentication: libraryCore.authentication, account: libraryCore.account)
     }
 }
 #endif

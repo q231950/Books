@@ -21,9 +21,14 @@ class AuthenticationManager {
         self.keychainManager = keychainManager
         self.credentialStore = AccountCredentialStore(keychainProvider: keychainManager)
     }
-    
-    func authenticateAccount(_ accountIdentifier: String, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
-        guard let password = credentialStore.password(for: accountIdentifier) else {
+
+    func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: Error?) -> Void) {
+        authenticateAccount(account.username, password: account.password, completion: completion)
+    }
+
+    private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+
+        guard let password = password ?? credentialStore.password(for: accountIdentifier) else {
             completion(false, NSError.missingPasswordError())
             return
         }

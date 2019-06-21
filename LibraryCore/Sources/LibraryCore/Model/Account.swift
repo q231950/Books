@@ -10,13 +10,13 @@ import SwiftUI
 import Combine
 
 public class Account: BindableObject {
-    public var username: String = "usr" {
+    public var username: String = "" {
         didSet {
             didChange.send(self)
         }
     }
 
-    public var password: String = "pwd" {
+    public var password: String = "" {
         didSet {
             didChange.send(self)
         }
