@@ -17,12 +17,8 @@
 		3B47FDE022ABAFE800D39567 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */; };
 		3B47FDEB22ABAFE800D39567 /* BooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDEA22ABAFE800D39567 /* BooksTests.swift */; };
 		3B47FDF622ABAFE800D39567 /* BooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDF522ABAFE800D39567 /* BooksUITests.swift */; };
-		3B8B893A22AE9CB60041ECFB /* session-identifier-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */; };
-		3B8B893B22AE9CB60041ECFB /* account-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */; };
-		3B8B893C22AE9CB60041ECFB /* renew-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */; };
-		3B8B893D22AE9CB60041ECFB /* loans-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */; };
-		3B8B893E22AE9CB60041ECFB /* credits-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */; };
-		3B8B893F22AE9CB60041ECFB /* item-details-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */; };
+		3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */; };
+		3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */; };
 		3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* LoansView.swift */; };
 		3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B71022AC0121000CBEAD /* AccountView.swift */; };
 /* End PBXBuildFile section */
@@ -60,12 +56,8 @@
 		3B47FDF122ABAFE800D39567 /* BooksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BooksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDF522ABAFE800D39567 /* BooksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksUITests.swift; sourceTree = "<group>"; };
 		3B47FDF722ABAFE800D39567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "session-identifier-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "account-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "renew-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "loans-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "credits-request-body-template.xml"; sourceTree = "<group>"; };
-		3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "item-details-request-body-template.xml"; sourceTree = "<group>"; };
+		3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		3B99B70E22AC002E000CBEAD /* LoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansView.swift; sourceTree = "<group>"; };
 		3B99B71022AC0121000CBEAD /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,13 +112,14 @@
 		3B47FDCF22ABAFE600D39567 /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				3B4CA9B722B51F4D00EEFBB5 /* Resources */,
 				3B47FDD022ABAFE600D39567 /* AppDelegate.swift */,
 				3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */,
 				3B99B70D22AC0010000CBEAD /* Views */,
+				3B4BF21C22BDDC19000218F8 /* View Models */,
 				3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */,
 				3B47FDE122ABAFE800D39567 /* Info.plist */,
 				3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */,
+				3B4CA9B722B51F4D00EEFBB5 /* Resources */,
 				3B47FDDB22ABAFE800D39567 /* Preview Content */,
 			);
 			path = Books;
@@ -158,26 +151,21 @@
 			path = BooksUITests;
 			sourceTree = "<group>";
 		};
+		3B4BF21C22BDDC19000218F8 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */,
+				3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		3B4CA9B722B51F4D00EEFBB5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3B4CA9B822B51F5800EEFBB5 /* Request Templates */,
 				3B47FDD922ABAFE800D39567 /* Assets.xcassets */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		3B4CA9B822B51F5800EEFBB5 /* Request Templates */ = {
-			isa = PBXGroup;
-			children = (
-				3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */,
-				3B8B893822AE9CB50041ECFB /* credits-request-body-template.xml */,
-				3B8B893922AE9CB60041ECFB /* item-details-request-body-template.xml */,
-				3B8B893722AE9CB50041ECFB /* loans-request-body-template.xml */,
-				3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */,
-				3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */,
-			);
-			path = "Request Templates";
 			sourceTree = "<group>";
 		};
 		3B99B70D22AC0010000CBEAD /* Views */ = {
@@ -307,12 +295,6 @@
 				3B47FDE022ABAFE800D39567 /* LaunchScreen.storyboard in Resources */,
 				3B47FDDD22ABAFE800D39567 /* Preview Assets.xcassets in Resources */,
 				3B47FDDA22ABAFE800D39567 /* Assets.xcassets in Resources */,
-				3B8B893A22AE9CB60041ECFB /* session-identifier-request-body-template.xml in Resources */,
-				3B8B893B22AE9CB60041ECFB /* account-request-body-template.xml in Resources */,
-				3B8B893C22AE9CB60041ECFB /* renew-request-body-template.xml in Resources */,
-				3B8B893D22AE9CB60041ECFB /* loans-request-body-template.xml in Resources */,
-				3B8B893E22AE9CB60041ECFB /* credits-request-body-template.xml in Resources */,
-				3B8B893F22AE9CB60041ECFB /* item-details-request-body-template.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,8 +320,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */,
+				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
 				3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,
+				3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */,
 				3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */,
 				3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */,
 				3B47FDD322ABAFE600D39567 /* SceneDelegate.swift in Sources */,
@@ -511,6 +495,8 @@
 				DEVELOPMENT_ASSET_PATHS = "Books/Preview\\ Content";
 				DEVELOPMENT_TEAM = X29V4JPQ55;
 				ENABLE_PREVIEWS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Books/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -518,6 +504,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books.Books;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -531,6 +518,8 @@
 				DEVELOPMENT_ASSET_PATHS = "Books/Preview\\ Content";
 				DEVELOPMENT_TEAM = X29V4JPQ55;
 				ENABLE_PREVIEWS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = Books/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -538,6 +527,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books.Books;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

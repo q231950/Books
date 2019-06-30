@@ -26,9 +26,22 @@ class BooksUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testWaveVisibleAfterSignIn() {
+        let app = XCUIApplication()
+        let usernameTextField = app.textFields["username"]
+        usernameTextField.tap()
+        usernameTextField.typeText("123456789")
+
+        let passwordTextField = app.textFields["password"]
+        passwordTextField.tap()
+        passwordTextField.typeText("abcd")
+
+        app.buttons["Sign in"].tap()
+
+        let label = app.staticTexts["🌊"]
+        let predicate = NSPredicate(format: "exists == true")
+        expectation(for: predicate, evaluatedWith: label, handler: nil)
+        waitForExpectations(timeout: 1, handler: nil)
     }
 
 }

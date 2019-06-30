@@ -17,6 +17,8 @@ enum ParseResult {
 
 class SessionIdentifierParser {
 
+    /// Parses a session identifier from the given xml data. Nil or invalid xml will result in an error, otherwise the success or error cases will occur.
+    /// - Parameter data: The xml data to parse.
     func parseSessionIdentifier(data: Data?) -> ParseResult {
         guard let data = data else {
             return .error(NSError(domain: "\(self).parseAccessToken", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse access token. No data to parse."]))

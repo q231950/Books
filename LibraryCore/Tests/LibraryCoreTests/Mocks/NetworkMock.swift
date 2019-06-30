@@ -10,11 +10,12 @@ import XCTest
 @testable import LibraryCore
 
 class URLSessionDataTaskMock: URLSessionDataTask {
+    override init() {}
+
     override func resume() {
         /// this thing could remember the stubbed values, but currently it does nothing
     }
 }
-
 class NetworkMock: Network {
 
     var data: Data?

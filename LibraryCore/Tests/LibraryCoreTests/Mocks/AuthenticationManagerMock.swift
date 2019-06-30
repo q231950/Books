@@ -9,11 +9,11 @@
 import Foundation
 @testable import LibraryCore
 
-class AuthenticationManagerMock: AuthenticationManager {
+private class AuthenticationManagerMock: AuthenticationManager {
     var authenticated: Bool = false
     var error: NSError? = nil
 
-    override func authenticateAccount(_ accountIdentifier: String, completion: @escaping (Bool, NSError?) -> Void) {
+    override func authenticateAccount(_ account: Account, completion: @escaping (Bool, NSError?) -> Void) {
         completion(authenticated, error)
     }
 }

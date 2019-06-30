@@ -26,6 +26,13 @@
         "identifier" : "3B47FDF022ABAFE800D39567",
         "name" : "BooksUITests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/LibraryCore",
+        "identifier" : "LibraryCoreTests",
+        "name" : "LibraryCoreTests"
+      }
     }
   ],
   "version" : 1

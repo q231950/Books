@@ -21,14 +21,15 @@ class AccountCredentialStore {
     }
 
     /// Stores the given credential. Storing the credential might throw an error when the underlying keychain provider fails to add the password and username.
-    /// - parameter credential: The credential to store
+    /// - parameter password: The password to store
+    /// - parameter accountIdentifier: The account identifier the password belongs to
     func store(_ password: String, of accountIdentifier: String) throws {
         let account = "com.elbedev.books.account.password.\(accountIdentifier)"
         try keychainProvider.add(password: password, to: account)
     }
 
     /// Delete a credential from the store.
-    /// - parameter credential: The credential with the user identifier of the password to remove from the store
+    /// - parameter accountIdentifier: The account identifier belonging to the password to remove
     func removePassword(for accountIdentifier: String) {
         let account = "com.elbedev.books.account.password.\(accountIdentifier)"
         keychainProvider.deletePassword(of: account)
