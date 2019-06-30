@@ -9,20 +9,22 @@ import Foundation
 import SwiftUI
 import Combine
 
-public class Account: BindableObject {
+public struct Account {
     public var username: String = "" {
         didSet {
-            didChange.send(self)
+                self.didChange.send(self)
         }
     }
 
     public var password: String = "" {
         didSet {
-            didChange.send(self)
+            self.didChange.send(self)
         }
     }
 
-    init() {}
-
     public var didChange = PassthroughSubject<Account, Never>()
+
+    public init() {
+
+    }
 }

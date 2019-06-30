@@ -17,6 +17,8 @@
 		3B47FDE022ABAFE800D39567 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */; };
 		3B47FDEB22ABAFE800D39567 /* BooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDEA22ABAFE800D39567 /* BooksTests.swift */; };
 		3B47FDF622ABAFE800D39567 /* BooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDF522ABAFE800D39567 /* BooksUITests.swift */; };
+		3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */; };
+		3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */; };
 		3B8B893A22AE9CB60041ECFB /* session-identifier-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */; };
 		3B8B893B22AE9CB60041ECFB /* account-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */; };
 		3B8B893C22AE9CB60041ECFB /* renew-request-body-template.xml in Resources */ = {isa = PBXBuildFile; fileRef = 3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */; };
@@ -60,6 +62,8 @@
 		3B47FDF122ABAFE800D39567 /* BooksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BooksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDF522ABAFE800D39567 /* BooksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksUITests.swift; sourceTree = "<group>"; };
 		3B47FDF722ABAFE800D39567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		3B8B893422AE9CB40041ECFB /* session-identifier-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "session-identifier-request-body-template.xml"; sourceTree = "<group>"; };
 		3B8B893522AE9CB50041ECFB /* account-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "account-request-body-template.xml"; sourceTree = "<group>"; };
 		3B8B893622AE9CB50041ECFB /* renew-request-body-template.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "renew-request-body-template.xml"; sourceTree = "<group>"; };
@@ -120,13 +124,14 @@
 		3B47FDCF22ABAFE600D39567 /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				3B4CA9B722B51F4D00EEFBB5 /* Resources */,
 				3B47FDD022ABAFE600D39567 /* AppDelegate.swift */,
 				3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */,
 				3B99B70D22AC0010000CBEAD /* Views */,
+				3B4BF21C22BDDC19000218F8 /* View Models */,
 				3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */,
 				3B47FDE122ABAFE800D39567 /* Info.plist */,
 				3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */,
+				3B4CA9B722B51F4D00EEFBB5 /* Resources */,
 				3B47FDDB22ABAFE800D39567 /* Preview Content */,
 			);
 			path = Books;
@@ -156,6 +161,15 @@
 				3B47FDF722ABAFE800D39567 /* Info.plist */,
 			);
 			path = BooksUITests;
+			sourceTree = "<group>";
+		};
+		3B4BF21C22BDDC19000218F8 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */,
+				3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		3B4CA9B722B51F4D00EEFBB5 /* Resources */ = {
@@ -338,8 +352,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */,
+				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
 				3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,
+				3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */,
 				3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */,
 				3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */,
 				3B47FDD322ABAFE600D39567 /* SceneDelegate.swift in Sources */,

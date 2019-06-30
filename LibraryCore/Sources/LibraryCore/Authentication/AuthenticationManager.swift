@@ -9,21 +9,26 @@
 import Foundation
 import os
 
-class AuthenticationManager {
+public class AuthenticationManager {
+
+    public static var shared: AuthenticationManager {
+        get {
+            return AuthenticationManager.init()
+        }
+    }
 
     let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
     let network: Network
-    let keychainManager: KeychainProvider
     let credentialStore: AccountCredentialStore
 
-    public init(network: Network = NetworkClient(), keychainManager: KeychainProvider = KeychainManager()) {
+    init(network: Network = NetworkClient(), credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
         self.network = network
-        self.keychainManager = keychainManager
-        self.credentialStore = AccountCredentialStore(keychainProvider: keychainManager)
+        self.credentialStore = credentialStore
     }
 
-    func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: Error?) -> Void) {
-        authenticateAccount(account.username, password: account.password, completion: completion)
+    public func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+        let password = (account.password != "") ? account.password : nil
+        authenticateAccount(account.username, password: password, completion: completion)
     }
 
     private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
@@ -34,7 +39,20 @@ class AuthenticationManager {
         }
 
         self.authenticateHamburgPublicAccount(accountIdentifier:accountIdentifier, password: password, completion: { (authenticated, error) -> Void in
+            guard error == nil else {
+                completion(authenticated, error)
+                return
+            }
+
+            do {
+                if authenticated {
+                    try self.credentialStore.store(password, of: accountIdentifier)
+                } else {
+                    self.credentialStore.removePassword(for: accountIdentifier)
+                }
+            } catch (_) {}
             completion(authenticated, error)
+
         })
     }
 
@@ -45,7 +63,7 @@ class AuthenticationManager {
      */
     func sessionIdentifier(for accountIdentifier: String) -> String? {
         let account = "com.elbedev.books.session.account.\(accountIdentifier)"
-        return keychainManager.password(for: account)
+        return credentialStore.password(for: account)
     }
 
     /**
@@ -56,7 +74,7 @@ class AuthenticationManager {
      */
     private func store(sessionIdentifier identifier: String, for accountIdentifier: String) throws {
         let account = "com.elbedev.books.session.account.\(accountIdentifier)"
-        try keychainManager.add(password:identifier, to:account)
+        try credentialStore.store(identifier, of: account)
     }
     
     private func authenticateHamburgPublicAccount(accountIdentifier: String, password: String, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
