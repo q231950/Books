@@ -90,7 +90,7 @@ public class AuthenticationManager {
         }
     }
     
-    private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:ValidationStatus) -> Void)) {
+    private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
         guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
             let err = NSError(domain: "\(type(of: self)).validate", code: 1)
             os_log("Failed to create access token request", log: self.log, type: .debug, err as CVarArg)
@@ -112,7 +112,7 @@ public class AuthenticationManager {
         task.resume()
     }
 
-    private func parseSessionIdentifier(data: Data?, accountIdentifier: String, completion: @escaping ((_ status: ValidationStatus) -> Void)) {
+    private func parseSessionIdentifier(data: Data?, accountIdentifier: String, completion: @escaping ((_ status: AuthenticationValidationStatus) -> Void)) {
         let sessionIdentifierParser = SessionIdentifierParser()
         let parseResult = sessionIdentifierParser.parseSessionIdentifier(data: data)
         switch parseResult {
