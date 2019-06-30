@@ -24,6 +24,7 @@ struct ContentView : View {
             } else {
                 VStack(){
                     HStack() {
+                        Text("🌊")
                         Spacer()
                         TextField($account.account.username.binding, placeholder: Text("username"))
                         Spacer()
