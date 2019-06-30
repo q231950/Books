@@ -9,7 +9,7 @@
 import Foundation
 @testable import LibraryCore
 
-class AuthenticationManagerMock: AuthenticationManager {
+private class AuthenticationManagerMock: AuthenticationManager {
     var authenticated: Bool = false
     var error: NSError? = nil
 
