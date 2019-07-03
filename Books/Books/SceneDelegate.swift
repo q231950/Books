@@ -10,6 +10,16 @@ import UIKit
 import SwiftUI
 import LibraryCore
 
+struct Environment {
+    static var testing: Bool {
+        get {
+            let p = ProcessInfo()
+            let testingAsString = p.environment["TESTING"]
+            return testingAsString != nil
+        }
+    }
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -21,7 +31,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         let accountViewModel = AccountViewModel(account: Account())
-        let authenticationViewModel = AuthenticationViewModel()
+
+        let authenticationViewModel: AuthenticationViewModel
+
+        if Environment.testing {
+            print("Test run")
+            let authenticationManagerMock = AuthenticationManager.mocked
+            authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManagerMock)
+        } else {
+            print("Production run")
+            authenticationViewModel = AuthenticationViewModel()
+        }
+
+
 
         window.rootViewController = UIHostingController(rootView: ContentView(authentication: authenticationViewModel, account:accountViewModel))
 

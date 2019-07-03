@@ -9,11 +9,23 @@
 import Foundation
 import os
 
+public class AuthenticationManagerMock: AuthenticationManager {
+    public override func authenticateAccount(_ account: Account, completion: @escaping (Bool, NSError?) -> Void) {
+        completion(false, nil)
+    }
+}
+
 public class AuthenticationManager {
 
     public static var shared: AuthenticationManager {
         get {
             return AuthenticationManager.init()
+        }
+    }
+
+    public static var mocked: AuthenticationManager {
+        get {
+            return AuthenticationManagerMock.init()
         }
     }
 
