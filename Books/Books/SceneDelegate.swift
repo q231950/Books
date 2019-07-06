@@ -28,23 +28,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(frame: UIScreen.main.bounds)
 
-        let authenticationViewModel: AuthenticationViewModel
-
-        if Environment.testing {
-            print("Test run")
-            let authenticationManagerMock = AuthenticationManager.mocked
-            authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManagerMock)
-        } else {
-            print("Production run")
-            authenticationViewModel = AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
-        }
-
+        let authenticationViewModel = createAuthenticationViewModel()
         let accountViewModel = AccountViewModel(account: Account())
 
         window.rootViewController = UIHostingController(rootView: ContentView(authentication: authenticationViewModel, account:accountViewModel))
 
         self.window = window
         window.makeKeyAndVisible()
+    }
+
+    ///
+    /// Create an authentication view model
+    ///
+    /// The Authentication View Model will use a stubbed authentication manager during testing
+    ///
+    private func createAuthenticationViewModel() -> AuthenticationViewModel {
+        #if DEBUG
+        if Environment.testing {
+            let authenticationManagerStub = AuthenticationManager.stubbed {
+                $0.authenticated = true
+            }
+
+            return AuthenticationViewModel(authenticationManager: authenticationManagerStub)
+        }
+        #endif
+        return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
     }
 }
 

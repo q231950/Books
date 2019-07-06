@@ -23,7 +23,6 @@ class BooksUITests: XCTestCase {
     }
 
     func testWaveVisibleAfterSignIn() {
-
         // given
         let usernameTextField = app.textFields["username"]
         usernameTextField.tap()

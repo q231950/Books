@@ -28,6 +28,9 @@ public class AuthenticationViewModel: BindableObject {
 
     func authenticate(account: AccountViewModel) {
         authenticationManager.authenticateAccount(account.account) { (valid, error) in
+            guard error == nil else {
+                return
+            }
             self.authenticated = valid
         }
     }

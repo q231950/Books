@@ -9,25 +9,22 @@
 import Foundation
 import os
 
-public class AuthenticationManagerMock: AuthenticationManager {
-    public override func authenticateAccount(_ account: Account, completion: @escaping (Bool, NSError?) -> Void) {
-        completion(false, nil)
-    }
-}
-
 public class AuthenticationManager {
 
-    public static var shared: AuthenticationManager {
+    public
+
+    static var shared: AuthenticationManager {
         get {
             return AuthenticationManager.init()
         }
     }
 
-    public static var mocked: AuthenticationManager {
-        get {
-            return AuthenticationManagerMock.init()
-        }
+    public func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+        let password = (account.password != "") ? account.password : nil
+        authenticateAccount(account.username, password: password, completion: completion)
     }
+
+    private
 
     let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
     let network: Network
@@ -36,11 +33,6 @@ public class AuthenticationManager {
     init(network: Network = NetworkClient(), credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
         self.network = network
         self.credentialStore = credentialStore
-    }
-
-    public func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
-        let password = (account.password != "") ? account.password : nil
-        authenticateAccount(account.username, password: password, completion: completion)
     }
 
     private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
