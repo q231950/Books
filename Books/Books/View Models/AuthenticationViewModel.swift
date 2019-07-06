@@ -20,12 +20,17 @@ public class AuthenticationViewModel: BindableObject {
             }
         }
     }
+    private let authenticationManager: AuthenticationManager
 
-    public init() {}
+    public init(authenticationManager: AuthenticationManager = AuthenticationManager.shared) {
+        self.authenticationManager = authenticationManager
+    }
 
     func authenticate(account: AccountViewModel) {
-        let authenticationManager = AuthenticationManager.shared
         authenticationManager.authenticateAccount(account.account) { (valid, error) in
+            guard error == nil else {
+                return
+            }
             self.authenticated = valid
         }
     }

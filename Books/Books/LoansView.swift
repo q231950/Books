@@ -10,14 +10,17 @@ import SwiftUI
 
 struct LoansView : View {
     var body: some View {
-        return List {
-            LoanCell()
-            LoanCell()
-            }
-            .tag(0)
-            .tabItemLabel(
-                Text("Loans")
-        )
+        return VStack{
+            Text("🌊")
+            List {
+                LoanCell()
+                LoanCell()
+                }
+                .tag(0)
+                .tabItemLabel(
+                    Text("Loans")
+            )
+        }
     }
 }
 
