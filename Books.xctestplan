@@ -17,7 +17,6 @@
   },
   "testTargets" : [
     {
-      "enabled" : false,
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Books.xcodeproj",
@@ -34,7 +33,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:..\/LibraryCore",
         "identifier" : "LibraryCoreTests",
