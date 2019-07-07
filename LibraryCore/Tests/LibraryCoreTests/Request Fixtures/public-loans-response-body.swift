@@ -129,4 +129,4 @@ let publicLoansResponseBody = """
         </GetBorrowerLoansResponse>
     </soap:Body>
 </soap:Envelope>
-"""
+""".data(using: .utf8)

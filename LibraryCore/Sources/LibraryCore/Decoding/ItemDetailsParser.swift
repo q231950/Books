@@ -9,7 +9,7 @@
 import Foundation
 import AEXML
 
-class FlamingoInfoPair {
+class FlamingoInfoPair: Equatable {
     let title: String
     let content: String
 

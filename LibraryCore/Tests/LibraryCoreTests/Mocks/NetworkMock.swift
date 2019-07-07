@@ -1,6 +1,6 @@
 //
 //  NetworkMock.swift
-//  BTLBTests
+//  LibraryCoreTests
 //
 //  Created by Martin Kim Dung-Pham on 25.08.18.
 //  Copyright © 2018 elbedev. All rights reserved.
@@ -29,8 +29,8 @@ class NetworkMock: Network {
         self.error = error
     }
 
-    func expectRequest(_ request: URLRequest) {
-        expectedRequests[request] = nil
+    func expectRequest(_ request: URLRequest, respond response: Data?) {
+        expectedRequests[request] = response
     }
 
     func verifyRequests(test: XCTestCase, file: String = #file, line: Int = #line) throws {

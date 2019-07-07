@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 import Combine
 
 public struct Account {

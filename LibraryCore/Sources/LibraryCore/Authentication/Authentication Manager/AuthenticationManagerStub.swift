@@ -1,6 +1,6 @@
 //
 //  AuthenticationManagerMock.swift
-//  BTLBTests
+//  LibraryCoreTests
 //
 //  Created by Martin Kim Dung-Pham on 26.12.18.
 //  Copyright © 2018 elbedev. All rights reserved.

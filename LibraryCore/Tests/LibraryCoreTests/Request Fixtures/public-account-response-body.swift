@@ -6,7 +6,7 @@ let publicAccountResponseBody = """
     <soap:Body>
         <GetBorrowerAccountResponse xmlns="http://bibliomondo.com/websevices/webuser">
             <GetBorrowerAccountResult>
-                <userId>123456789</userId>
+                <userId>577544816</userId>
                 <record>
                     <GetBorrowerAccountResult xmlns="http://bibliomondo.com/webservices/webuser">
                         <AccountDetails>
@@ -36,7 +36,7 @@ let publicAccountResponseBody = """
                                     <Owner>69</Owner>
                                     <CreationDate>20/09/2018</CreationDate>
                                     <IssueTime>0</IssueTime>
-                                    <Brwr>A12 345 678 9</Brwr>
+                                    <Brwr>A57 754 481 6</Brwr>
                                     <ReturnTime>0</ReturnTime>
                                     <Status>0</Status>
                                     <StatusName>Outstanding</StatusName>

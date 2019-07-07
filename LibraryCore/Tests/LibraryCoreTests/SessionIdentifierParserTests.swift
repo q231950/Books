@@ -1,6 +1,6 @@
 //
 //  SessionIdentifierParserTests.swift
-//  BTLBTests
+//  LibraryCoreTests
 //
 //  Created by Martin Kim Dung-Pham on 19.09.18.
 //  Copyright © 2018 elbedev. All rights reserved.
