@@ -18,7 +18,7 @@ struct ContentView : View {
         Group {
             if authentication.authenticated {
                 TabbedView(selection: $selection){
-                    LoansView()
+                    authentication.loansViewModel.map({ LoansView(loansViewModel: $0) })
                     AccountView()
                 }
             } else {

@@ -8,13 +8,19 @@
 
 import Foundation
 
-typealias SessionIdentifier = String
+public typealias SessionIdentifier = String
 
-final class PublicLibraryScraper {
+public final class PublicLibraryScraper {
 
     private let network: Network
     private let keychainProvider: KeychainProvider
     private let baseUrlString = "https://www.buecherhallen.de"
+
+    public static var `default`: PublicLibraryScraper {
+        get {
+            return PublicLibraryScraper()
+        }
+    }
 
     init(network: Network = NetworkClient(), keychainProvider: KeychainProvider = KeychainManager()) {
         self.network = network
@@ -30,7 +36,7 @@ final class PublicLibraryScraper {
 
     // MARK: Charges
 
-    public func charges(account: Account, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
+    func charges(account: Account, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
 
         guard let request = RequestBuilder.default.accountRequest(sessionIdentifier: sessionIdentifier) else {
             completion(NSError(domain: "\(type(of: self))", code: 1, userInfo: nil), [])
@@ -59,7 +65,11 @@ final class PublicLibraryScraper {
 
     // MARK: Loans
 
-    func loans(_ account: Account, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error:Error?, _ loans: [Loan])->(Void))) {
+    public func loans(_ account: Account, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [Loan])->(Void))) {
+
+        guard let sessionIdentifier = authenticationManager.sessionIdentifier(for: account.username) else {
+            return
+        }
 
         var loans = [Loan]()
 
@@ -90,8 +100,12 @@ final class PublicLibraryScraper {
             }
             minimalFlamingoLoans.forEach({ (minimalLoan) in
                 if let signature = minimalLoan.signature {
-                    let loan = Loan(signature: signature)
-                    self.detailedLoan(loan: loan) {
+                    var loan = Loan()
+                    loan.identifier = signature
+                    self.detailedLoan(loan: loan) { (author, title, signature) in
+                        loan.author = author
+                        loan.title = title
+                        loan.signature = signature
                         loans.append(loan)
                         loansToProcess -= 1
                         finishedCompletion(loansToProcess, loans)
@@ -104,10 +118,10 @@ final class PublicLibraryScraper {
     task.resume()
 }
 
-private func detailedLoan(loan: Loan, completion: @escaping () -> Void ) {
-    guard let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: loan.signature) else {
+    private func detailedLoan(loan: Loan, completion: @escaping (String, String, String) -> Void ) {
+    guard let identifier = loan.identifier, let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: identifier) else {
         defer {
-            completion()
+            completion("", "", "")
         }
         return
     }
@@ -115,14 +129,20 @@ private func detailedLoan(loan: Loan, completion: @escaping () -> Void ) {
     let task = network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
         let parser = ItemDetailsParser()
         let infoPairs = parser.searchResultDetails(for: data)
+        var author = ""
+        var title = ""
+        var signature = identifier
         infoPairs.forEach({ (keyValuePair) in
             let infoPair = keyValuePair
-            if infoPair.title == "data signatur" {
-                //                    loan.loanSignature = infoPair.content
+            if infoPair.title == "Author" {
+                author = infoPair.content
+            } else if infoPair.title == "data titel-lang" {
+                title = infoPair.content
+            } else if infoPair.title == "data signatur" {
+                signature = infoPair.content
             }
-            //                loan.createOrUpdateInfoPair(withTitle: infoPair.title, value: infoPair.content)
         })
-        completion()
+        completion(author, title, signature)
     })
     task.resume()
 }

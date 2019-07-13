@@ -9,29 +9,50 @@ import SwiftUI
 import Combine
 import LibraryCore
 
-public class AuthenticationViewModel: BindableObject {
+class AuthenticationViewModel: BindableObject {
 
-    public var didChange = PassthroughSubject<AuthenticationViewModel, Never>()
-
-    public var authenticated: Bool = false {
+    var didChange = PassthroughSubject<AuthenticationViewModel, Never>()
+    public var loansViewModel: LoansViewModel? {
         didSet {
             DispatchQueue.main.async {
                 self.didChange.send(self)
             }
         }
     }
+    var account: Account?
+
+    public var authenticated: Bool = false {
+        didSet {
+            DispatchQueue.main.async {
+                self.didChange.send(self)
+            }
+
+            self.handleAuthenticationUpdate(account: self.account)
+        }
+    }
     private let authenticationManager: AuthenticationManager
 
-    public init(authenticationManager: AuthenticationManager = AuthenticationManager.shared) {
+    init(authenticationManager: AuthenticationManager = AuthenticationManager.shared) {
         self.authenticationManager = authenticationManager
     }
 
     func authenticate(account: AccountViewModel) {
+        self.account = account.account // account already available at init?
         authenticationManager.authenticateAccount(account.account) { (valid, error) in
             guard error == nil else {
                 return
             }
             self.authenticated = valid
+        }
+    }
+
+    private func handleAuthenticationUpdate(account: Account?) {
+        guard let account = account else {
+            return
+        }
+
+        if self.authenticated {
+            self.loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager)
         }
     }
 }
