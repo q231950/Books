@@ -1,6 +1,6 @@
 //
 //  String+CurrencyConversion.swift
-//  BTLB
+//  Books
 //
 //  Created by Martin Kim Dung-Pham on 14.10.18.
 //  Copyright © 2018 elbedev. All rights reserved.
