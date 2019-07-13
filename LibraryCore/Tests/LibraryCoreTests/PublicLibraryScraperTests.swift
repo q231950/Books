@@ -28,7 +28,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let exp = expectation(description: "Account completion")
         let request = RequestBuilder().accountRequest(sessionIdentifier: "abc")
         let data = publicAccountResponseBody.data(using: .utf8)
-        networkMock.stub(for: request!, data: data, response: nil, error: nil)
+        networkMock.stub(request, data: data, response: nil, error: nil)
         scraper.charges(account: account, sessionIdentifier: "abc") { (error, charges) -> (Void) in
             let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone.current, year: 2018, month: 9, day: 20)
 
@@ -46,7 +46,7 @@ class PublicLibraryScraperTests: XCTestCase {
     func testLoans() {
         let exp = expectation(description: "Loans completion")
         let request = RequestBuilder().loansRequest(sessionIdentifier: "abc")
-        networkMock.stub(for: request!, data: publicLoansResponseBody, response: nil, error: nil)
+        networkMock.stub(request, data: publicLoansResponseBody, response: nil, error: nil)
         scraper.loans(account, sessionIdentifier: "abc") { (error, loans) -> (Void) in
             XCTAssertEqual(loans.count, 2)
             exp.fulfill()

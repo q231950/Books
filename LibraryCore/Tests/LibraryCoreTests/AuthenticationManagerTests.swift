@@ -45,7 +45,7 @@ class AuthenticationManagerTest: XCTestCase {
                                                "Accept":"*/*",
                                                "Accept-Language":"en-us",
                                                "Accept-Encoding":"br, gzip, deflate"]
-        networkMock.expectRequest(expectedRequest)
+        networkMock.stub(expectedRequest, data: nil, response: nil, error: nil)
         account.username = "123"
         try keychainMock.add(password: "abc", to: "123")
         let authenticationManager = AuthenticationManager(network: networkMock, credentialStore: credentialStore)
@@ -54,14 +54,14 @@ class AuthenticationManagerTest: XCTestCase {
         })
 
         wait(for: [exp], timeout: 0.1)
-
-        try networkMock.verifyRequests(test: self)
     }
 
     func testValidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
-        networkMock.stub(data: data, response: nil, error: nil)
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
+        networkMock.stub(request, data: data, into: self)
+
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
@@ -77,7 +77,8 @@ class AuthenticationManagerTest: XCTestCase {
     func testInvalidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicAccessTokenRequestBody.data(using: .utf8)
-        networkMock.stub(data: data, response: nil, error: nil)
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
+        networkMock.stub(request, data: data, into: self)
         account.username = "123"
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: networkMock, credentialStore: credentialStore)
@@ -92,7 +93,8 @@ class AuthenticationManagerTest: XCTestCase {
     func testErronousAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let expectedError = NSError(domain: "com.elbedev.test", code: 1)
-        networkMock.stub(data: nil, response: nil, error: expectedError)
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
+        networkMock.stub(request, data: nil, response: nil, error: expectedError)
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
@@ -133,7 +135,8 @@ class AuthenticationManagerTest: XCTestCase {
     func testStoresPasswordAndSessionTokenForValidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
-        networkMock.stub(data: data, response: nil, error: nil)
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
+        networkMock.stub(request, data: data, response: nil, error: nil)
         account.username = "123"
         account.password = "abc"
         let authenticationManager = AuthenticationManager(network: networkMock, credentialStore: credentialStore)
@@ -148,7 +151,8 @@ class AuthenticationManagerTest: XCTestCase {
     func testDeletesPasswordForInvalidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicAccessTokenRequestBody.data(using: .utf8)
-        networkMock.stub(data: data, response: nil, error: nil)
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
+        networkMock.stub(request, data: data, response: nil, error: nil)
         account.username = "123"
         let credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
@@ -163,7 +167,8 @@ class AuthenticationManagerTest: XCTestCase {
     func testDoesNotDeletePasswordAndSessionTokenForErronousAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let expectedError = NSError(domain: "com.elbedev.test", code: 1)
-        networkMock.stub(data: nil, response: nil, error: expectedError)
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
+        networkMock.stub(request, data: nil, response: nil, error: expectedError)
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
