@@ -106,7 +106,9 @@ final class PublicLibraryScraper {
 
 private func detailedLoan(loan: Loan, completion: @escaping () -> Void ) {
     guard let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: loan.signature) else {
-        completion()
+        defer {
+            completion()
+        }
         return
     }
 
