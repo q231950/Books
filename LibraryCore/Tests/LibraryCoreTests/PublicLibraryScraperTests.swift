@@ -47,7 +47,10 @@ class PublicLibraryScraperTests: XCTestCase {
         let exp = expectation(description: "Loans completion")
         let request = RequestBuilder().loansRequest(sessionIdentifier: "abc")
         networkMock.stub(request, data: publicLoansResponseBody, response: nil, error: nil)
-        scraper.loans(account, sessionIdentifier: "abc") { (error, loans) -> (Void) in
+        scraper.loans(account, authenticationManager: AuthenticationManager.stubbed({ (manager) in
+            manager.authenticated = true
+            manager.stubbedSessionIdentifier = "123-abc"
+        })) { (error, loans) -> (Void) in
             XCTAssertEqual(loans.count, 2)
             exp.fulfill()
         }

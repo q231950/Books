@@ -25,7 +25,7 @@ class AccountParserTests: XCTestCase {
     }
 
     func testParseIdentifier() {
-        XCTAssertEqual(account?.identifier, "577544816")
+        XCTAssertEqual(account?.identifier, "123456789")
     }
 
     func testParseEmail() {

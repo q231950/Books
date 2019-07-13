@@ -14,9 +14,14 @@ import Foundation
 public class AuthenticationManagerStub: AuthenticationManager {
     public var authenticated: Bool = false
     public var error: NSError? = nil
+    public var stubbedSessionIdentifier: String? = nil
 
     public override func authenticateAccount(_ account: Account, completion: @escaping (Bool, NSError?) -> Void) {
         completion(authenticated, error)
+    }
+
+    override func sessionIdentifier(for accountIdentifier: String) -> String? {
+        return stubbedSessionIdentifier
     }
 }
 
