@@ -3,7 +3,7 @@ osx_image: xcode11
 before_script:
   - sudo systemsetup -settimezone Europe/Berlin
 script:
-  - set -o pipefail && xcodebuild build-for-testing -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO | xcpretty -f 'xcpretty-travis-formatter'
+  - set -o pipefail && xcodebuild build-for-testing -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO
   - xcodebuild test-without-building -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO
 
 before_install:
