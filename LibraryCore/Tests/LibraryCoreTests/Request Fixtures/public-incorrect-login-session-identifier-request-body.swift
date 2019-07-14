@@ -32,4 +32,4 @@ let publicIncorrectLoginSessionIdentifierRequestBody = """
         </CheckBorrowerResponse>
     </soap:Body>
 </soap:Envelope>
-"""
+""".data(using: .utf8)

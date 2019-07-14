@@ -1,6 +1,6 @@
 //
 //  NSError+DomainSpecific.swift
-//  BTLB
+//  Books
 //
 //  Created by Martin Kim Dung-Pham on 04/10/15.
 //  Copyright © 2015 elbedev. All rights reserved.

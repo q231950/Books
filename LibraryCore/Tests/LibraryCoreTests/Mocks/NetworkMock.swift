@@ -1,6 +1,6 @@
 //
 //  NetworkMock.swift
-//  BTLBTests
+//  LibraryCoreTests
 //
 //  Created by Martin Kim Dung-Pham on 25.08.18.
 //  Copyright © 2018 elbedev. All rights reserved.
@@ -10,51 +10,111 @@ import XCTest
 @testable import LibraryCore
 
 class URLSessionDataTaskMock: URLSessionDataTask {
-    override init() {}
+    var resumeCompletion: ((Data?, URLResponse?, Error?) -> Void)
+    let data: Data?
 
-    override func resume() {
-        /// this thing could remember the stubbed values, but currently it does nothing
-    }
-}
-class NetworkMock: Network {
-
-    var data: Data?
-    var response: URLResponse?
-    var error: Error?
-    var expectedRequests = [URLRequest: Data?]()
-
-    func stub(for request: URLRequest = URLRequest(url: URL(string: "127.0.0.1")!), data: Data?, response: URLResponse?, error: Error?) {
-        self.data = data
-        self.response = response
-        self.error = error
-    }
-
-    func expectRequest(_ request: URLRequest) {
-        expectedRequests[request] = nil
-    }
-
-    func verifyRequests(test: XCTestCase, file: String = #file, line: Int = #line) throws {
-        if expectedRequests.count > 0 {
-            test.recordFailure(withDescription: "All expected requests must be sent.", inFile: file, atLine: line, expected: true)
+    let stubbedResponse: URLResponse?
+    override var response: URLResponse? {
+        get {
+            return stubbedResponse
         }
     }
 
-    private func acceptRequest(_ request:URLRequest) {
-        expectedRequests = expectedRequests.filter({ (expectedRequest, value) -> Bool in
-            if request.url == expectedRequest.url &&
-                request.httpMethod == expectedRequest.httpMethod,
-                request.allHTTPHeaderFields == expectedRequest.allHTTPHeaderFields {
-                return false
-            }
-
-            print("Received unexpected request: [\(request.httpMethod!)] \(request.url!.absoluteString) Headers: \(request.allHTTPHeaderFields!)")
-            return false
-        })
+    let stubbedError: Error?
+    override var error: Error? {
+        get {
+            return stubbedError
+        }
     }
 
+    init(request: URLRequest, data: Data?, response: URLResponse?, error: Error?, resumeCompletion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+
+        self.resumeCompletion = resumeCompletion
+        self.data = data
+        self.stubbedResponse = response
+        self.stubbedError = error
+    }
+
+    override func resume() {
+        resumeCompletion(data, response, error)
+    }
+}
+
+extension NetworkMock: Network {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        acceptRequest(request)
-        completionHandler(data, response, error)
-        return URLSessionDataTaskMock()
+
+        return URLSessionDataTaskMock(request: request,
+                                      data: expectedDatas[request] ?? nil,
+                                      response: expectedResponses[request] ?? nil,
+                                      error:expectedErrors[request] ?? nil,
+                                      resumeCompletion: completionHandler)
+    }
+
+    private func recordFailure(file: String = #file, line: Int = #line) {
+        if let test = test {
+            test.recordFailure(withDescription: "Received unexpected request.", inFile: file, atLine: line, expected: true)
+        }
+    }
+}
+
+enum NetworkMockError: Error {
+    case unexpectedRequest(String)
+}
+
+class NetworkMock {
+
+    var test: XCTestCase?
+    var expectedDatas = [URLRequest: Data?]()
+    var expectedResponses = [URLRequest: URLResponse?]()
+    var expectedErrors = [URLRequest: Error?]()
+
+    func stub(_ request: URLRequest? = URLRequest(url: URL(string: "127.0.0.1")!), data: Data? = nil, response: URLResponse? = nil, error: Error? = nil, into test: XCTestCase? = nil) {
+        self.test = test
+        if let request = request {
+            if let data = data {
+                expectedDatas[request] = data
+            }
+
+            if let response = response {
+                expectedResponses[request] = response
+            }
+            if let error = error {
+                expectedErrors[request] = error
+            }
+        }
+    }
+
+    private func acceptRequest(_ request:URLRequest) throws -> (Data?, URLResponse?, Error?) {
+        if expectsRequest(request) {
+            defer {
+                expectedDatas[request] = nil
+            }
+            return (expectedDatas[request] ?? nil,
+                    expectedResponses[request] ?? nil,
+                    expectedErrors[request] ?? nil)
+        } else {
+            throw NetworkMockError.unexpectedRequest("Received unexpected request: [\(request.httpMethod!)] \(request.url!.absoluteString) Headers: \(request.allHTTPHeaderFields!)")
+        }
+    }
+
+    private func expectsRequest(_ request: URLRequest) -> Bool {
+        let expectedDataAvailable = expectedDatas.contains(where: request.matches())
+
+        let expectedResponseAvailable = expectedResponses.contains(where: request.matches())
+
+        let expectedErrorAvailable = expectedErrors.contains(where: request.matches())
+
+        return expectedDataAvailable || expectedResponseAvailable || expectedErrorAvailable
+    }
+}
+
+extension URLRequest {
+    func matches<Value>() -> ((URLRequest, Value) -> Bool) {
+        let closure = { (request: URLRequest, value: Value) -> Bool in
+            return self.url == request.url &&
+                self.httpMethod == request.httpMethod &&
+                self.allHTTPHeaderFields == request.allHTTPHeaderFields
+        }
+        return closure
     }
 }

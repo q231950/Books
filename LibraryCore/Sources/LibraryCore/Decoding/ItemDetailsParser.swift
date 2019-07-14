@@ -1,6 +1,6 @@
 //
 //  ItemDetailsParser.swift
-//  BTLB
+//  Books
 //
 //  Created by Martin Kim Dung-Pham on 01.09.18.
 //  Copyright © 2018 elbedev. All rights reserved.
@@ -9,7 +9,7 @@
 import Foundation
 import AEXML
 
-class FlamingoInfoPair {
+class FlamingoInfoPair: Equatable {
     let title: String
     let content: String
 

@@ -1,6 +1,6 @@
 //
 //  AccountCredentialStore.swift
-//  BTLB
+//  Books
 //
 //  Created by Martin Kim Dung-Pham on 18.12.18.
 //  Copyright © 2018 elbedev. All rights reserved.

@@ -184,4 +184,4 @@ let publicLoanDetailResponseBody = """
         </GetCatalogueRecordResponse>
     </soap:Body>
 </soap:Envelope>
-"""
+""".data(using: .utf8)
