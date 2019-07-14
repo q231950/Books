@@ -1,6 +1,7 @@
 language: swift
 osx_image: xcode11
 before_script:
+  - defaults write com.apple.iphonesimulator CaptureKeyboardInput 1
   - defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
   - sudo systemsetup -settimezone Europe/Berlin
 script:
