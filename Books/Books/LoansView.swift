@@ -14,6 +14,7 @@ struct LoansView : View {
     @ObjectBinding var loansViewModel: LoansViewModel
     var body: some View {
         return VStack{
+            Text("🌊")
             List(loansViewModel.loans.identified(by: \.identifiedValue)) { loanViewModel in
                 LoanView(loanViewModel: loanViewModel)
             }
