@@ -5,12 +5,12 @@
       location = "group:README.md">
    </FileRef>
    <FileRef
+      location = "group:Books.xctestplan">
+   </FileRef>
+   <FileRef
       location = "group:Books/Books.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:LibraryCore">
-   </FileRef>
-   <FileRef
-      location = "group:Books.xctestplan">
    </FileRef>
 </Workspace>

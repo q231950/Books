@@ -5,7 +5,6 @@
 //  Created by Martin Kim Dung-Pham on 15.06.19.
 //
 
-import Foundation
 import Combine
 
 public struct Account {
