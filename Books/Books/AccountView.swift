@@ -11,10 +11,7 @@ import SwiftUI
 struct AccountView : View {
     var body: some View {
         return Text("Account View")
-            .font(.title)
-            .tabItemLabel(
-                Text("Account")
-            )
+            .tabItem { Text("Account") }
             .tag(1)
     }
 }

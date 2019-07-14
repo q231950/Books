@@ -25,13 +25,12 @@ struct ContentView : View {
                 VStack(){
                     HStack() {
                         Spacer()
-                        TextField($account.account.username.binding, placeholder: Text("username"))
+                        TextField("username", text: $account.account.username.binding)
                         Spacer()
                     }
                     HStack() {
                         Spacer()
-                        TextField($account.account.password.binding, placeholder: Text("password")) {
-                        }
+                        TextField("password", text: $account.account.password.binding)
                         Spacer()
                     }
                     HStack() {
@@ -44,7 +43,7 @@ struct ContentView : View {
                         Spacer()
                     }
                 }
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                .padding(EdgeInsets(top: CGFloat(0), leading: CGFloat(10), bottom: CGFloat(0), trailing: CGFloat(10)))
             }
         }
     }

@@ -26,15 +26,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-        let window = UIWindow(frame: UIScreen.main.bounds)
+        if let windowScene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
 
-        let authenticationViewModel = createAuthenticationViewModel()
-        let accountViewModel = AccountViewModel(account: Account())
+            let authenticationViewModel = createAuthenticationViewModel()
+            let accountViewModel = AccountViewModel(account: Account())
+            let contentView = ContentView(authentication: authenticationViewModel, account:accountViewModel)
+            let hostingController = UIHostingController(rootView: contentView)
 
-        window.rootViewController = UIHostingController(rootView: ContentView(authentication: authenticationViewModel, account:accountViewModel))
+            window.rootViewController = hostingController
 
-        self.window = window
-        window.makeKeyAndVisible()
+            self.window = window
+            window.makeKeyAndVisible()
+        }
+
     }
 
     ///

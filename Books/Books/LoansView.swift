@@ -18,10 +18,9 @@ struct LoansView : View {
             List(loansViewModel.loans.identified(by: \.identifiedValue)) { loanViewModel in
                 LoanView(loanViewModel: loanViewModel)
             }
-            }
-            .tag(0)
-            .tabItemLabel(
-                Text("Loans"))
+        }
+        .tag(0)
+        .tabItem { Text("Loans") }
     }
 }
 
