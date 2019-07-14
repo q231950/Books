@@ -1,13 +1,14 @@
-language: swift
 osx_image: xcode11
-before_script:
+language: swift
+xcode_workspace: Books.xcworkspace
+xcode_scheme: Books
+xcode_destination: platform=iOS Simulator,OS=13.0,name=iPhone Xs
+before_install:
+  - sudo systemsetup -settimezone Europe/Berlin
   - defaults write com.apple.iphonesimulator CaptureKeyboardInput 1
   - defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
-  - sudo systemsetup -settimezone Europe/Berlin
 script:
   - set -o pipefail && xcodebuild build-for-testing -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO
   - xcodebuild test-without-building -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO
 
-before_install:
-  - sudo systemsetup -settimezone Europe/Berlin
 
