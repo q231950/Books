@@ -1,3 +1,4 @@
+language: swift
 osx_image: xcode11
 xcode_workspace: Books.xcworkspace
 xcode_scheme: Books
