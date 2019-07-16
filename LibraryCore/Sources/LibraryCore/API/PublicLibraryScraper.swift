@@ -12,7 +12,7 @@ public typealias SessionIdentifier = String
 
 public final class PublicLibraryScraper {
 
-    private let network: Network
+    private let network: NetworkClient
     private let keychainProvider: KeychainProvider
     private let baseUrlString = "https://www.buecherhallen.de"
 
@@ -22,7 +22,7 @@ public final class PublicLibraryScraper {
         }
     }
 
-    init(network: Network = NetworkClient(), keychainProvider: KeychainProvider = KeychainManager()) {
+    init(network: NetworkClient = NetworkClient(), keychainProvider: KeychainProvider = KeychainManager()) {
         self.network = network
         self.keychainProvider = keychainProvider
     }

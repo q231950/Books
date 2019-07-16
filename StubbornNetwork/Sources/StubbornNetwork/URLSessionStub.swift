@@ -1,72 +1,32 @@
 //
-//  NetworkMock.swift
-//  LibraryCoreTests
+//  URLSessionStub.swift
+//  
 //
-//  Created by Martin Kim Dung-Pham on 25.08.18.
-//  Copyright © 2018 elbedev. All rights reserved.
+//  Created by Martin Kim Dung-Pham on 14.07.19.
 //
 
+import Foundation
 import XCTest
-@testable import LibraryCore
 
-class URLSessionDataTaskMock: URLSessionDataTask {
-    var resumeCompletion: ((Data?, URLResponse?, Error?) -> Void)
-    let data: Data?
+public protocol StubbornURLSession {
+    func stub(_ request: URLRequest?, data: Data?, response: URLResponse?, error: Error?, into test: XCTestCase?)
 
-    let stubbedResponse: URLResponse?
-    override var response: URLResponse? {
-        get {
-            return stubbedResponse
-        }
-    }
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 
-    let stubbedError: Error?
-    override var error: Error? {
-        get {
-            return stubbedError
-        }
-    }
-
-    init(request: URLRequest, data: Data?, response: URLResponse?, error: Error?, resumeCompletion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-
-        self.resumeCompletion = resumeCompletion
-        self.data = data
-        self.stubbedResponse = response
-        self.stubbedError = error
-    }
-
-    override func resume() {
-        resumeCompletion(data, response, error)
-    }
-}
-
-extension NetworkMock: Network {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-
-        return URLSessionDataTaskMock(request: request,
-                                      data: expectedDatas[request] ?? nil,
-                                      response: expectedResponses[request] ?? nil,
-                                      error:expectedErrors[request] ?? nil,
-                                      resumeCompletion: completionHandler)
-    }
-
-    private func recordFailure(file: String = #file, line: Int = #line) {
-        if let test = test {
-            test.recordFailure(withDescription: "Received unexpected request.", inFile: file, atLine: line, expected: true)
-        }
-    }
+    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 enum NetworkMockError: Error {
     case unexpectedRequest(String)
 }
 
-class NetworkMock {
-
+class URLSessionStub {
     var test: XCTestCase?
     var expectedDatas = [URLRequest: Data?]()
     var expectedResponses = [URLRequest: URLResponse?]()
     var expectedErrors = [URLRequest: Error?]()
+
+    // add an init with a name or
 
     func stub(_ request: URLRequest? = URLRequest(url: URL(string: "127.0.0.1")!), data: Data? = nil, response: URLResponse? = nil, error: Error? = nil, into test: XCTestCase? = nil) {
         self.test = test
@@ -105,6 +65,21 @@ class NetworkMock {
         let expectedErrorAvailable = expectedErrors.contains(where: request.matches())
 
         return expectedDataAvailable || expectedResponseAvailable || expectedErrorAvailable
+    }
+}
+
+extension URLSessionStub: StubbornURLSession {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        return URLSessionDataTaskMock(request: request,
+                                      data: expectedDatas[request] ?? nil,
+                                      response: expectedResponses[request] ?? nil,
+                                      error:expectedErrors[request] ?? nil,
+                                      resumeCompletion: completionHandler)
+    }
+
+    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        let request = URLRequest(url: url)
+        return dataTask(with: request, completionHandler: completionHandler)
     }
 }
 

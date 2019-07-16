@@ -27,10 +27,10 @@ public class AuthenticationManager {
     private
 
     let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
-    let network: Network
+    let network: NetworkClient
     let credentialStore: AccountCredentialStore
 
-    init(network: Network = NetworkClient(), credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
+    init(network: NetworkClient = NetworkClient(), credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
         self.network = network
         self.credentialStore = credentialStore
     }

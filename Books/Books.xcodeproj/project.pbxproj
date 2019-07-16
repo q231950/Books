@@ -19,6 +19,7 @@
 		3B47FDF622ABAFE800D39567 /* BooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDF522ABAFE800D39567 /* BooksUITests.swift */; };
 		3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */; };
 		3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */; };
+		3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6179D722DB760300D77E84 /* StubbornNetwork */; };
 		3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* LoansView.swift */; };
 		3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B71022AC0121000CBEAD /* AccountView.swift */; };
 		3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanView.swift */; };
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */,
 				3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,6 +214,7 @@
 			name = Books;
 			packageProductDependencies = (
 				3B1817BB22ACD85F00DFD67D /* LibraryCore */,
+				3B6179D722DB760300D77E84 /* StubbornNetwork */,
 			);
 			productName = Books;
 			productReference = 3B47FDCD22ABAFE600D39567 /* Books.app */;
@@ -672,6 +675,10 @@
 		3B1817BB22ACD85F00DFD67D /* LibraryCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LibraryCore;
+		};
+		3B6179D722DB760300D77E84 /* StubbornNetwork */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = StubbornNetwork;
 		};
 /* End XCSwiftPackageProductDependency section */
 
