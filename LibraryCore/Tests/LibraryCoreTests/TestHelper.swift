@@ -21,10 +21,6 @@ final class TestHelper {
         return KeychainMock()
     }
 
-    static var networkMock: NetworkMock {
-        return NetworkMock()
-    }
-
     static func accountStub() -> Account {
         return Account()
     }

@@ -9,16 +9,9 @@
 import UIKit
 import SwiftUI
 import LibraryCore
-
-struct Environment {
-    static var testing: Bool {
-        get {
-            let p = ProcessInfo()
-            let testingAsString = p.environment["TESTING"]
-            return testingAsString != nil
-        }
-    }
-}
+#if DEBUG
+import StubbornNetwork
+#endif
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -42,10 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
 
-    ///
-    /// Create an authentication view model
-    ///
-    /// The Authentication View Model will use a stubbed authentication manager during testing
+    /// Create an authentication view model. The Authentication View Model will use a stubbed authentication manager during testing
     ///
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
         #if DEBUG

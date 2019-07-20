@@ -7,21 +7,20 @@
 //
 
 import Foundation
+import StubbornNetwork
 
-protocol Network: AnyObject {
-
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
-
-}
-
-class NetworkClient: Network {
+class NetworkClient {
 
     let session: URLSession
 
-    init() {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpCookieStorage?.cookieAcceptPolicy = .always
-        session = URLSession(configuration: configuration)
+    init(session: URLSession? = nil) {
+        if let session = session {
+            self.session = session
+        } else {
+            let configuration = URLSessionConfiguration.default
+            configuration.httpCookieStorage?.cookieAcceptPolicy = .always
+            self.session = URLSession(configuration: configuration)
+        }
     }
 
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {

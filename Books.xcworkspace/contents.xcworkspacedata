@@ -13,4 +13,7 @@
    <FileRef
       location = "group:LibraryCore">
    </FileRef>
+   <FileRef
+      location = "group:StubbornNetwork">
+   </FileRef>
 </Workspace>

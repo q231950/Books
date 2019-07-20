@@ -36,10 +36,15 @@ class BooksUITests: XCTestCase {
         app.buttons["Sign in"].tap()
 
         // then
-        let label = app.staticTexts["🌊"] /// <<< expectation to see 🌊🌊🌊
-        let predicate = NSPredicate(format: "exists == true")
-        expectation(for: predicate, evaluatedWith: label, handler: nil)
-        waitForExpectations(timeout: 1, handler: nil)
+        let label = app.staticTexts["🌊"]
+        wait(forElement:label, timeout:20)
     }
+}
 
+extension XCTestCase {
+    func wait(forElement element: XCUIElement, timeout: TimeInterval) {
+        let predicate = NSPredicate(format: "exists == true")
+        expectation(for: predicate, evaluatedWith: element)
+        waitForExpectations(timeout: timeout)
+    }
 }
