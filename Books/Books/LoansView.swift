@@ -28,7 +28,11 @@ struct LoansView : View {
 #if DEBUG
 //    struct LoansView_Previews : PreviewProvider {
 //        static var previews: some View {
-//            let loansViewModel = LoansViewModel(account: <#T##Account#>, authenticationManager: <#T##AuthenticationManager#>)
+//            let account = Account()
+//            let authenticationManager = AuthenticationManager.stubbed({ (stub) in
+//                stub.authenticated = true
+//            })
+//            let loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager)
 //            return LoansView(loansViewModel: loansViewModel)
 //        }
 //    }
