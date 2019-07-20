@@ -48,7 +48,7 @@ class AuthenticationManagerTest: XCTestCase {
                                                "Accept":"*/*",
                                                "Accept-Language":"en-us",
                                                "Accept-Encoding":"br, gzip, deflate"]
-        urlSessionStub.stub(expectedRequest, data: nil, response: nil, error: nil, into: self)
+        urlSessionStub.stub(expectedRequest, data: nil, response: nil, error: nil)
         account.username = "123"
         try keychainMock.add(password: "abc", to: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
@@ -63,7 +63,7 @@ class AuthenticationManagerTest: XCTestCase {
         let exp = expectation(description: "wait for async")
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(request, data: data, response: nil, error: nil, into: self)
+        urlSessionStub.stub(request, data: data, response: nil, error: nil)
 
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
@@ -81,7 +81,7 @@ class AuthenticationManagerTest: XCTestCase {
         let exp = expectation(description: "wait for async")
         let data = publicAccessTokenRequestBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
-        urlSessionStub.stub(request, data: data, response: nil, error: nil, into: self)
+        urlSessionStub.stub(request, data: data, response: nil, error: nil)
         account.username = "123"
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
@@ -97,7 +97,7 @@ class AuthenticationManagerTest: XCTestCase {
         let exp = expectation(description: "wait for async")
         let expectedError = NSError(domain: "com.elbedev.test", code: 1)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
-        urlSessionStub.stub(request, data: nil, response: nil, error: expectedError, into: self)
+        urlSessionStub.stub(request, data: nil, response: nil, error: expectedError)
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
@@ -139,7 +139,7 @@ class AuthenticationManagerTest: XCTestCase {
         let exp = expectation(description: "wait for async")
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(request, data: data, response: nil, error: nil, into: self)
+        urlSessionStub.stub(request, data: data, response: nil, error: nil)
         account.username = "123"
         account.password = "abc"
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
@@ -155,7 +155,7 @@ class AuthenticationManagerTest: XCTestCase {
         let exp = expectation(description: "wait for async")
         let data = publicAccessTokenRequestBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(request, data: data, response: nil, error: nil, into: self)
+        urlSessionStub.stub(request, data: data, response: nil, error: nil)
         account.username = "123"
         let credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
@@ -171,7 +171,7 @@ class AuthenticationManagerTest: XCTestCase {
         let exp = expectation(description: "wait for async")
         let expectedError = NSError(domain: "com.elbedev.test", code: 1)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(request, data: nil, response: nil, error: expectedError, into: self)
+        urlSessionStub.stub(request, data: nil, response: nil, error: expectedError)
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")

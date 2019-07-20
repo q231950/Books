@@ -26,4 +26,3 @@ script:
   - set -o pipefail && xcodebuild build-for-testing -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO
   - xcodebuild test-without-building -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone Xs' -derivedDataPath DerivedData -parallel-testing-enabled NO
 
-

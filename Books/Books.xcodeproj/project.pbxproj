@@ -19,7 +19,7 @@
 		3B47FDF622ABAFE800D39567 /* BooksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDF522ABAFE800D39567 /* BooksUITests.swift */; };
 		3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */; };
 		3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */; };
-		3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6179D722DB760300D77E84 /* StubbornNetwork */; };
+		3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6179D722DB760300D77E84 /* StubbornNetwork */; settings = {ATTRIBUTES = (Required, ); }; };
 		3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* LoansView.swift */; };
 		3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B71022AC0121000CBEAD /* AccountView.swift */; };
 		3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanView.swift */; };
@@ -45,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B3AC20B22DEF9C3004B94F7 /* TestingConfiguration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = TestingConfiguration.xcconfig; path = Configurations/TestingConfiguration.xcconfig; sourceTree = "<group>"; };
 		3B47FDCD22ABAFE600D39567 /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDD022ABAFE600D39567 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		3B47FDF722ABAFE800D39567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		3B79FB5322DEDD1300D1D9B8 /* testing.xcappdata */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = testing.xcappdata; sourceTree = "<group>"; };
 		3B99B70E22AC002E000CBEAD /* LoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansView.swift; sourceTree = "<group>"; };
 		3B99B71022AC0121000CBEAD /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		3BEBF0F222D9939500EB2426 /* LoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanView.swift; sourceTree = "<group>"; };
@@ -99,9 +101,11 @@
 		3B47FDC422ABAFE600D39567 = {
 			isa = PBXGroup;
 			children = (
+				3B3AC20B22DEF9C3004B94F7 /* TestingConfiguration.xcconfig */,
 				3B47FDCF22ABAFE600D39567 /* Books */,
 				3B47FDE922ABAFE800D39567 /* BooksTests */,
 				3B47FDF422ABAFE800D39567 /* BooksUITests */,
+				3B79FB5422DEDD5300D1D9B8 /* Books UI Tests App Data */,
 				3B47FDCE22ABAFE600D39567 /* Products */,
 				3B99B71222ACD399000CBEAD /* Frameworks */,
 			);
@@ -176,6 +180,14 @@
 				3B47FDD922ABAFE800D39567 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		3B79FB5422DEDD5300D1D9B8 /* Books UI Tests App Data */ = {
+			isa = PBXGroup;
+			children = (
+				3B79FB5322DEDD1300D1D9B8 /* testing.xcappdata */,
+			);
+			path = "Books UI Tests App Data";
 			sourceTree = "<group>";
 		};
 		3B99B70D22AC0010000CBEAD /* Views */ = {
@@ -504,6 +516,7 @@
 		};
 		3B47FDFB22ABAFE800D39567 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B3AC20B22DEF9C3004B94F7 /* TestingConfiguration.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -517,7 +530,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books.Books;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
@@ -540,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books.Books;
+				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
@@ -550,6 +563,7 @@
 		};
 		3B47FDFE22ABAFE800D39567 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B3AC20B22DEF9C3004B94F7 /* TestingConfiguration.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -592,6 +606,7 @@
 		};
 		3B47FE0122ABAFE800D39567 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B3AC20B22DEF9C3004B94F7 /* TestingConfiguration.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

@@ -11,9 +11,9 @@ import StubbornNetwork
 
 class NetworkClient {
 
-    let session: StubbornURLSession
+    let session: URLSession
 
-    init(session: StubbornURLSession? = nil) {
+    init(session: URLSession? = nil) {
         if let session = session {
             self.session = session
         } else {

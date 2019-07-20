@@ -6,30 +6,26 @@
 //
 
 import Foundation
-import XCTest
 
-public protocol StubbornURLSession {
-    func stub(_ request: URLRequest?, data: Data?, response: URLResponse?, error: Error?, into test: XCTestCase?)
-
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
-
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+public protocol StubbornURLSession: URLSession {
+    func stub(_ request: URLRequest?, data: Data?, response: URLResponse?, error: Error?)
 }
 
 enum NetworkMockError: Error {
     case unexpectedRequest(String)
 }
 
-class URLSessionStub {
-    var test: XCTestCase?
+class URLSessionStub: URLSession, StubbornURLSession {
     var expectedDatas = [URLRequest: Data?]()
     var expectedResponses = [URLRequest: URLResponse?]()
     var expectedErrors = [URLRequest: Error?]()
 
-    // add an init with a name or
+    init(configuration: URLSessionConfiguration) {}
 
-    func stub(_ request: URLRequest? = URLRequest(url: URL(string: "127.0.0.1")!), data: Data? = nil, response: URLResponse? = nil, error: Error? = nil, into test: XCTestCase? = nil) {
-        self.test = test
+    /// TODO: implement delegate calls
+    init(configuration: URLSessionConfiguration, delegate: URLSessionDelegate?, delegateQueue queue: OperationQueue?) {}
+
+    func stub(_ request: URLRequest? = URLRequest(url: URL(string: "127.0.0.1")!), data: Data? = nil, response: URLResponse? = nil, error: Error? = nil) {
         if let request = request {
             if let data = data {
                 expectedDatas[request] = data
@@ -68,8 +64,8 @@ class URLSessionStub {
     }
 }
 
-extension URLSessionStub: StubbornURLSession {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+extension URLSessionStub {
+    override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         return URLSessionDataTaskMock(request: request,
                                       data: expectedDatas[request] ?? nil,
                                       response: expectedResponses[request] ?? nil,
@@ -77,7 +73,7 @@ extension URLSessionStub: StubbornURLSession {
                                       resumeCompletion: completionHandler)
     }
 
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+    override func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         let request = URLRequest(url: url)
         return dataTask(with: request, completionHandler: completionHandler)
     }

@@ -37,7 +37,7 @@ class BooksUITests: XCTestCase {
 
         // then
         let label = app.staticTexts["🌊"]
-        wait(forElement:label, timeout:1)
+        wait(forElement:label, timeout:20)
     }
 }
 

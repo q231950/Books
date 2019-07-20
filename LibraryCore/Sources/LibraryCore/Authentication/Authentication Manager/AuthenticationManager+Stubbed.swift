@@ -5,8 +5,6 @@
 //  Created by Martin Kim Dung-Pham on 05.07.19.
 //
 
-#if DEBUG
-
 import Foundation
 
 extension AuthenticationManager {
@@ -24,7 +22,6 @@ extension AuthenticationManager {
     /// ```
     ///
     public static func stubbed(_ stub: ((AuthenticationManagerStub) -> Void)) -> AuthenticationManager {
-
         let stubbedAuthenticationManager = AuthenticationManagerStub.init()
 
         stub(stubbedAuthenticationManager)
@@ -32,5 +29,3 @@ extension AuthenticationManager {
         return stubbedAuthenticationManager
     }
 }
-
-#endif

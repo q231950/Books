@@ -31,7 +31,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let exp = expectation(description: "Account completion")
         let request = RequestBuilder().accountRequest(sessionIdentifier: "abc")
         let data = publicAccountResponseBody.data(using: .utf8)
-        stubbedURLSession.stub(request, data: data, response: nil, error: nil, into: self)
+        stubbedURLSession.stub(request, data: data, response: nil, error: nil)
         scraper.charges(account: account, sessionIdentifier: "abc") { (error, charges) -> (Void) in
             let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone.current, year: 2018, month: 9, day: 20)
 
@@ -49,7 +49,7 @@ class PublicLibraryScraperTests: XCTestCase {
     func testLoans() {
         let exp = expectation(description: "Loans completion")
         let request = RequestBuilder().loansRequest(sessionIdentifier: "abc")
-        stubbedURLSession.stub(request, data: publicLoansResponseBody, response: nil, error: nil, into: self)
+        stubbedURLSession.stub(request, data: publicLoansResponseBody, response: nil, error: nil)
         scraper.loans(account, authenticationManager: AuthenticationManager.stubbed({ (manager) in
             manager.authenticated = true
             manager.stubbedSessionIdentifier = "123-abc"
