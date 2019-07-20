@@ -12,6 +12,9 @@ import LibraryCore
 
 public class LoanViewModel: BindableObject, Hashable {
 
+    public var willChange = PassthroughSubject<LoanViewModel, Never>()
+    public var didChange = PassthroughSubject<LoanViewModel, Never>()
+
     public static func == (lhs: LoanViewModel, rhs: LoanViewModel) -> Bool {
         return lhs.loan?.signature == rhs.loan?.signature
     }
@@ -21,14 +24,17 @@ public class LoanViewModel: BindableObject, Hashable {
     }
 
     public var loan: Loan? {
+        willSet {
+                    DispatchQueue.main.async {
+                        self.willChange.send(self)
+                    }
+                }
         didSet {
             DispatchQueue.main.async {
                 self.didChange.send(self)
             }
         }
     }
-
-    public var didChange = PassthroughSubject<LoanViewModel, Never>()
 
     init(loan: Loan) {
         self.loan = loan

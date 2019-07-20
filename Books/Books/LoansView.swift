@@ -15,7 +15,7 @@ struct LoansView : View {
     var body: some View {
         return VStack{
             Text("🌊")
-            List(loansViewModel.loans.identified(by: \.identifiedValue)) { loanViewModel in
+            List(loansViewModel.loans, id: \.identifiedValue) { loanViewModel in
                 LoanView(loanViewModel: loanViewModel)
             }
         }

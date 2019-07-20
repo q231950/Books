@@ -11,7 +11,16 @@ import LibraryCore
 import SwiftUI
 
 class AccountViewModel: BindableObject {
+
+    public var willChange = PassthroughSubject<AccountViewModel, Never>()
+    public var didChange = PassthroughSubject<AccountViewModel, Never>()
+
     public var account: Account {
+        willSet {
+            DispatchQueue.main.async {
+                self.willChange.send(self)
+            }
+        }
         didSet {
             DispatchQueue.main.async {
                 self.didChange.send(self)
@@ -19,10 +28,7 @@ class AccountViewModel: BindableObject {
         }
     }
 
-    public var didChange: PassthroughSubject<AccountViewModel, Never>
-
     init(account: Account) {
-        didChange = PassthroughSubject<AccountViewModel, Never>()
         self.account = account
         let _ = account.didChange.sink { (updatedAccount) in
             self.account = updatedAccount

@@ -11,8 +11,14 @@ import LibraryCore
 
 class AuthenticationViewModel: BindableObject {
 
+    var willChange = PassthroughSubject<AuthenticationViewModel, Never>()
     var didChange = PassthroughSubject<AuthenticationViewModel, Never>()
     public var loansViewModel: LoansViewModel? {
+        willSet {
+            DispatchQueue.main.async {
+                self.willChange.send(self)
+            }
+        }
         didSet {
             DispatchQueue.main.async {
                 self.didChange.send(self)

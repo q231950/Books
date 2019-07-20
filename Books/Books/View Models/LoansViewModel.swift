@@ -11,9 +11,18 @@ import SwiftUI
 import LibraryCore
 
 class LoansViewModel: BindableObject {
+
+    var willChange = PassthroughSubject<[LoanViewModel], Never>()
     var didChange = PassthroughSubject<[LoanViewModel], Never>()
 
+    typealias PublisherType = PassthroughSubject<[LoanViewModel], Never>
+
     var loans: [LoanViewModel] = [] {
+        willSet {
+            DispatchQueue.main.async {
+                self.willChange.send(newValue)
+            }
+        }
         didSet {
             DispatchQueue.main.async {
                 self.didChange.send(self.loans)
