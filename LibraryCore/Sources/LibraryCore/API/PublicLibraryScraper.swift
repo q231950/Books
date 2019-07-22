@@ -16,6 +16,10 @@ public final class PublicLibraryScraper {
     private let keychainProvider: KeychainProvider
     private let baseUrlString = "https://www.buecherhallen.de"
 
+    public static func scraper(with network:NetworkClient) -> PublicLibraryScraper {
+        return PublicLibraryScraper(network: network)
+    }
+
     public static var `default`: PublicLibraryScraper {
         get {
             return PublicLibraryScraper()
@@ -111,92 +115,92 @@ public final class PublicLibraryScraper {
                         finishedCompletion(loansToProcess, loans)
                     }
                 } else {
-                completion(NSError(domain: "\(type(of: self))", code: 4, userInfo: nil), loans)
-            }
+                    completion(NSError(domain: "\(type(of: self))", code: 4, userInfo: nil), loans)
+                }
+            })
         })
-    })
-    task.resume()
-}
-
-    private func detailedLoan(loan: Loan, completion: @escaping (String, String, String) -> Void ) {
-    guard let identifier = loan.identifier, let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: identifier) else {
-        defer {
-            completion("", "", "")
-        }
-        return
+        task.resume()
     }
 
-    let task = network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-        let parser = ItemDetailsParser()
-        let infoPairs = parser.searchResultDetails(for: data)
-        var author = ""
-        var title = ""
-        var signature = identifier
-        infoPairs.forEach({ (keyValuePair) in
-            let infoPair = keyValuePair
-            if infoPair.title == "Author" {
-                author = infoPair.content
-            } else if infoPair.title == "data titel-lang" {
-                title = infoPair.content
-            } else if infoPair.title == "data signatur" {
-                signature = infoPair.content
+    private func detailedLoan(loan: Loan, completion: @escaping (String, String, String) -> Void ) {
+        guard let identifier = loan.identifier, let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: identifier) else {
+            defer {
+                completion("", "", "")
             }
+            return
+        }
+
+        let task = network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let parser = ItemDetailsParser()
+            let infoPairs = parser.searchResultDetails(for: data)
+            var author = ""
+            var title = ""
+            var signature = identifier
+            infoPairs.forEach({ (keyValuePair) in
+                let infoPair = keyValuePair
+                if infoPair.title == "Author" {
+                    author = infoPair.content
+                } else if infoPair.title == "data titel-lang" {
+                    title = infoPair.content
+                } else if infoPair.title == "data signatur" {
+                    signature = infoPair.content
+                }
+            })
+            completion(author, title, signature)
         })
-        completion(author, title, signature)
-    })
-    task.resume()
-}
+        task.resume()
+    }
 
-// MARK: Renewal
+    // MARK: Renewal
 
-func renew(account: Account, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
+    func renew(account: Account, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
 
-    //        let credentialStore = AccountCredentialStore(keychainProvider: keychainProvider)
-    //        guard let accountIdentifier = account.username,
-    //            let password = credentialStore.password(for: accountIdentifier) else {
-    //                completion(.error(NSError.missingCredentialsError()))
-    //                return
-    //        }
-    //
-    //        guard let integerType = account.accountLibrary?.type?.intValue,
-    //            let libraryType = LibraryType(rawValue: integerType) else {
-    //                completion(.error(NSError.unknownLibraryError()))
-    //                return
-    //        }
-    //
-    //        let authenticationManager = AuthenticationManager(network: network, keychainManager: keychainProvider)
-    //        authenticationManager.authenticateAccount(
-    //            accountIdentifier,
-    //            libraryType: libraryType,
-    //            accountType: account.accountType,
-    //            completion: { (authenticated, error) in
-    //                if let error = error {
-    //                    completion(.error(error))
-    //                    return
-    //                }
-    //
-    //                guard let token = authenticationManager.sessionIdentifier(for: accountIdentifier) else {
-    //                    completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 1)))
-    //                    return
-    //                }
-    //
-    //                guard let request = RequestBuilder.default.renewRequest(
-    //                    sessionIdentifier: token,
-    //                    itemIdentifier: itemIdentifier) else {
-    //                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 2)))
-    //                        return
-    //                }
-    //
-    //                let task = self.network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-    //                    guard error == nil else {
-    //                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 3)))
-    //                        return
-    //                    }
-    //
-    //                    let renewalParser = RenewalParser()
-    //                    completion(renewalParser.isRenewed(data: data))
-    //                })
-    //                task.resume()
-    //        })
-}
+        //        let credentialStore = AccountCredentialStore(keychainProvider: keychainProvider)
+        //        guard let accountIdentifier = account.username,
+        //            let password = credentialStore.password(for: accountIdentifier) else {
+        //                completion(.error(NSError.missingCredentialsError()))
+        //                return
+        //        }
+        //
+        //        guard let integerType = account.accountLibrary?.type?.intValue,
+        //            let libraryType = LibraryType(rawValue: integerType) else {
+        //                completion(.error(NSError.unknownLibraryError()))
+        //                return
+        //        }
+        //
+        //        let authenticationManager = AuthenticationManager(network: network, keychainManager: keychainProvider)
+        //        authenticationManager.authenticateAccount(
+        //            accountIdentifier,
+        //            libraryType: libraryType,
+        //            accountType: account.accountType,
+        //            completion: { (authenticated, error) in
+        //                if let error = error {
+        //                    completion(.error(error))
+        //                    return
+        //                }
+        //
+        //                guard let token = authenticationManager.sessionIdentifier(for: accountIdentifier) else {
+        //                    completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 1)))
+        //                    return
+        //                }
+        //
+        //                guard let request = RequestBuilder.default.renewRequest(
+        //                    sessionIdentifier: token,
+        //                    itemIdentifier: itemIdentifier) else {
+        //                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 2)))
+        //                        return
+        //                }
+        //
+        //                let task = self.network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+        //                    guard error == nil else {
+        //                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 3)))
+        //                        return
+        //                    }
+        //
+        //                    let renewalParser = RenewalParser()
+        //                    completion(renewalParser.isRenewed(data: data))
+        //                })
+        //                task.resume()
+        //        })
+    }
 }

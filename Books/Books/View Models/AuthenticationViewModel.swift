@@ -11,6 +11,7 @@ import LibraryCore
 
 class AuthenticationViewModel: BindableObject {
 
+    let scraper: PublicLibraryScraper
     var willChange = PassthroughSubject<AuthenticationViewModel, Never>()
     var didChange = PassthroughSubject<AuthenticationViewModel, Never>()
     public var loansViewModel: LoansViewModel? {
@@ -38,8 +39,9 @@ class AuthenticationViewModel: BindableObject {
     }
     private let authenticationManager: AuthenticationManager
 
-    init(authenticationManager: AuthenticationManager = AuthenticationManager.shared) {
+    init(authenticationManager: AuthenticationManager = AuthenticationManager.shared, scraper:PublicLibraryScraper = PublicLibraryScraper.default) {
         self.authenticationManager = authenticationManager
+        self.scraper = scraper
     }
 
     func authenticate(account: AccountViewModel) {
@@ -58,7 +60,7 @@ class AuthenticationViewModel: BindableObject {
         }
 
         if self.authenticated {
-            self.loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager)
+            self.loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager, scraper: scraper)
         }
     }
 }

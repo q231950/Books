@@ -9,11 +9,11 @@
 import Foundation
 import StubbornNetwork
 
-class NetworkClient {
+public class NetworkClient {
 
     let session: URLSession
 
-    init(session: URLSession? = nil) {
+    public init(session: URLSession? = nil) {
         if let session = session {
             self.session = session
         } else {

@@ -1,5 +1,5 @@
 //
-//  AuthenticationManagerMock.swift
+//  AuthenticationManagerStub.swift
 //  LibraryCoreTests
 //
 //  Created by Martin Kim Dung-Pham on 26.12.18.

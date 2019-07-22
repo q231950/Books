@@ -30,8 +30,7 @@ class LoansViewModel: BindableObject {
         }
     }
 
-    init(account: Account, authenticationManager: AuthenticationManager) {
-        let scraper = PublicLibraryScraper.default
+    init(account: Account, authenticationManager: AuthenticationManager, scraper: PublicLibraryScraper) {
         scraper.loans(account, authenticationManager: authenticationManager, completion: { (error, loans) -> (Void) in
 
             let loanViewModels = loans.map { LoanViewModel(loan: $0) }

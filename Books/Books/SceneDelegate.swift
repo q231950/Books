@@ -44,7 +44,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 $0.authenticated = true
             }
 
-            return AuthenticationViewModel(authenticationManager: authenticationManagerStub)
+            let network = NetworkClient(session: StubbornNetwork.stubbedURLSession)
+            let scraper = PublicLibraryScraper.scraper(with: network)
+
+            return AuthenticationViewModel(authenticationManager: authenticationManagerStub, scraper: scraper)
         }
         #endif
         return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
