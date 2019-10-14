@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 import LibraryCore
 
-class LoansViewModel: BindableObject {
+class LoansViewModel: ObservableObject {
     var didChange = PassthroughSubject<[LoanViewModel], Never>()
 
     var loans: [LoanViewModel] = [] {

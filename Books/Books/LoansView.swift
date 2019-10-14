@@ -11,11 +11,11 @@ import LibraryCore
 import Combine
 
 struct LoansView : View {
-    @ObjectBinding var loansViewModel: LoansViewModel
+    @ObservedObject var loansViewModel: LoansViewModel
     var body: some View {
         return VStack{
             Text("🌊")
-            List(loansViewModel.loans.identified(by: \.identifiedValue)) { loanViewModel in
+            List(loansViewModel.loans, id: \.identifier) { loanViewModel in
                 LoanView(loanViewModel: loanViewModel)
             }
         }

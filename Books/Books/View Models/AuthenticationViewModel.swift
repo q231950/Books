@@ -9,10 +9,10 @@ import SwiftUI
 import Combine
 import LibraryCore
 
-class AuthenticationViewModel: BindableObject {
+class AuthenticationViewModel: ObservableObject {
 
     var didChange = PassthroughSubject<AuthenticationViewModel, Never>()
-    public var loansViewModel: LoansViewModel? {
+    @Published var loansViewModel: LoansViewModel? {
         didSet {
             DispatchQueue.main.async {
                 self.didChange.send(self)

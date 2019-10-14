@@ -10,7 +10,7 @@ import SwiftUI
 import LibraryCore
 
 struct LoanView : View {
-    @ObjectBinding var loanViewModel: LoanViewModel
+    @ObservedObject var loanViewModel: LoanViewModel
 
     var body: some View {
         return VStack {

@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import LibraryCore
 
-public class LoanViewModel: BindableObject, Hashable {
+public class LoanViewModel: ObservableObject, Hashable {
 
     public static func == (lhs: LoanViewModel, rhs: LoanViewModel) -> Bool {
         return lhs.loan?.signature == rhs.loan?.signature
@@ -29,6 +29,10 @@ public class LoanViewModel: BindableObject, Hashable {
     }
 
     public var didChange = PassthroughSubject<LoanViewModel, Never>()
+
+    var identifier: String? {
+        loan?.identifier
+    }
 
     init(loan: Loan) {
         self.loan = loan
