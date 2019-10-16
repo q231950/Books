@@ -12,12 +12,12 @@ import Combine
 
 struct ContentView : View {
     @State private var selection = 0
-    @ObjectBinding var authentication: AuthenticationViewModel
-    @ObjectBinding var account: AccountViewModel
+    @ObservedObject var authentication: AuthenticationViewModel
+    @ObservedObject var account: AccountViewModel
     var body: some View {
         Group {
             if authentication.authenticated {
-                TabbedView(selection: $selection){
+                TabView(selection: $selection){
                     authentication.loansViewModel.map({ LoansView(loansViewModel: $0) })
                     AccountView()
                 }
@@ -25,12 +25,12 @@ struct ContentView : View {
                 VStack(){
                     HStack() {
                         Spacer()
-                        TextField("username", text: $account.account.username.binding)
+                        TextField("username", text: $account.account.username)
                         Spacer()
                     }
                     HStack() {
                         Spacer()
-                        TextField("password", text: $account.account.password.binding)
+                        TextField("password", text: $account.account.password)
                         Spacer()
                     }
                     HStack() {

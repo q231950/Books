@@ -10,7 +10,7 @@ import Combine
 import LibraryCore
 import SwiftUI
 
-class AccountViewModel: BindableObject {
+class AccountViewModel: ObservableObject {
     public var account: Account {
         didSet {
             DispatchQueue.main.async {
