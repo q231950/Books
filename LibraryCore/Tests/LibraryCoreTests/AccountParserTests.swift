@@ -33,8 +33,8 @@ class AccountParserTests: XCTestCase {
     }
 
     func testSingleCharge() {
-        let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone.current, year: 2018, month: 9, day: 20)
+        let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone(identifier: "Europe/Berlin"), year: 2018, month: 9, day: 20)
         let expectedCharge = FlamingoCharge(reason: "Vormerkgebühr", date: dateComponents.date, debit: 2.0, credit: 1.0)
-        XCTAssertEqual(account?.charges, [expectedCharge])
+        XCTAssertEqual(account.charges, [expectedCharge])
     }
 }

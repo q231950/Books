@@ -10,8 +10,8 @@ import XCTest
 
 class ChargeTests: XCTestCase {
     func testChargeDebugDescription() {
-        let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone.current, year: 2018, month: 9, day: 20)
+        let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone(identifier: "Europe/Berlin"), year: 2018, month: 9, day: 20)
         let charge = FlamingoCharge(reason: "Vormerkgebühr", date: dateComponents.date, debit: 2.0, credit: 1.0)
-        XCTAssertEqual(charge.debugDescription, "Reason: Vormerkgebühr (Optional(2018-09-19 22:00:00 +0000)) - Debit: 2.0, Credit: 1.0")
+        XCTAssertEqual(charge.debugDescription, "Reason: Vormerkgebühr (20/9/2018) - Debit: 2.0, Credit: 1.0")
     }
 }

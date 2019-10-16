@@ -31,7 +31,8 @@ class FlamingoCharge: Equatable {
     }
 
     var debugDescription: String {
-        return "Reason: \(reason) (\(String(describing: date))) - Debit: \(debit), Credit: \(credit)"
+        let dateString = AccountParser.dateReaderFormatter.string(from: date ?? Date())
+        return "Reason: \(reason) (\(dateString)) - Debit: \(debit), Credit: \(credit)"
     }
 }
 
@@ -57,7 +58,7 @@ class FlamingoAccount {
 
 class AccountParser {
 
-    private static var dateReaderFormatter: DateFormatter = {
+    fileprivate static var dateReaderFormatter: DateFormatter = {
         let dateReaderFormatter = DateFormatter()
         dateReaderFormatter.dateFormat = "dd/M/yyyy"
         dateReaderFormatter.timeZone = TimeZone(identifier: "Europe/Berlin")

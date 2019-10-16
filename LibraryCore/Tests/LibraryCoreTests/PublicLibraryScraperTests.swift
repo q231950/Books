@@ -33,7 +33,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let data = publicAccountResponseBody.data(using: .utf8)
         stubbedURLSession.stub(request, data: data, response: nil, error: nil)
         scraper.charges(account: account, sessionIdentifier: "abc") { (error, charges) -> (Void) in
-            let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone.current, year: 2018, month: 9, day: 20)
+            let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone(identifier: "Europe/Berlin"), year: 2018, month: 9, day: 20)
 
             XCTAssertEqual(charges.first?.amount, 1.0)
             XCTAssertEqual(charges.first?.reason, "Vormerkgebühr")
