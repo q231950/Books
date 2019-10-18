@@ -14,9 +14,9 @@
         "package": "StubbornNetwork",
         "repositoryURL": "http://github.com/q231950/the-stubborn-network.git",
         "state": {
-          "branch": "no-closure",
-          "revision": "9838df2e4b97a70afa0ca327cc86fe6ad2bda2d6",
-          "version": null
+          "branch": null,
+          "revision": "8e730297bdb29a02fbe33efd048c9334ac14e658",
+          "version": "0.0.5"
         }
       }
     ]
