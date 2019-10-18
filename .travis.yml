@@ -8,7 +8,7 @@ before_install:
   - defaults write com.apple.iphonesimulator CaptureKeyboardInput 1
   - defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
 script:
-  - set -o pipefail && xcodebuild build-for-testing -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone 11 Pro' -derivedDataPath DerivedData -parallel-testing-enabled NO -forceResolvedPackageVersions
-  - xcodebuild test-without-building -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone 11 Pro' -derivedDataPath DerivedData -parallel-testing-enabled NO -forceResolvedPackageVersions
+  - set -o pipefail && xcodebuild build-for-testing -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone 11 Pro' -derivedDataPath DerivedData -parallel-testing-enabled NO
+  - xcodebuild test-without-building -workspace Books.xcworkspace -scheme Books -destination 'platform=iOS Simulator,OS=13.0,name=iPhone 11 Pro' -derivedDataPath DerivedData -parallel-testing-enabled NO
 
 
