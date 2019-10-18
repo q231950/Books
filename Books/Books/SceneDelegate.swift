@@ -39,7 +39,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ///
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
         #if DEBUG
-        if Environment.testing {
+        if ProcessInfo().testing {
             let authenticationManagerStub = AuthenticationManager.stubbed {
                 $0.authenticated = true
             }
@@ -51,3 +51,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
+extension ProcessInfo {
+    var testing: Bool {
+        get {
+            return environment["TESTING"] != nil
+        }
+    }
+}

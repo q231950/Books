@@ -12,7 +12,7 @@ import StubbornNetwork
 
 class PublicLibraryScraperTests: XCTestCase {
 
-    let stubbedURLSession = StubbornNetwork.stubbedURLSession
+    let stubbedURLSession = StubbornNetwork.makeEphemeralSession()
     let keychainMock = TestHelper.keychainMock
     var account: Account!
     var network: NetworkClient!
@@ -27,9 +27,9 @@ class PublicLibraryScraperTests: XCTestCase {
         try! keychainMock.add(password: "abc", to: account.username)
     }
 
-    func testAccount() {
+    func testAccount() throws {
         let exp = expectation(description: "Account completion")
-        let request = RequestBuilder().accountRequest(sessionIdentifier: "abc")
+        let request = try XCTUnwrap(RequestBuilder().accountRequest(sessionIdentifier: "abc"))
         let data = publicAccountResponseBody.data(using: .utf8)
         stubbedURLSession.stub(request, data: data, response: nil, error: nil)
         scraper.charges(account: account, sessionIdentifier: "abc") { (error, charges) -> (Void) in
@@ -46,9 +46,9 @@ class PublicLibraryScraperTests: XCTestCase {
         wait(for: [exp], timeout: 0.01)
     }
 
-    func testLoans() {
+    func testLoans() throws {
         let exp = expectation(description: "Loans completion")
-        let request = RequestBuilder().loansRequest(sessionIdentifier: "abc")
+        let request = try XCTUnwrap(RequestBuilder().loansRequest(sessionIdentifier: "abc"))
         stubbedURLSession.stub(request, data: publicLoansResponseBody, response: nil, error: nil)
         scraper.loans(account, authenticationManager: AuthenticationManager.stubbed({ (manager) in
             manager.authenticated = true
