@@ -50,11 +50,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
     }
 }
-
-extension ProcessInfo {
-    var testing: Bool {
-        get {
-            return environment["TESTING"] != nil
-        }
-    }
-}
