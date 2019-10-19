@@ -9,9 +9,6 @@
 import UIKit
 import SwiftUI
 import LibraryCore
-#if DEBUG
-import StubbornNetwork
-#endif
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -38,15 +35,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// Create an authentication view model. The Authentication View Model will use a stubbed authentication manager during testing
     ///
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
-        #if DEBUG
-        if ProcessInfo().testing {
-            let authenticationManagerStub = AuthenticationManager.stubbed {
-                $0.authenticated = true
-            }
-
-            return AuthenticationViewModel(authenticationManager: authenticationManagerStub)
-        }
-        #endif
         return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
     }
 }

@@ -4,17 +4,26 @@
       "id" : "2C1E0BED-1494-40FC-9E22-A397F81E5466",
       "name" : "Configuration 1",
       "options" : {
-
+        "environmentVariableEntries" : [
+          {
+            "key" : "TESTING",
+            "value" : "true"
+          },
+          {
+            "key" : "PROJECT_DIR",
+            "value" : "$PROJECT_DIR"
+          }
+        ],
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:Books.xcodeproj",
+          "identifier" : "3B47FDF022ABAFE800D39567",
+          "name" : "BooksUITests"
+        }
       }
     }
   ],
   "defaultOptions" : {
-    "environmentVariableEntries" : [
-      {
-        "key" : "TESTING",
-        "value" : "true"
-      }
-    ]
+
   },
   "testTargets" : [
     {
