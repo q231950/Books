@@ -13,11 +13,7 @@ public class AuthenticationManager {
 
     public
 
-    static var shared: AuthenticationManager {
-        get {
-            return AuthenticationManager.init()
-        }
-    }
+    static var shared = AuthenticationManager()
 
     public func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
         let password = (account.password != "") ? account.password : nil
@@ -30,7 +26,7 @@ public class AuthenticationManager {
     let network: NetworkClient
     let credentialStore: AccountCredentialStore
 
-    init(network: NetworkClient = NetworkClient(), credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
+    init(network: NetworkClient = NetworkClient.shared, credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
         self.network = network
         self.credentialStore = credentialStore
     }

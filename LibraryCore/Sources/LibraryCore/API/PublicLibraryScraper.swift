@@ -22,7 +22,7 @@ public final class PublicLibraryScraper {
         }
     }
 
-    init(network: NetworkClient = NetworkClient(), keychainProvider: KeychainProvider = KeychainManager()) {
+    init(network: NetworkClient = NetworkClient.shared, keychainProvider: KeychainProvider = KeychainManager()) {
         self.network = network
         self.keychainProvider = keychainProvider
     }

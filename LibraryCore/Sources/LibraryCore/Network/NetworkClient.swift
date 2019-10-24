@@ -15,6 +15,8 @@ public class NetworkClient {
 
     let session: URLSession
 
+    static var shared = NetworkClient()
+
     public init(session: URLSession? = nil) {
         if let session = session {
             self.session = session
