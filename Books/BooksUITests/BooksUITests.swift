@@ -32,7 +32,7 @@ class BooksUITests: XCTestCase {
 
         let passwordTextField = app.textFields["password"]
         passwordTextField.tap()
-        passwordTextField.typeText("xxx")
+        passwordTextField.typeText("***")
 
         // when
         app.buttons["Sign in"].tap()
