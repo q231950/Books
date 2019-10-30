@@ -22,9 +22,7 @@ public class LoanViewModel: ObservableObject, Hashable {
 
     public var loan: Loan? {
         didSet {
-            DispatchQueue.main.async {
-                self.didChange.send(self)
-            }
+            self.didChange.send(self)
         }
     }
 

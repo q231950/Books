@@ -13,9 +13,7 @@ import SwiftUI
 class AccountViewModel: ObservableObject {
     public var account: Account {
         didSet {
-            DispatchQueue.main.async {
-                self.didChange.send(self)
-            }
+            self.didChange.send(self)
         }
     }
 
@@ -24,7 +22,7 @@ class AccountViewModel: ObservableObject {
     init(account: Account) {
         didChange = PassthroughSubject<AccountViewModel, Never>()
         self.account = account
-        let _ = account.didChange.sink { (updatedAccount) in
+        let _ = account.didChange.receive(on: RunLoop.main).sink { (updatedAccount) in
             self.account = updatedAccount
         }
     }

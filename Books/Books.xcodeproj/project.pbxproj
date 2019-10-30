@@ -22,6 +22,8 @@
 		3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6179D722DB760300D77E84 /* StubbornNetwork */; settings = {ATTRIBUTES = (Required, ); }; };
 		3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* LoansView.swift */; };
 		3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B71022AC0121000CBEAD /* AccountView.swift */; };
+		3BAF88E2236A1A94003A356E /* SignedOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E1236A1A94003A356E /* SignedOutView.swift */; };
+		3BAF88E5236A1BE0003A356E /* SignedInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E4236A1BE0003A356E /* SignedInView.swift */; };
 		3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanView.swift */; };
 		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
 		3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */; };
@@ -64,6 +66,8 @@
 		3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		3B99B70E22AC002E000CBEAD /* LoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansView.swift; sourceTree = "<group>"; };
 		3B99B71022AC0121000CBEAD /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		3BAF88E1236A1A94003A356E /* SignedOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedOutView.swift; sourceTree = "<group>"; };
+		3BAF88E4236A1BE0003A356E /* SignedInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedInView.swift; sourceTree = "<group>"; };
 		3BEBF0F222D9939500EB2426 /* LoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanView.swift; sourceTree = "<group>"; };
 		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
 		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				3B47FDD722ABAFE700D39567 /* ContentView.swift */,
+				3BAF88E3236A1BA5003A356E /* Signed In and Out Container Views */,
 				3B99B71022AC0121000CBEAD /* AccountView.swift */,
 				3B99B70E22AC002E000CBEAD /* LoansView.swift */,
 				3BEBF0F222D9939500EB2426 /* LoanView.swift */,
@@ -194,6 +199,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3BAF88E3236A1BA5003A356E /* Signed In and Out Container Views */ = {
+			isa = PBXGroup;
+			children = (
+				3BAF88E1236A1A94003A356E /* SignedOutView.swift */,
+				3BAF88E4236A1BE0003A356E /* SignedInView.swift */,
+			);
+			name = "Signed In and Out Container Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,9 +349,11 @@
 				3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */,
 				3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */,
 				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
+				3BAF88E5236A1BE0003A356E /* SignedInView.swift in Sources */,
 				3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */,
 				3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,
+				3BAF88E2236A1A94003A356E /* SignedOutView.swift in Sources */,
 				3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */,
 				3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */,
 				3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */,

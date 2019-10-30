@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             let authenticationViewModel = createAuthenticationViewModel()
             let accountViewModel = AccountViewModel(account: Account())
-            let contentView = ContentView(authentication: authenticationViewModel, account:accountViewModel)
+            let contentView = ContentView(authenticationViewModel: authenticationViewModel, account:accountViewModel)
             let hostingController = UIHostingController(rootView: contentView)
 
             window.rootViewController = hostingController
