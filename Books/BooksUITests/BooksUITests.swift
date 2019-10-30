@@ -28,7 +28,7 @@ class BooksUITests: XCTestCase {
         // given
         let usernameTextField = app.textFields["username"]
         usernameTextField.tap()
-        usernameTextField.typeText("577544816")
+        usernameTextField.typeText("123456789")
 
         let passwordTextField = app.textFields["password"]
         passwordTextField.tap()

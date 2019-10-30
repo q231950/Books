@@ -14,8 +14,8 @@
         "package": "StubbornNetwork",
         "repositoryURL": "http://github.com/q231950/the-stubborn-network.git",
         "state": {
-          "branch": "body-data-processor",
-          "revision": "7f2b8fceabb169025552b9ee9a6a9059f4c88814",
+          "branch": "master",
+          "revision": "ce3ae1465d66eeffbfb980aa18b6dd14010f8bbd",
           "version": null
         }
       }

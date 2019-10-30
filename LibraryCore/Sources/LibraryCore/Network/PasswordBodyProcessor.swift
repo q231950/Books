@@ -10,7 +10,11 @@ import StubbornNetwork
 
 struct PasswordBodyProcessor: BodyDataProcessor {
     func textByStrippingSensitiveData(from text: String) -> String {
-        let processed = text.replacingOccurrences(of: "<pin>(.*)</pin>", with: "<pin>***</pin>", options: [.caseInsensitive, .regularExpression])
+        var processed = text.replacingOccurrences(of: "<pin>(.*)</pin>", with: "<pin>***</pin>", options: [.caseInsensitive, .regularExpression])
+        processed = processed.replacingOccurrences(of: "<Brwr>((.|\n)*)</Brwr>", with: "<Brwr>A12 345 678 9</Brwr>", options: [.caseInsensitive, .regularExpression])
+        processed = processed.replacingOccurrences(of: "<borrowerNumber>(.*)</borrowerNumber>", with: "<borrowerNumber>123456789</borrowerNumber>", options: [.caseInsensitive, .regularExpression])
+        processed = processed.replacingOccurrences(of: "<userId>(.*)</userId>", with: "<userId>123456789</userId>", options: [.regularExpression])
+        processed = processed.replacingOccurrences(of: "<UserId>(.*)</UserId>", with: "<UserId>12345</UserId>", options: [.regularExpression])
         return processed
     }
 
