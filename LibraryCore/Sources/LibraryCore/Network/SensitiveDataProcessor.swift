@@ -8,7 +8,7 @@
 import Foundation
 import StubbornNetwork
 
-struct PasswordBodyProcessor: BodyDataProcessor {
+struct SensitiveDataProcessor: BodyDataProcessor {
     func textByStrippingSensitiveData(from text: String) -> String {
         var processed = text.replacingOccurrences(of: "<pin>(.*)</pin>", with: "<pin>***</pin>", options: [.caseInsensitive, .regularExpression])
         processed = processed.replacingOccurrences(of: "<Brwr>((.|\n)*)</Brwr>", with: "<Brwr>A12 345 678 9</Brwr>", options: [.caseInsensitive, .regularExpression])

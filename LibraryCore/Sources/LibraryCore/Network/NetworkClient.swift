@@ -25,7 +25,7 @@ public class NetworkClient {
             if ProcessInfo().isUITesting {
                 let stubbedSession = StubbornNetwork.makePersistentSession()
                 stubbedSession.recordMode = .playback
-                stubbedSession.bodyDataProcessor = PasswordBodyProcessor()
+                stubbedSession.bodyDataProcessor = SensitiveDataProcessor()
 
                 session = stubbedSession
             } else {
