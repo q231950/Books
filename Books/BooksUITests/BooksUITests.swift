@@ -15,14 +15,16 @@ class BooksUITests: XCTestCase {
 
     override func setUp() {
         app = XCUIApplication()
-        let p = ProcessInfo()
 
-        app.launchEnvironment["TESTING"] = p.environment["TESTING"]
+        let processInfo = ProcessInfo()
+        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/stubs"
+        app.launchEnvironment["THE_STUBBORN_NETWORK_UI_TESTING"] = "YES"
+        app.launchEnvironment["STUB_NAME"] = self.name
 
         app.launch()
     }
 
-    func testWaveVisibleAfterSignIn() {
+    func testSignIn() {
         // given
         let usernameTextField = app.textFields["username"]
         usernameTextField.tap()
@@ -30,7 +32,7 @@ class BooksUITests: XCTestCase {
 
         let passwordTextField = app.textFields["password"]
         passwordTextField.tap()
-        passwordTextField.typeText("abcd")
+        passwordTextField.typeText("***")
 
         // when
         app.buttons["Sign in"].tap()

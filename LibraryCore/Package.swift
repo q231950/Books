@@ -20,7 +20,7 @@ let package = Package(
             .upToNextMajor(from: "4.4.0")
         ),
         .package(url: "http://github.com/q231950/the-stubborn-network.git",
-                 .upToNextMajor(from: "0.0.5"))
+                 .branch("master"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
