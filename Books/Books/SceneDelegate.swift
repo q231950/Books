@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
 
-    /// Create an authentication view model. The Authentication View Model will use a stubbed authentication manager during testing
+    /// Create an authentication view model.
     ///
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
         return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
