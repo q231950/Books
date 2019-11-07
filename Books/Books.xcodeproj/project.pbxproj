@@ -185,8 +185,8 @@
 		3B99B70D22AC0010000CBEAD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3B47FDD722ABAFE700D39567 /* ContentView.swift */,
 				3BAF88E3236A1BA5003A356E /* Signed In and Out Container Views */,
+				3B47FDD722ABAFE700D39567 /* ContentView.swift */,
 				3B99B71022AC0121000CBEAD /* AccountView.swift */,
 				3B99B70E22AC002E000CBEAD /* LoansView.swift */,
 				3BEBF0F222D9939500EB2426 /* LoanView.swift */,

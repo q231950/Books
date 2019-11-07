@@ -9,7 +9,20 @@
 import Foundation
 
 enum AuthenticationValidationStatus: Equatable {
+    static func == (lhs: AuthenticationValidationStatus, rhs: AuthenticationValidationStatus) -> Bool {
+        switch (lhs, rhs) {
+        case (.error(let lhsErr), .error(let rhsErr)):
+            return lhsErr.localizedDescription == rhsErr.localizedDescription
+        case (.valid, .valid):
+            return true
+        case (.invalid, .invalid):
+            return true
+        default:
+            return false
+        }
+    }
+
     case valid
     case invalid
-    case error(NSError)
+    case error(Error)
 }

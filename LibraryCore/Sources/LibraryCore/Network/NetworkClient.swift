@@ -23,7 +23,7 @@ public class NetworkClient {
         } else {
             let session: URLSession
             if ProcessInfo().isUITesting {
-                let stubbedSession = StubbornNetwork.makePersistentSession()
+                let stubbedSession = StubbornNetwork.makePersistentSession(withName: "BooksUITests_testSignIn", path: "/Users/kim/Development/Books/Books/stubs")
                 stubbedSession.recordMode = .playback
                 stubbedSession.bodyDataProcessor = SensitiveDataProcessor()
 

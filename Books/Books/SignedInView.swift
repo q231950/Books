@@ -15,7 +15,7 @@ struct SignedInView : View {
     var body: some View {
         TabView(selection: $selection){
             authentication.loansViewModel.map({ LoansView(loansViewModel: $0) })
-            AccountView()
+            AccountView(authenticationViewModel: authentication)
         }
     }
 }

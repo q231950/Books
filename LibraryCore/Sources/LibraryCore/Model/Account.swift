@@ -8,21 +8,9 @@
 import Combine
 
 public struct Account {
-    public var username: String = "" {
-        didSet {
-                self.didChange.send(self)
-        }
-    }
-
-    public var password: String = "" {
-        didSet {
-            self.didChange.send(self)
-        }
-    }
-
-    public var didChange = PassthroughSubject<Account, Never>()
+    public var username: String = ""
+    public var password: String = ""
 
     public init() {
-
     }
 }

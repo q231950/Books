@@ -20,7 +20,9 @@ struct AccountView : View {
 #if DEBUG
 struct AccountView_Previews : PreviewProvider {
     static var previews: some View {
-        AccountView()
+        let accountViewModel = AccountViewModel(account: Account())
+        let authenticationViewModel = AuthenticationViewModel(accountViewModel: accountViewModel)
+        return AccountView(authenticationViewModel: authenticationViewModel)
     }
 }
 #endif

@@ -20,8 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
 
             let authenticationViewModel = createAuthenticationViewModel()
-            let accountViewModel = AccountViewModel(account: Account())
-            let contentView = ContentView(authenticationViewModel: authenticationViewModel, account:accountViewModel)
+            let contentView = ContentView(authenticationViewModel: authenticationViewModel)
             let hostingController = UIHostingController(rootView: contentView)
 
             window.rootViewController = hostingController
@@ -35,6 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /// Create an authentication view model.
     ///
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
-        return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared)
+        let accountViewModel = AccountViewModel(account: Account())
+        return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared,
+                                       accountViewModel: accountViewModel)
     }
 }

@@ -16,8 +16,8 @@ public class AuthenticationManagerStub: AuthenticationManager {
     public var error: NSError? = nil
     public var stubbedSessionIdentifier: String? = nil
 
-    public override func authenticateAccount(_ account: Account, completion: @escaping (Bool, NSError?) -> Void) {
-        completion(authenticated, error)
+    public override func authenticateAccount(_ account: Account) {
+        authenticatedSubject.send(authenticated)
     }
 
     override func sessionIdentifier(for accountIdentifier: String) -> String? {

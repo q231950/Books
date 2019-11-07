@@ -12,13 +12,12 @@ import Combine
 
 struct ContentView : View {
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
-    @ObservedObject var account: AccountViewModel
     var body: some View {
         Group {
             if authenticationViewModel.authenticated {
                 SignedInView(authentication: authenticationViewModel)
             } else {
-                SignedOutView(authentication: authenticationViewModel, account: account)
+                SignedOutView(authentication: authenticationViewModel)
                 .padding(EdgeInsets(top: CGFloat(0), leading: CGFloat(10), bottom: CGFloat(0), trailing: CGFloat(10)))
             }
         }
@@ -29,8 +28,8 @@ struct ContentView : View {
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         let accountViewModel = AccountViewModel(account: Account())
-        let authenticationViewModel = AuthenticationViewModel()
-        return ContentView(authenticationViewModel: authenticationViewModel, account: accountViewModel)
+        let authenticationViewModel = AuthenticationViewModel(accountViewModel: accountViewModel)
+        return ContentView(authenticationViewModel: authenticationViewModel)
     }
 }
 #endif

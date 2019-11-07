@@ -8,6 +8,26 @@
 
 import Foundation
 import os
+import Combine
+
+public enum AuthenticationError: Error, Equatable {
+    public static func == (lhs: AuthenticationError, rhs: AuthenticationError) -> Bool {
+        switch (lhs, rhs) {
+        case (.subsystem(let lhsErr), .subsystem(let rhsErr)):
+            return lhsErr.localizedDescription == rhsErr.localizedDescription
+        case (.invalid, .invalid):
+            return true
+        case (.missingPassword, .missingPassword):
+            return true
+        default:
+            return false
+        }
+    }
+
+    case subsystem(Error)
+    case invalid
+    case missingPassword
+}
 
 public class AuthenticationManager {
 
@@ -15,9 +35,17 @@ public class AuthenticationManager {
 
     static var shared = AuthenticationManager()
 
-    public func authenticateAccount(_ account: Account, completion: @escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+    public let authenticatedSubject = PassthroughSubject<Bool, AuthenticationError>()
+
+    public func authenticateAccount(_ account: Account) {
         let password = (account.password != "") ? account.password : nil
-        authenticateAccount(account.username, password: password, completion: completion)
+        authenticateAccount(account.username, password: password, completion: { [weak self] (authenticated, error) in
+            if let error = error {
+                self?.authenticatedSubject.send(completion: .failure(error))
+            } else {
+                self?.authenticatedSubject.send(authenticated)
+            }
+        })
     }
 
     private
@@ -31,10 +59,10 @@ public class AuthenticationManager {
         self.credentialStore = credentialStore
     }
 
-    private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+    private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
 
         guard let password = password ?? credentialStore.password(for: accountIdentifier) else {
-            completion(false, NSError.missingPasswordError())
+            completion(false, .missingPassword)
             return
         }
 
@@ -77,7 +105,7 @@ public class AuthenticationManager {
         try credentialStore.store(identifier, of: account)
     }
     
-    private func authenticateHamburgPublicAccount(accountIdentifier: String, password: String, completion:@escaping (_ authenticated: Bool, _ error: NSError?) -> Void) {
+    private func authenticateHamburgPublicAccount(accountIdentifier: String, password: String, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
         validate(accountIdentifier, password: password) { (validationStatus) in
             switch validationStatus {
             case .valid:
@@ -85,7 +113,7 @@ public class AuthenticationManager {
             case .invalid:
                 completion(false, nil)
             case .error(let err):
-                completion(false, err)
+                completion(false, .subsystem(err))
             }
         }
     }

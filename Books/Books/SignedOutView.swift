@@ -7,28 +7,28 @@
 //
 
 import SwiftUI
+import LibraryCore
 
 /// This is the view that people get to see when they are signed out
 struct SignedOutView : View {
     @ObservedObject var authentication: AuthenticationViewModel
-    @ObservedObject var account: AccountViewModel
 
     var body: some View {
         VStack(){
             HStack() {
                 Spacer()
-                TextField("username", text: $account.account.username)
+                TextField("username", text: $authentication.accountViewModel.account.username)
                 Spacer()
             }
             HStack() {
                 Spacer()
-                TextField("password", text: $account.account.password)
+                TextField("password", text: $authentication.accountViewModel.account.password)
                 Spacer()
             }
             HStack() {
                 Spacer()
                 Button(action: {
-                    self.authentication.authenticate(account: self.account)
+                    self.authentication.authenticate()
                 }) {
                     Text("Sign in")
                 }

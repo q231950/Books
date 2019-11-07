@@ -22,8 +22,5 @@ class AccountViewModel: ObservableObject {
     init(account: Account) {
         didChange = PassthroughSubject<AccountViewModel, Never>()
         self.account = account
-        let _ = account.didChange.receive(on: RunLoop.main).sink { (updatedAccount) in
-            self.account = updatedAccount
-        }
     }
 }
