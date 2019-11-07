@@ -7,10 +7,17 @@
 //
 
 import SwiftUI
+import LibraryCore
 
 struct AccountView : View {
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
     var body: some View {
-        return Text("Account View")
+        return VStack {
+            Text("Account View")
+            Button(action: authenticationViewModel.signOut) {
+                Text("SignOut")
+            }
+        }
             .tabItem { Text("Account") }
             .tag(1)
     }
