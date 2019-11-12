@@ -26,6 +26,53 @@ class BooksUITests: XCTestCase {
 
     func testSignIn() {
         // given
+        SignInView.signIn(app:app)
+
+        // then
+        let label = app.staticTexts["🌊"]
+        wait(forElement:label, timeout:5)
+    }
+}
+
+class AccountViewTests: XCTestCase {
+    var app: XCUIApplication!
+
+    override func setUp() {
+        app = XCUIApplication()
+
+        let processInfo = ProcessInfo()
+        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/stubs"
+        app.launchEnvironment["THE_STUBBORN_NETWORK_UI_TESTING"] = "YES"
+        app.launchEnvironment["STUB_NAME"] = self.name
+
+        app.launch()
+    }
+
+    func testSignOutButton() {
+        // given
+        SignInView.signIn(app:app)
+
+        // when
+        Navigation.openAccountView(app:app)
+
+        // then
+        let signOutLabel = app.buttons["Sign out"]
+        wait(forElement:signOutLabel, timeout:5)
+    }
+
+}
+
+class Navigation {
+    static func openAccountView(app: XCUIApplication) {
+        let tabbarButtons = app.tabBars.buttons
+        let accountButton = tabbarButtons["Account"]
+
+        accountButton.tap()
+    }
+}
+
+class SignInView {
+    static func signIn(app: XCUIApplication) {
         let usernameTextField = app.textFields["username"]
         usernameTextField.tap()
         usernameTextField.typeText("123456789")
@@ -36,10 +83,6 @@ class BooksUITests: XCTestCase {
 
         // when
         app.buttons["Sign in"].tap()
-
-        // then
-        let label = app.staticTexts["🌊"]
-        wait(forElement:label, timeout:20)
     }
 }
 

@@ -15,11 +15,11 @@ struct AccountView : View {
         return VStack {
             Text("Account View")
             Button(action: authenticationViewModel.signOut) {
-                Text("SignOut")
+                Text("Sign Out")
             }
         }
-            .tabItem { Text("Account") }
-            .tag(1)
+        .tabItem { Text("Account") }
+        .tag(1)
     }
 }
 
