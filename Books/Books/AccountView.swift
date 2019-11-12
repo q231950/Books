@@ -15,7 +15,7 @@ struct AccountView : View {
         return VStack {
             Text("Account View")
             Button(action: authenticationViewModel.signOut) {
-                Text("Sign Out")
+                Text("Sign out")
             }
         }
         .tabItem { Text("Account") }
