@@ -8,6 +8,7 @@
 
 import XCTest
 import StubbornNetwork
+import Combine
 @testable import LibraryCore
 
 class AccountCredentialStoreMock: AccountCredentialStore {
@@ -32,6 +33,7 @@ class AuthenticationManagerTest: XCTestCase {
     let keychainMock = TestHelper.keychainMock
     lazy var credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
     var account: Account!
+    var sink: AnyCancellable?
 
     override func setUp() {
         super.setUp()
@@ -52,10 +54,11 @@ class AuthenticationManagerTest: XCTestCase {
         account.username = "123"
         try keychainMock.add(password: "abc", to: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account, completion: { (_, _) in
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { (_) in
             exp.fulfill()
-        })
+        }) { _ in }
 
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -69,11 +72,13 @@ class AuthenticationManagerTest: XCTestCase {
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account) { (authenticated, error) in
-            XCTAssertTrue(authenticated)
-            XCTAssertNil(error)
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+            XCTFail()
+        }) {
+            XCTAssertTrue($0)
             exp.fulfill()
         }
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -85,39 +90,39 @@ class AuthenticationManagerTest: XCTestCase {
         account.username = "123"
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account) { (authenticated, error) in
-            XCTAssertFalse(authenticated)
-            XCTAssertNil(error)
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+            XCTFail()
+        }) {
+            XCTAssertFalse($0)
             exp.fulfill()
         }
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
+    enum TestingError: Error {
+        case loadingError
+    }
     func testErronousAuthentication() throws {
+
         let exp = expectation(description: "wait for async")
-        let expectedError = NSError(domain: "com.elbedev.test", code: 1)
+        let expectedError:Error = TestingError.loadingError
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
         urlSessionStub.stub(try XCTUnwrap(request), data: nil, response: nil, error: expectedError)
         account.username = "123"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account) { (authenticated, error) in
-            XCTAssertFalse(authenticated)
-            XCTAssertEqual(error, expectedError)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 0.1)
-    }
-
-    func testErrorWhenMissingAccountIdentifierAndPassword() {
-        let exp = expectation(description: "wait for async")
-        let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        account = TestHelper.accountStub()
-        authenticationManager.authenticateAccount(account) { (_, error) in
-            XCTAssertEqual(error, NSError.missingPasswordError())
-            exp.fulfill()
-        }
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+            switch completion {
+            case .failure(let error):
+                XCTAssertEqual(error, .subsystem(expectedError))
+                exp.fulfill()
+            default:
+                XCTFail()
+            }
+        }) { _ in }
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -126,12 +131,16 @@ class AuthenticationManagerTest: XCTestCase {
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         account = TestHelper.accountStub()
         account.username = "user id"
-        authenticationManager.authenticateAccount(account) { (_, error) in
-            XCTAssertEqual(error?.localizedDescription, "Authentication failed")
-            XCTAssertEqual(error?.localizedFailureReason, "Please enter your password.")
-            XCTAssertNil(error?.localizedRecoverySuggestion)
-            exp.fulfill()
-        }
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+            switch completion {
+            case .failure(let error):
+                XCTAssertEqual(error, .missingPassword)
+                exp.fulfill()
+            default:
+                XCTFail()
+            }
+        }) { _ in }
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -143,11 +152,14 @@ class AuthenticationManagerTest: XCTestCase {
         account.username = "123"
         account.password = "abc"
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account) { (authenticated, error) in
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+        }) { _ in
             // Password + session token = 2
             XCTAssertEqual(self.credentialStore.didStoreSecretCount, 2)
             exp.fulfill()
         }
+
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -160,10 +172,12 @@ class AuthenticationManagerTest: XCTestCase {
         let credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account) { (authenticated, error) in
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+        }) { _ in
             XCTAssertEqual(credentialStore.didDeleteSecretCount, 1)
             exp.fulfill()
         }
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -176,10 +190,11 @@ class AuthenticationManagerTest: XCTestCase {
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        authenticationManager.authenticateAccount(account) { (authenticated, error) in
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
             XCTAssertEqual(self.credentialStore.didDeleteSecretCount, 0)
             exp.fulfill()
-        }
+        }) { _ in }
+        authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
 }

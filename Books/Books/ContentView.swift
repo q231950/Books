@@ -11,38 +11,13 @@ import LibraryCore
 import Combine
 
 struct ContentView : View {
-    @State private var selection = 0
-    @ObservedObject var authentication: AuthenticationViewModel
-    @ObservedObject var account: AccountViewModel
+    @ObservedObject var authenticationViewModel: AuthenticationViewModel
     var body: some View {
         Group {
-            if authentication.authenticated {
-                TabView(selection: $selection){
-                    authentication.loansViewModel.map({ LoansView(loansViewModel: $0) })
-                    AccountView()
-                }
+            if authenticationViewModel.authenticated {
+                SignedInView(authentication: authenticationViewModel)
             } else {
-                VStack(){
-                    HStack() {
-                        Spacer()
-                        TextField("username", text: $account.account.username)
-                        Spacer()
-                    }
-                    HStack() {
-                        Spacer()
-                        TextField("password", text: $account.account.password)
-                        Spacer()
-                    }
-                    HStack() {
-                        Spacer()
-                        Button(action: {
-                            self.authentication.authenticate(account: self.account)
-                        }) {
-                            Text("Sign in")
-                        }
-                        Spacer()
-                    }
-                }
+                SignedOutView(authentication: authenticationViewModel)
                 .padding(EdgeInsets(top: CGFloat(0), leading: CGFloat(10), bottom: CGFloat(0), trailing: CGFloat(10)))
             }
         }
@@ -53,8 +28,8 @@ struct ContentView : View {
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         let accountViewModel = AccountViewModel(account: Account())
-        let authenticationViewModel = AuthenticationViewModel()
-        return ContentView(authentication: authenticationViewModel, account: accountViewModel)
+        let authenticationViewModel = AuthenticationViewModel(accountViewModel: accountViewModel)
+        return ContentView(authenticationViewModel: authenticationViewModel)
     }
 }
 #endif
