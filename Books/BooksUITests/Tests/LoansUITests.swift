@@ -21,6 +21,8 @@ class LoansUITests: XCTestCase {
         app.launchEnvironment["THE_STUBBORN_NETWORK_UI_TESTING"] = "YES"
         app.launchEnvironment["STUB_NAME"] = self.name
 
+        app.launchArguments.append("clean")
+
         app.launch()
     }
 

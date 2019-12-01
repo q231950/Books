@@ -1,5 +1,5 @@
 //
-//  SignedOutView.swift
+//  SignInView.swift
 //  Books
 //
 //  Created by Martin Kim Dung-Pham on 30.10.19.
@@ -10,7 +10,7 @@ import SwiftUI
 import LibraryCore
 
 /// This is the view that people get to see when they are signed out
-struct SignedOutView : View {
+struct SignInView : View {
     @ObservedObject var authentication: AuthenticationViewModel
 
     var body: some View {
@@ -18,11 +18,17 @@ struct SignedOutView : View {
             HStack() {
                 Spacer()
                 TextField("username", text: $authentication.accountViewModel.account.username)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textContentType(.username)
+                    .accessibility(identifier: "user")
                 Spacer()
             }
             HStack() {
                 Spacer()
                 TextField("password", text: $authentication.accountViewModel.account.password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textContentType(.password)
+                    .accessibility(identifier: "password")
                 Spacer()
             }
             HStack() {

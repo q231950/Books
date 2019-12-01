@@ -8,14 +8,25 @@
 
 import UIKit
 import CoreData
+import LibraryCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-
+    /// The standard entry point to the app as defined in UIApplicationDelegate.
+    /// Pass in a `clean`launch argument in order to get a clean app environment from your tests if needed.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let processInfo = ProcessInfo()
+        processInfo.arguments.forEach( {
+            switch $0 {
+            case "clean":
+                cleanAppEnvironment()
+            default:
+                return
+            }
+        })
+
         return true
     }
 
@@ -84,5 +95,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-}
+    /// Cleans all user defaults for the application
+    private func cleanAppEnvironment() {
+        LibraryCore.clearDefaults()
 
+        if let bundleIdentifier = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleIdentifier)
+        }
+    }
+
+}

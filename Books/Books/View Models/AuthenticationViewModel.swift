@@ -13,19 +13,17 @@ class AuthenticationViewModel: ObservableObject {
 
     var didChange = PassthroughSubject<AuthenticationViewModel, Never>()
     var authenticationSink: AnyCancellable?
-    @Published var loansViewModel: LoansViewModel? {
+    var loansViewModel: LoansViewModel? {
         didSet {
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 self.didChange.send(self)
-            }
+//            }
         }
     }
     var accountViewModel: AccountViewModel
 
-    public var authenticated: Bool = false {
+    @Published var authenticated: Bool = false {
         didSet {
-            self.didChange.send(self)
-
             self.handleAuthenticationUpdate(account: self.accountViewModel.account)
         }
     }
@@ -34,21 +32,27 @@ class AuthenticationViewModel: ObservableObject {
     init(authenticationManager: AuthenticationManager = AuthenticationManager.shared, accountViewModel: AccountViewModel) {
         self.authenticationManager = authenticationManager
         self.accountViewModel = accountViewModel
-    }
+        if let password = authenticationManager.password(for: accountViewModel.account.username) {
+            accountViewModel.account = Account(username: accountViewModel.account.username, password: password)
+        }
 
-    func authenticate() {
         authenticationSink = authenticationManager.authenticatedSubject
             .sink(receiveCompletion: { (error) in
                 print(error)
             }) { (authenticated) in
-                print("\(authenticated)")
+                print("authenticated: \(authenticated)")
                 self.authenticated = authenticated
         }
+    }
+
+    func authenticate() {
         authenticationManager.authenticateAccount(accountViewModel.account)
     }
 
     func signOut() {
-        print("sign out")
+        let accountIdentifier = accountViewModel.account.username
+        accountViewModel.account = Account()
+        authenticationManager.signOut(accountIdentifier)
     }
 
     private func handleAuthenticationUpdate(account: Account?) {
