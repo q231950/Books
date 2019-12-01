@@ -31,9 +31,9 @@ public enum AuthenticationError: Error, Equatable {
 
 public class AuthenticationManager {
 
-    public
+    typealias Keys = UserDefaults.Keys
 
-    static var shared = AuthenticationManager()
+    public static var shared = AuthenticationManager()
 
     public let authenticatedSubject = PassthroughSubject<Bool, AuthenticationError>()
 
@@ -48,6 +48,13 @@ public class AuthenticationManager {
         })
     }
 
+    public func signOut(_ accountIdentifier: String) {
+        UserDefaults.libraryCoreDefaults?.removeObject(forKey: Keys.currentAccountIdentifier)
+        removePassword(for: accountIdentifier)
+        removeSessionIdentifier(for: accountIdentifier)
+        authenticatedSubject.send(false)
+    }
+
     private
 
     let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
@@ -59,7 +66,10 @@ public class AuthenticationManager {
         self.credentialStore = credentialStore
     }
 
-    private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
+
+    //MARK: - Account Authentication
+
+    func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
 
         guard let password = password ?? credentialStore.password(for: accountIdentifier) else {
             completion(false, .missingPassword)
@@ -74,7 +84,8 @@ public class AuthenticationManager {
 
             do {
                 if authenticated {
-                    try self.credentialStore.store(password, of: accountIdentifier)
+                    try self.store(password: password, for: accountIdentifier)
+                    UserDefaults.libraryCoreDefaults?.setValue(accountIdentifier, forKey: Keys.currentAccountIdentifier)
                 } else {
                     self.credentialStore.removePassword(for: accountIdentifier)
                 }
@@ -84,27 +95,6 @@ public class AuthenticationManager {
         })
     }
 
-    /**
-     Retrieve a session identifier for a belonging account
-     - returns: The optional session identifier if one was found
-     - parameter accountIdentifier: The identifier of the belonging account
-     */
-    func sessionIdentifier(for accountIdentifier: String) -> String? {
-        let account = "com.elbedev.books.session.account.\(accountIdentifier)"
-        return credentialStore.password(for: account)
-    }
-
-    /**
-     Store a session identifier for an account
-     Parameters:
-     - parameter identifier: The session identifier to store
-     - parameter accountIdentifier: The identifier of the belonging account
-     */
-    private func store(sessionIdentifier identifier: String, for accountIdentifier: String) throws {
-        let account = "com.elbedev.books.session.account.\(accountIdentifier)"
-        try credentialStore.store(identifier, of: account)
-    }
-    
     private func authenticateHamburgPublicAccount(accountIdentifier: String, password: String, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
         validate(accountIdentifier, password: password) { (validationStatus) in
             switch validationStatus {
@@ -117,7 +107,7 @@ public class AuthenticationManager {
             }
         }
     }
-    
+
     private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
         guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
             let err = NSError(domain: "\(type(of: self)).validate", code: 1)
@@ -138,6 +128,57 @@ public class AuthenticationManager {
         })
 
         task.resume()
+    }
+
+
+    //MARK: - Password
+
+    func store(password: String, for accountIdentifier: String) throws {
+        let account = "com.elbedev.books.account.password.\(accountIdentifier)"
+        try self.credentialStore.store(password, of: account)
+    }
+
+    public func password(for accountIdentifier: String) -> String? {
+        let account = "com.elbedev.books.account.password.\(accountIdentifier)"
+        return credentialStore.password(for: account)
+    }
+
+    /// Deletes the password of the given account from the keychain
+    /// - parameter accountIdentifier: The identifier of the belonging account
+    func removePassword(for accountIdentifier: String) {
+        let account = "com.elbedev.books.account.password.\(accountIdentifier)"
+        self.credentialStore.removePassword(for: account)
+    }
+
+
+    //MARK: - Session Identifier
+
+    /**
+     Retrieve a session identifier for a belonging account
+     - returns: The optional session identifier if one was found
+     - parameter accountIdentifier: The identifier of the belonging account
+     */
+    func sessionIdentifier(for accountIdentifier: String) -> String? {
+        let account = "com.elbedev.books.session.account.\(accountIdentifier)"
+        return credentialStore.password(for: account)
+    }
+
+    /**
+     Store a session identifier for an account
+     Parameters:
+     - parameter identifier: The session identifier to store
+     - parameter accountIdentifier: The identifier of the belonging account
+     */
+    func store(sessionIdentifier identifier: String, for accountIdentifier: String) throws {
+        let account = "com.elbedev.books.session.account.\(accountIdentifier)"
+        try credentialStore.store(identifier, of: account)
+    }
+
+    /// Deletes the session identifier of the given account from the keychain
+    /// - parameter accountIdentifier: The identifier of the belonging account
+    func removeSessionIdentifier(for accountIdentifier: String) {
+        let account = "com.elbedev.books.session.account.\(accountIdentifier)"
+        credentialStore.removePassword(for: account)
     }
 
     private func parseSessionIdentifier(data: Data?, accountIdentifier: String, completion: @escaping ((_ status: AuthenticationValidationStatus) -> Void)) {

@@ -13,4 +13,9 @@ public struct Account {
 
     public init() {
     }
+
+    public init(username: String, password: String) {
+        self.username = username
+        self.password = password
+    }
 }

@@ -197,4 +197,17 @@ class AuthenticationManagerTest: XCTestCase {
         authenticationManager.authenticateAccount(account)
         wait(for: [exp], timeout: 0.1)
     }
+
+    func testSignOutDeletesPasswordAndSessionToken() throws {
+        let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
+        let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
+        try authenticationManager.store(password: "abc", for: "123")
+        try authenticationManager.store(sessionIdentifier: "session-identifier", for: "123")
+        account.username = "123"
+        account.password = "abc"
+        authenticationManager.signOut(account.username)
+
+        // then both, password and session identifier must deleted from the keychain
+        XCTAssertEqual(keychainMock.addedKeychainItems.count, 0)
+    }
 }
