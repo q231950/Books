@@ -24,7 +24,7 @@ public class NetworkClient {
             let session: URLSession
             if ProcessInfo().isUITesting {
                 let stubbedSession = StubbornNetwork.makePersistentSession(withProcessInfo: ProcessInfo())
-                stubbedSession.recordMode = .playback
+                stubbedSession.recordMode = .recordNew
                 stubbedSession.bodyDataProcessor = SensitiveDataProcessor()
 
                 session = stubbedSession
