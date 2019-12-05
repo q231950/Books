@@ -25,7 +25,7 @@
 		3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* LoansView.swift */; };
 		3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B71022AC0121000CBEAD /* AccountView.swift */; };
 		3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E1236A1A94003A356E /* SignInView.swift */; };
-		3BAF88E5236A1BE0003A356E /* SignedInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E4236A1BE0003A356E /* SignedInView.swift */; };
+		3BAF88E5236A1BE0003A356E /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E4236A1BE0003A356E /* SignOutView.swift */; };
 		3BEA3E5E237B4B2E00E7EE24 /* AccountUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */; };
 		3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanView.swift */; };
 		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
@@ -72,7 +72,7 @@
 		3B99B70E22AC002E000CBEAD /* LoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansView.swift; sourceTree = "<group>"; };
 		3B99B71022AC0121000CBEAD /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		3BAF88E1236A1A94003A356E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		3BAF88E4236A1BE0003A356E /* SignedInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedInView.swift; sourceTree = "<group>"; };
+		3BAF88E4236A1BE0003A356E /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
 		3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountUITests.swift; sourceTree = "<group>"; };
 		3BEBF0F222D9939500EB2426 /* LoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanView.swift; sourceTree = "<group>"; };
 		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				3B47FDD722ABAFE700D39567 /* ContentView.swift */,
-				3BAF88E3236A1BA5003A356E /* Signed In and Out Container Views */,
+				3BAF88E3236A1BA5003A356E /* Sign In and Out Views */,
 				3B99B71022AC0121000CBEAD /* AccountView.swift */,
 				3B99B70E22AC002E000CBEAD /* LoansView.swift */,
 				3BEBF0F222D9939500EB2426 /* LoanView.swift */,
@@ -208,13 +208,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3BAF88E3236A1BA5003A356E /* Signed In and Out Container Views */ = {
+		3BAF88E3236A1BA5003A356E /* Sign In and Out Views */ = {
 			isa = PBXGroup;
 			children = (
 				3BAF88E1236A1A94003A356E /* SignInView.swift */,
-				3BAF88E4236A1BE0003A356E /* SignedInView.swift */,
+				3BAF88E4236A1BE0003A356E /* SignOutView.swift */,
 			);
-			name = "Signed In and Out Container Views";
+			name = "Sign In and Out Views";
 			sourceTree = "<group>";
 		};
 		3BEA3E5F237B4B9100E7EE24 /* Tests */ = {
@@ -374,7 +374,7 @@
 				3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */,
 				3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */,
 				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
-				3BAF88E5236A1BE0003A356E /* SignedInView.swift in Sources */,
+				3BAF88E5236A1BE0003A356E /* SignOutView.swift in Sources */,
 				3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */,
 				3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,

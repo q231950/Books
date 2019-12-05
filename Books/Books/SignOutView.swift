@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SignedInView : View {
+struct SignOutView : View {
     @State private var selection = 0
     @ObservedObject var authentication: AuthenticationViewModel
 

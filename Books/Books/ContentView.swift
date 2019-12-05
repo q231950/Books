@@ -15,7 +15,7 @@ struct ContentView : View {
     var body: some View {
         Group {
             if authenticationViewModel.authenticated {
-                SignedInView(authentication: authenticationViewModel)
+                SignOutView(authentication: authenticationViewModel)
                 .padding(EdgeInsets(top: CGFloat(0), leading: CGFloat(10), bottom: CGFloat(0), trailing: CGFloat(10)))
             } else {
                 SignInView(authentication: authenticationViewModel)
