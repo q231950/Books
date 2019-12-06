@@ -43,13 +43,14 @@ public class AuthenticationManager {
             if let error = error {
                 self?.authenticatedSubject.send(completion: .failure(error))
             } else {
+                UserDefaults.standard.setValue(account.username, forKey: Keys.defaultAccountIdentifier)
                 self?.authenticatedSubject.send(authenticated)
             }
         })
     }
 
     public func signOut(_ accountIdentifier: String) {
-        UserDefaults.libraryCoreDefaults?.removeObject(forKey: Keys.currentAccountIdentifier)
+        UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
         removePassword(for: accountIdentifier)
         removeSessionIdentifier(for: accountIdentifier)
         authenticatedSubject.send(false)
@@ -85,7 +86,6 @@ public class AuthenticationManager {
             do {
                 if authenticated {
                     try self.store(password: password, for: accountIdentifier)
-                    UserDefaults.libraryCoreDefaults?.setValue(accountIdentifier, forKey: Keys.currentAccountIdentifier)
                 } else {
                     self.credentialStore.removePassword(for: accountIdentifier)
                 }
