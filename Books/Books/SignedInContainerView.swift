@@ -1,5 +1,5 @@
 //
-//  SignedInView.swift
+//  SignedInContainerView.swift
 //  Books
 //
 //  Created by Martin Kim Dung-Pham on 30.10.19.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct SignOutView : View {
+struct SignedInContainerView : View {
     @State private var selection = 0
     @ObservedObject var authentication: AuthenticationViewModel
 
