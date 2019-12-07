@@ -12,11 +12,11 @@ import Foundation
 
 /// An Authentication Manager stub
 public class AuthenticationManagerStub: AuthenticationManager {
-    public var authenticated: Bool = false
+    public var authenticated: AuthenticationState = .authenticating
     public var error: NSError? = nil
     public var stubbedSessionIdentifier: String? = nil
 
-    public override func authenticateAccount(_ account: Account) {
+    public override func authenticateAccount(username: String?, password: String?) {
         authenticatedSubject.send(authenticated)
     }
 

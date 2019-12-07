@@ -56,7 +56,6 @@ class AuthenticationManagerTest: XCTestCase {
         account.password = "abc"
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { (_) in
-            
         }) { _ in
             exp.fulfill()
         }

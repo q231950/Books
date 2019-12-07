@@ -15,14 +15,12 @@ class AuthenticationViewModel: ObservableObject {
     var authenticationSink: AnyCancellable?
     var loansViewModel: LoansViewModel? {
         didSet {
-//            DispatchQueue.main.async {
-                self.didChange.send(self)
-//            }
+            self.didChange.send(self)
         }
     }
     var accountViewModel: AccountViewModel
 
-    @Published var authenticated: Bool = false {
+    @Published var authenticated: AuthenticationState = .authenticating {
         didSet {
             self.handleAuthenticationUpdate(account: self.accountViewModel.account)
         }
@@ -37,16 +35,32 @@ class AuthenticationViewModel: ObservableObject {
         }
 
         authenticationSink = authenticationManager.authenticatedSubject
-            .sink(receiveCompletion: { (error) in
-                print(error)
-            }) { (authenticated) in
-                print("authenticated: \(authenticated)")
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let authenticationError):
+                    self.authenticated = .authenticationError(authenticationError)
+                case .finished: ()
+                }
+            }) { authenticated in
                 self.authenticated = authenticated
         }
     }
 
+    func autoSignInIfPossible() {
+        if accountViewModel.account.username != "" && self.accountViewModel.account.password != "" {
+            self.authenticationManager.authenticateAccount(username: self.accountViewModel.account.username,
+                                                           password: self.accountViewModel.account.password)
+        } else {
+            DispatchQueue.main.async {
+                self.authenticated = .authenticationComplete(.automaticAuthenticationFailed)
+            }
+        }
+    }
+
     func authenticate() {
-        authenticationManager.authenticateAccount(accountViewModel.account)
+        authenticationManager.authenticateAccount(username: accountViewModel.account.username,
+                                                  password: accountViewModel.account.password)
     }
 
     func signOut() {
@@ -60,7 +74,7 @@ class AuthenticationViewModel: ObservableObject {
             return
         }
 
-        if self.authenticated {
+        if case AuthenticationState.authenticationComplete(.authenticated) = self.authenticated {
             self.loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager)
         }
     }

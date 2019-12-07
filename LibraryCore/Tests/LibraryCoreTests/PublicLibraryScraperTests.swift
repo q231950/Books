@@ -51,7 +51,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let request = try XCTUnwrap(RequestBuilder().loansRequest(sessionIdentifier: "abc"))
         stubbedURLSession.stub(request, data: publicLoansResponseBody, response: nil, error: nil)
         scraper.loans(account, authenticationManager: AuthenticationManager.stubbed({ (manager) in
-            manager.authenticated = true
+            manager.authenticated = .authenticationComplete(.authenticated)
             manager.stubbedSessionIdentifier = "123-abc"
         })) { (error, loans) -> (Void) in
             XCTAssertEqual(loans.count, 2)

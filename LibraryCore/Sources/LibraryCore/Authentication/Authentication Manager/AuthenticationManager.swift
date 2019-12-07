@@ -10,23 +10,24 @@ import Foundation
 import os
 import Combine
 
-public enum AuthenticationError: Error, Equatable {
-    public static func == (lhs: AuthenticationError, rhs: AuthenticationError) -> Bool {
-        switch (lhs, rhs) {
-        case (.subsystem(let lhsErr), .subsystem(let rhsErr)):
-            return lhsErr.localizedDescription == rhsErr.localizedDescription
-        case (.invalid, .invalid):
-            return true
-        case (.missingPassword, .missingPassword):
-            return true
-        default:
-            return false
-        }
+public enum AuthenticationState {
+    public enum Completion {
+        case authenticated
+        case manualAuthenticationFailed
+        case automaticAuthenticationFailed
+        case missingUsername
+        case missingPassword
+        case signOutSucceeded
     }
 
+    case authenticating
+    case authenticationComplete(Completion)
+    case authenticationError(Error)
+
+}
+
+public enum AuthenticationError: Error {
     case subsystem(Error)
-    case invalid
-    case missingPassword
 }
 
 public class AuthenticationManager {
@@ -35,15 +36,24 @@ public class AuthenticationManager {
 
     public static var shared = AuthenticationManager()
 
-    public let authenticatedSubject = PassthroughSubject<Bool, AuthenticationError>()
+    public let authenticatedSubject = PassthroughSubject<AuthenticationState, AuthenticationError>()
 
-    public func authenticateAccount(_ account: Account) {
-        let password = (account.password != "") ? account.password : nil
-        authenticateAccount(account.username, password: password, completion: { [weak self] (authenticated, error) in
-            if let error = error {
-                self?.authenticatedSubject.send(completion: .failure(error))
+    public func authenticateAccount(username: String?, password: String?) {
+        guard let username = username, username != "" else {
+            authenticatedSubject.send(.authenticationComplete(.missingUsername))
+            return
+        }
+
+        guard let password = password, password != "" else {
+            authenticatedSubject.send(.authenticationComplete(.missingPassword))
+            return
+        }
+
+        authenticateAccount(username, password: password, completion: { [weak self] authenticated in
+            if case let .authenticationError(error)  = authenticated {
+                self?.authenticatedSubject.send(.authenticationError(error))
             } else {
-                UserDefaults.standard.setValue(account.username, forKey: Keys.defaultAccountIdentifier)
+                UserDefaults.standard.setValue(username, forKey: Keys.defaultAccountIdentifier)
                 self?.authenticatedSubject.send(authenticated)
             }
         })
@@ -53,14 +63,12 @@ public class AuthenticationManager {
         UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
         removePassword(for: accountIdentifier)
         removeSessionIdentifier(for: accountIdentifier)
-        authenticatedSubject.send(false)
+        authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))
     }
 
-    private
-
-    let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
-    let network: NetworkClient
-    let credentialStore: AccountCredentialStore
+    private let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
+    private let network: NetworkClient
+    private let credentialStore: AccountCredentialStore
 
     init(network: NetworkClient = NetworkClient.shared, credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
         self.network = network
@@ -70,40 +78,21 @@ public class AuthenticationManager {
 
     //MARK: - Account Authentication
 
-    func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
-
-        guard let password = password ?? credentialStore.password(for: accountIdentifier) else {
-            completion(false, .missingPassword)
-            return
-        }
-
-        self.authenticateHamburgPublicAccount(accountIdentifier:accountIdentifier, password: password, completion: { (authenticated, error) -> Void in
-            guard error == nil else {
-                completion(authenticated, error)
-                return
-            }
-
+    private func authenticateAccount(_ identifier: String, password: String, completion:@escaping (_ authenticated: AuthenticationState) -> Void) {
+        validate(identifier, password: password) { (validationStatus) in
             do {
-                if authenticated {
-                    try self.store(password: password, for: accountIdentifier)
-                } else {
-                    self.credentialStore.removePassword(for: accountIdentifier)
+                switch validationStatus {
+                case .valid:
+                    try self.store(password: password, for: identifier)
+                    completion(.authenticationComplete(.authenticated))
+                case .invalid:
+                    self.credentialStore.removePassword(for: identifier)
+                    completion(.authenticationComplete(.manualAuthenticationFailed))
+                case .error(let err):
+                    completion(.authenticationError(AuthenticationError.subsystem(err)))
                 }
-            } catch (_) {}
-            completion(authenticated, error)
-
-        })
-    }
-
-    private func authenticateHamburgPublicAccount(accountIdentifier: String, password: String, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
-        validate(accountIdentifier, password: password) { (validationStatus) in
-            switch validationStatus {
-            case .valid:
-                completion(true, nil)
-            case .invalid:
-                completion(false, nil)
-            case .error(let err):
-                completion(false, .subsystem(err))
+            } catch {
+                completion(.authenticationError(AuthenticationError.subsystem(error)))
             }
         }
     }
@@ -116,7 +105,7 @@ public class AuthenticationManager {
             return
         }
 
-        let task = network.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
+        network.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
 
             if let error = error {
                 os_log("Failed to get access token", log: self.log, type: .debug, error.localizedDescription as CVarArg)
@@ -125,9 +114,7 @@ public class AuthenticationManager {
             }
 
             self.parseSessionIdentifier(data:data, accountIdentifier: accountIdentifier, completion: completion)
-        })
-
-        task.resume()
+        }).resume()
     }
 
 
