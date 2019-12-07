@@ -41,7 +41,7 @@ class AuthenticationManagerTest: XCTestCase {
         account = TestHelper.accountStub()
     }
 
-    func testAuthenticationRequest() throws {
+    func testAuthenticationRequest() {
         let exp = expectation(description: "wait for async")
         var expectedRequest = URLRequest(url: URL(string: "https://zones.buecherhallen.de/app_webuser/WebUserSvc.asmx")!)
         expectedRequest.httpMethod = "POST"
@@ -50,16 +50,19 @@ class AuthenticationManagerTest: XCTestCase {
                                                "Accept":"*/*",
                                                "Accept-Language":"en-us",
                                                "Accept-Encoding":"br, gzip, deflate"]
-        urlSessionStub.stub(expectedRequest, data: nil, response: nil, error: nil)
+        let data = publicSessionIdentifierResponseBody.data(using: .utf8)
+        urlSessionStub.stub(expectedRequest, data: data, response: HTTPURLResponse(), error: nil)
         account.username = "123"
-        try keychainMock.add(password: "abc", to: "123")
+        account.password = "abc"
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { (_) in
+            
+        }) { _ in
             exp.fulfill()
-        }) { _ in }
+        }
 
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testValidAuthentication() throws {
@@ -69,17 +72,17 @@ class AuthenticationManagerTest: XCTestCase {
         urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
 
         account.username = "123"
+        account.password = "abc"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
             XCTFail()
         }) {
-            XCTAssertTrue($0)
-            exp.fulfill()
+            if case AuthenticationState.authenticationComplete(.authenticated) = $0 { exp.fulfill() }
         }
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testInvalidAuthentication() throws {
@@ -88,16 +91,16 @@ class AuthenticationManagerTest: XCTestCase {
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
         urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
         account.username = "123"
+        account.password = "abc"
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
             XCTFail()
         }) {
-            XCTAssertFalse($0)
-            exp.fulfill()
+            if case AuthenticationState.authenticationComplete(.manualAuthenticationFailed) = $0 { exp.fulfill() }
         }
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     enum TestingError: Error {
@@ -106,24 +109,23 @@ class AuthenticationManagerTest: XCTestCase {
     func testErronousAuthentication() throws {
 
         let exp = expectation(description: "wait for async")
-        let expectedError:Error = TestingError.loadingError
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
-        urlSessionStub.stub(try XCTUnwrap(request), data: nil, response: nil, error: expectedError)
+        urlSessionStub.stub(try XCTUnwrap(request), data: nil, response: nil, error: TestingError.loadingError)
         account.username = "123"
+        account.password = "abc"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
-        try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
-            switch completion {
-            case .failure(let error):
-                XCTAssertEqual(error, .subsystem(expectedError))
-                exp.fulfill()
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+        }) { value in
+            switch value {
+            case .authenticationError(let error):
+                if case AuthenticationError.subsystem(_) = error { exp.fulfill() }
             default:
                 XCTFail()
             }
-        }) { _ in }
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        }
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testErrorWhenMissingPassword() {
@@ -131,17 +133,17 @@ class AuthenticationManagerTest: XCTestCase {
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         account = TestHelper.accountStub()
         account.username = "user id"
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
-            switch completion {
-            case .failure(let error):
-                XCTAssertEqual(error, .missingPassword)
+        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+        }) { value in
+            switch value {
+            case .authenticationComplete(.missingPassword):
                 exp.fulfill()
             default:
                 XCTFail()
             }
-        }) { _ in }
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        }
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testStoresPasswordAndSessionTokenForValidAuthentication() throws {
@@ -159,8 +161,8 @@ class AuthenticationManagerTest: XCTestCase {
             exp.fulfill()
         }
 
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testDeletesPasswordForInvalidAuthentication() throws {
@@ -169,16 +171,16 @@ class AuthenticationManagerTest: XCTestCase {
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
         urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
         account.username = "123"
+        account.password = "abc"
         let credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
-        try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
         }) { _ in
             XCTAssertEqual(credentialStore.didDeleteSecretCount, 1)
             exp.fulfill()
         }
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testDoesNotDeletePasswordAndSessionTokenForErronousAuthentication() throws {
@@ -187,15 +189,16 @@ class AuthenticationManagerTest: XCTestCase {
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
         urlSessionStub.stub(try XCTUnwrap(request), data: nil, response: nil, error: expectedError)
         account.username = "123"
+        account.password = "abc"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
-        try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+        }) { _ in
             XCTAssertEqual(self.credentialStore.didDeleteSecretCount, 0)
             exp.fulfill()
-        }) { _ in }
-        authenticationManager.authenticateAccount(account)
-        wait(for: [exp], timeout: 0.1)
+        }
+        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        wait(for: [exp], timeout: 0)
     }
 
     func testSignOutDeletesPasswordAndSessionToken() throws {

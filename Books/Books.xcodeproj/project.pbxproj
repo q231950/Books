@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1817BB22ACD85F00DFD67D /* LibraryCore */; };
+		3B2C06A1239AE644003A8199 /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C06A0239AE644003A8199 /* SignInTests.swift */; };
 		3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD022ABAFE600D39567 /* AppDelegate.swift */; };
 		3B47FDD322ABAFE600D39567 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */; };
 		3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */; };
@@ -50,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B2C06A0239AE644003A8199 /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
 		3B47FDCD22ABAFE600D39567 /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDD022ABAFE600D39567 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			children = (
 				3B47FDF522ABAFE800D39567 /* LoansUITests.swift */,
 				3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */,
+				3B2C06A0239AE644003A8199 /* SignInTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				3BEA3E5E237B4B2E00E7EE24 /* AccountUITests.swift in Sources */,
 				3B47FDF622ABAFE800D39567 /* LoansUITests.swift in Sources */,
 				3B568A16237B4AEB00835E3E /* XCTestCase+Extensions.swift in Sources */,
+				3B2C06A1239AE644003A8199 /* SignInTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

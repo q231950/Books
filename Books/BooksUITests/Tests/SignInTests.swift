@@ -1,15 +1,14 @@
 //
-//  LoansUITests.swift
+//  SignInTests.swift
 //  BooksUITests
 //
-//  Created by Martin Kim Dung-Pham on 08.06.19.
+//  Created by Martin Kim Dung-Pham on 06.12.19.
 //  Copyright © 2019 Martin Kim Dung-Pham. All rights reserved.
 //
 
 import XCTest
 
-class LoansUITests: XCTestCase {
-
+class SignInTests: XCTestCase {
     var app: XCUIApplication!
 
     override func setUp() {
@@ -25,12 +24,29 @@ class LoansUITests: XCTestCase {
         app.launch()
     }
 
-    func test_loans_areVisible_afterSignIn() {
+    func test_signIn_andRestartTheApp_keepsSignedIn() {
         // given
         app.signIn()
+        Navigation.openAccountView(app:app)
+
+        // when
+        app.restart()
 
         // then
-        let label = app.staticTexts["🌊"]
+        Navigation.openAccountView(app:app)
+    }
+
+    func test_signIn_withInvalidCredentials_remembersUsername() {
+        // given
+        app.signInWithInvalidCredentials(username: "abc")
+        let label = app.staticTexts["Invalid Credentials"]
         wait(forElement:label, timeout:5)
+
+        // when
+        app.restart()
+
+        // then
+        let usernameTextField = app.textFields["abc"]
+        wait(forElement: usernameTextField, timeout: 5)
     }
 }

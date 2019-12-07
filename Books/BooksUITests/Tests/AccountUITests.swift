@@ -27,7 +27,7 @@ class AccountUITests: XCTestCase {
 
     func testSignOutButton() {
         // given
-        SignInView.signIn(app:app)
+        app.signIn()
 
         // when
         Navigation.openAccountView(app:app)
@@ -39,7 +39,7 @@ class AccountUITests: XCTestCase {
 
     func testSignOutAllowsNewSignIn() {
         // given
-        SignInView.signIn(app:app)
+        app.signIn()
 
         // when
         Navigation.openAccountView(app:app)
@@ -50,5 +50,20 @@ class AccountUITests: XCTestCase {
 
         let signInLabel = app.buttons["Sign in"]
         wait(forElement:signInLabel, timeout:5)
+    }
+
+    func test_SignOut_showsAlertWhenSuccessful() {
+        // given
+        app.signIn()
+
+        // when
+        Navigation.openAccountView(app:app)
+
+        // then
+        let signOutLabel = app.buttons["Sign out"]
+        signOutLabel.tap()
+
+        let signOutSuccess = app.staticTexts["You are now signed out"]
+        wait(forElement:signOutSuccess, timeout:5)
     }
 }

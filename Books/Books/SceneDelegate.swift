@@ -32,7 +32,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     /// Create an authentication view model.
-    ///
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
         var account = Account()
         if let accountIdentifier = LibraryCore.defaultAccountIdentifier {
