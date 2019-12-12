@@ -45,8 +45,7 @@ class AccountUITests: XCTestCase {
         Navigation.openAccountView(app:app)
 
         // then
-        let signOutLabel = app.buttons["Sign out"]
-        signOutLabel.tap()
+        app.buttons["Sign out"].tap()
 
         let signInLabel = app.buttons["Sign in"]
         wait(forElement:signInLabel, timeout:5)
@@ -60,8 +59,7 @@ class AccountUITests: XCTestCase {
         Navigation.openAccountView(app:app)
 
         // then
-        let signOutLabel = app.buttons["Sign out"]
-        signOutLabel.tap()
+        app.buttons["Sign out"].tap()
 
         let signOutSuccess = app.staticTexts["You are now signed out"]
         wait(forElement:signOutSuccess, timeout:5)

@@ -26,7 +26,7 @@ class SignInTests: XCTestCase {
 
     func test_signIn_andRestartTheApp_keepsSignedIn() {
         // given
-        app.signIn()
+        app.signIn("valid-user")
         Navigation.openAccountView(app:app)
 
         // when
@@ -38,15 +38,14 @@ class SignInTests: XCTestCase {
 
     func test_signIn_withInvalidCredentials_remembersUsername() {
         // given
-        app.signInWithInvalidCredentials(username: "abc")
-        let label = app.staticTexts["Invalid Credentials"]
-        wait(forElement:label, timeout:5)
+        app.signInWithInvalidCredentials(username: "inexistent-user")
+        app.buttons["Ok"].tap()
 
         // when
         app.restart()
 
         // then
-        let usernameTextField = app.textFields["abc"]
+        let usernameTextField = app.textFields["inexistent-user"]
         wait(forElement: usernameTextField, timeout: 5)
     }
 }

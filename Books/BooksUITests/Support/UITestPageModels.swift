@@ -42,10 +42,12 @@ extension XCUIApplication {
 extension XCUIApplication {
 
     /// Signs in with matching credentials
-    func signIn() {
-        let usernameTextField = textFields["username"]
-        usernameTextField.tap()
-        usernameTextField.typeText("123456789")
+    func signIn(_ username: String? = "123456789") {
+        if let username = username {
+            let usernameTextField = textFields["username"]
+            usernameTextField.tap()
+            usernameTextField.typeText(username)
+        }
 
         let passwordTextField = textFields["password"]
         passwordTextField.tap()
@@ -56,11 +58,12 @@ extension XCUIApplication {
 
     /// Attempts a sign in with invalid credentials
     func signInWithInvalidCredentials(username: String) {
-        let usernameTextField = textFields["username"]
+
+        let usernameTextField = textFields.matching(identifier: "username").element
         usernameTextField.tap()
         usernameTextField.typeText(username)
 
-        let passwordTextField = textFields["password"]
+        let passwordTextField = textFields.matching(identifier: "password").element
         passwordTextField.tap()
         passwordTextField.typeText("123")
 
