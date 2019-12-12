@@ -22,7 +22,7 @@ class UserDefaultsUtilitiesTests: XCTestCase {
             defaults.set(1, forKey: key)
 
             // when
-            defaults.clear()
+            LibraryCore.resetUserDefaults()
 
             // then
             XCTAssertNil(defaults.object(forKey: key))
