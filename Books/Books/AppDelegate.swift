@@ -102,10 +102,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     /// Cleans all user defaults for the application
     private func cleanAppEnvironment() {
-        LibraryCore.clearDefaults()
+        LibraryCore.resetUserDefaults()
 
-        if let bundleIdentifier = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundleIdentifier)
+        do {
+            try LibraryCore.clearKeychain()
+        } catch {
+            print(error)
         }
     }
 

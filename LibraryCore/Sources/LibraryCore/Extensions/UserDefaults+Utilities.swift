@@ -14,11 +14,3 @@ internal extension UserDefaults {
         static let defaultAccountIdentifier = "default account identifier"
     }
 }
-
-internal extension UserDefaults {
-
-    /// This method clears the `UserDefaults` from all keys used by the _LibraryCore_
-    func clear() {
-        self.removeObject(forKey: Keys.defaultAccountIdentifier)
-    }
-}

@@ -77,4 +77,33 @@ class KeychainManager: KeychainProvider {
 
         SecItemDelete(query)
     }
+
+    func clear() throws {
+        let secItemClasses = [
+            kSecClassGenericPassword
+        ]
+
+        // search for items to remove
+        for secItemClass in secItemClasses {
+            let query: [String: Any] = [
+                kSecReturnAttributes as String: kCFBooleanTrue as Any,
+                kSecMatchLimit as String: kSecMatchLimitAll,
+                kSecClass as String: secItemClass
+            ]
+
+            var result: AnyObject?
+            let status = SecItemCopyMatching(query as CFDictionary, &result)
+            if status == noErr {
+                if let items = result as? [NSDictionary] {
+                    for dict in items {
+                        if let data = dict["acct"] as? Data,
+                            let account = String(data: data, encoding: .utf8) {
+                            os_log(.default, log: log, "Clearing Account (%{public}@) from Keychain.", account)
+                            deletePassword(of: account)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
