@@ -47,14 +47,12 @@ class AuthenticationViewModel: ObservableObject {
         }
     }
 
-    func autoSignInIfPossible() {
+    func attemptAutomaticAuthentication() {
         if accountViewModel.account.username != "" && self.accountViewModel.account.password != "" {
             self.authenticationManager.authenticateAccount(username: self.accountViewModel.account.username,
                                                            password: self.accountViewModel.account.password)
         } else {
-            DispatchQueue.main.async {
-                self.authenticated = .authenticationComplete(.automaticAuthenticationFailed)
-            }
+            authenticationManager.authenticatedSubject.send(.authenticationComplete(.automaticAuthenticationFailed))
         }
     }
 

@@ -14,7 +14,7 @@ struct ContentView : View {
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
     var body: some View {
         view(for: authenticationViewModel.authenticated).onAppear() {
-            self.authenticationViewModel.autoSignInIfPossible()
+            self.authenticationViewModel.attemptAutomaticAuthentication()
         }
     }
 
