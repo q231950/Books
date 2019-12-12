@@ -18,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// Pass in a `clean`launch argument in order to get a clean app environment from your tests if needed.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let processInfo = ProcessInfo()
+
+        if processInfo.isUITesting {
+            UIApplication.shared.windows.first?.layer.speed = 100
+        }
+
         processInfo.arguments.forEach( {
             switch $0 {
             case "clean":
