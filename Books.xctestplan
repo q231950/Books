@@ -18,8 +18,7 @@
           "containerPath" : "container:Books.xcodeproj",
           "identifier" : "3B47FDF022ABAFE800D39567",
           "name" : "BooksUITests"
-        },
-        "testExecutionOrdering" : "random"
+        }
       }
     }
   ],
