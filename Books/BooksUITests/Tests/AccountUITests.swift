@@ -9,22 +9,25 @@
 import XCTest
 
 class AccountUITests: XCTestCase {
+
     var app: XCUIApplication!
 
     override func setUp() {
         app = XCUIApplication()
 
         let processInfo = ProcessInfo()
-        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/stubs"
+        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/BooksUITests/Stubs"
         app.launchEnvironment["THE_STUBBORN_NETWORK_UI_TESTING"] = "YES"
         app.launchEnvironment["STUB_NAME"] = self.name
+
+        app.launchArguments.append("clean")
 
         app.launch()
     }
 
     func testSignOutButton() {
         // given
-        SignInView.signIn(app:app)
+        app.signIn()
 
         // when
         Navigation.openAccountView(app:app)
@@ -32,5 +35,33 @@ class AccountUITests: XCTestCase {
         // then
         let signOutLabel = app.buttons["Sign out"]
         wait(forElement:signOutLabel, timeout:5)
+    }
+
+    func testSignOutAllowsNewSignIn() {
+        // given
+        app.signIn()
+
+        // when
+        Navigation.openAccountView(app:app)
+
+        // then
+        app.buttons["Sign out"].tap()
+
+        let signInLabel = app.buttons["Sign in"]
+        wait(forElement:signInLabel, timeout:5)
+    }
+
+    func test_SignOut_showsAlertWhenSuccessful() {
+        // given
+        app.signIn()
+
+        // when
+        Navigation.openAccountView(app:app)
+
+        // then
+        app.buttons["Sign out"].tap()
+
+        let signOutSuccess = app.staticTexts["You are now signed out"]
+        wait(forElement:signOutSuccess, timeout:5)
     }
 }

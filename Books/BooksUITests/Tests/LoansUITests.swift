@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import Books
 
 class LoansUITests: XCTestCase {
 
@@ -17,16 +16,18 @@ class LoansUITests: XCTestCase {
         app = XCUIApplication()
 
         let processInfo = ProcessInfo()
-        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/stubs"
+        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/BooksUITests/Stubs"
         app.launchEnvironment["THE_STUBBORN_NETWORK_UI_TESTING"] = "YES"
         app.launchEnvironment["STUB_NAME"] = self.name
+
+        app.launchArguments.append("clean")
 
         app.launch()
     }
 
-    func testSignIn() {
+    func test_loans_areVisible_afterSignIn() {
         // given
-        SignInView.signIn(app:app)
+        app.signIn()
 
         // then
         let label = app.staticTexts["🌊"]

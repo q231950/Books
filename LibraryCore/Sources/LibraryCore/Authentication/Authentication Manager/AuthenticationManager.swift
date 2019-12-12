@@ -10,79 +10,146 @@ import Foundation
 import os
 import Combine
 
-public enum AuthenticationError: Error, Equatable {
-    public static func == (lhs: AuthenticationError, rhs: AuthenticationError) -> Bool {
-        switch (lhs, rhs) {
-        case (.subsystem(let lhsErr), .subsystem(let rhsErr)):
-            return lhsErr.localizedDescription == rhsErr.localizedDescription
-        case (.invalid, .invalid):
-            return true
-        case (.missingPassword, .missingPassword):
-            return true
-        default:
-            return false
-        }
+public enum AuthenticationState {
+    public enum Completion {
+        case authenticated
+        case manualAuthenticationFailed
+        case automaticAuthenticationFailed
+        case missingUsername
+        case missingPassword
+        case signOutSucceeded
     }
 
+    case authenticating
+    case authenticationComplete(Completion)
+    case authenticationError(Error)
+
+}
+
+public enum AuthenticationError: Error {
     case subsystem(Error)
-    case invalid
-    case missingPassword
 }
 
 public class AuthenticationManager {
 
-    public
+    typealias Keys = UserDefaults.Keys
 
-    static var shared = AuthenticationManager()
-
-    public let authenticatedSubject = PassthroughSubject<Bool, AuthenticationError>()
-
-    public func authenticateAccount(_ account: Account) {
-        let password = (account.password != "") ? account.password : nil
-        authenticateAccount(account.username, password: password, completion: { [weak self] (authenticated, error) in
-            if let error = error {
-                self?.authenticatedSubject.send(completion: .failure(error))
-            } else {
-                self?.authenticatedSubject.send(authenticated)
-            }
-        })
-    }
-
-    private
-
-    let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
-    let network: NetworkClient
-    let credentialStore: AccountCredentialStore
+    public static var shared = AuthenticationManager()
+    public let authenticatedSubject = PassthroughSubject<AuthenticationState, AuthenticationError>()
+    private let log = OSLog(subsystem: .authenticationManager, category: .development)
+    private let network: NetworkClient
+    private let credentialStore: AccountCredentialStore
 
     init(network: NetworkClient = NetworkClient.shared, credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
         self.network = network
         self.credentialStore = credentialStore
     }
 
-    private func authenticateAccount(_ accountIdentifier: String, password: String? = nil, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
+    public func authenticateAccount(username: String?, password: String?) {
+        os_log(.info, log: self.log, "Initiating authentication for `%{private}@`", username ?? "nil")
 
-        guard let password = password ?? credentialStore.password(for: accountIdentifier) else {
-            completion(false, .missingPassword)
+        guard let username = username, username != "" else {
+            os_log(.error, log: self.log, "Authentication failed, no username given")
+            authenticatedSubject.send(.authenticationComplete(.missingUsername))
             return
         }
 
-        self.authenticateHamburgPublicAccount(accountIdentifier:accountIdentifier, password: password, completion: { (authenticated, error) -> Void in
-            guard error == nil else {
-                completion(authenticated, error)
+        guard let password = password, password != "" else {
+            os_log(.error, log: self.log, "Authentication failed, no password given")
+            authenticatedSubject.send(.authenticationComplete(.missingPassword))
+            return
+        }
+
+        authenticateAccount(username, password: password, completion: { [weak self] authenticated in
+            guard let self = self else { return }
+            if case let .authenticationError(error)  = authenticated {
+                self.authenticatedSubject.send(.authenticationError(error))
+            } else {
+                os_log(.info, log: self.log, "Finished authentication for account %{private}@", username)
+
+                UserDefaults.standard.set(username, forKey: Keys.defaultAccountIdentifier)
+
+                self.authenticatedSubject.send(authenticated)
+            }
+        })
+    }
+
+    public func signOut(_ accountIdentifier: String) {
+        os_log(.info, log: log, "Signing out `%{private}@`", accountIdentifier)
+
+        UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
+        removePassword(for: accountIdentifier)
+        removeSessionIdentifier(for: accountIdentifier)
+        authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))
+    }
+
+    //MARK: - Account Authentication
+
+    private func authenticateAccount(_ identifier: String, password: String, completion:@escaping (_ authenticated: AuthenticationState) -> Void) {
+        validate(identifier, password: password) { (validationStatus) in
+            do {
+                switch validationStatus {
+                case .valid:
+                    try self.store(password: password, for: identifier)
+                    completion(.authenticationComplete(.authenticated))
+                case .invalid:
+                    self.credentialStore.removePassword(for: identifier)
+                    completion(.authenticationComplete(.manualAuthenticationFailed))
+                case .error(let err):
+                    completion(.authenticationError(AuthenticationError.subsystem(err)))
+                }
+            } catch {
+                completion(.authenticationError(AuthenticationError.subsystem(error)))
+            }
+        }
+    }
+
+    private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
+        guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
+            let err = NSError(domain: "\(type(of: self)).validate", code: 1)
+            os_log(.info, log: self.log, "Failed to create access token request `%{public}@`", err)
+            completion(.error(err))
+            return
+        }
+
+        network.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
+
+            if let error = error {
+                os_log(.info, log: self.log, "Failed to get access token `%{public}@`", error.localizedDescription)
+                completion(.error(error as NSError))
                 return
             }
 
-            do {
-                if authenticated {
-                    try self.credentialStore.store(password, of: accountIdentifier)
-                } else {
-                    self.credentialStore.removePassword(for: accountIdentifier)
-                }
-            } catch (_) {}
-            completion(authenticated, error)
-
-        })
+            self.parseSessionIdentifier(data:data, accountIdentifier: accountIdentifier, completion: completion)
+        }).resume()
     }
+
+
+    //MARK: - Password
+
+    func store(password: String, for accountIdentifier: String) throws {
+        os_log("Storing password for account %{public}@", log: log, type: .info, accountIdentifier)
+
+        let account = "com.elbedev.books.account.password.\(accountIdentifier)"
+        try self.credentialStore.store(password, of: account)
+    }
+
+    public func password(for accountIdentifier: String) -> String? {
+        let account = "com.elbedev.books.account.password.\(accountIdentifier)"
+        return credentialStore.password(for: account)
+    }
+
+    /// Deletes the password of the given account from the keychain
+    /// - parameter accountIdentifier: The identifier of the belonging account
+    func removePassword(for accountIdentifier: String) {
+        os_log("Removing password for account %{public}@", log: log, type: .info, accountIdentifier)
+
+        let account = "com.elbedev.books.account.password.\(accountIdentifier)"
+        self.credentialStore.removePassword(for: account)
+    }
+
+
+    //MARK: - Session Identifier
 
     /**
      Retrieve a session identifier for a belonging account
@@ -100,62 +167,37 @@ public class AuthenticationManager {
      - parameter identifier: The session identifier to store
      - parameter accountIdentifier: The identifier of the belonging account
      */
-    private func store(sessionIdentifier identifier: String, for accountIdentifier: String) throws {
+    func store(sessionIdentifier identifier: String, for accountIdentifier: String) throws {
         let account = "com.elbedev.books.session.account.\(accountIdentifier)"
         try credentialStore.store(identifier, of: account)
     }
-    
-    private func authenticateHamburgPublicAccount(accountIdentifier: String, password: String, completion:@escaping (_ authenticated: Bool, _ error: AuthenticationError?) -> Void) {
-        validate(accountIdentifier, password: password) { (validationStatus) in
-            switch validationStatus {
-            case .valid:
-                completion(true, nil)
-            case .invalid:
-                completion(false, nil)
-            case .error(let err):
-                completion(false, .subsystem(err))
-            }
-        }
-    }
-    
-    private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
-        guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
-            let err = NSError(domain: "\(type(of: self)).validate", code: 1)
-            os_log("Failed to create access token request", log: self.log, type: .debug, err as CVarArg)
-            completion(.error(err))
-            return
-        }
 
-        let task = network.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
-
-            if let error = error {
-                os_log("Failed to get access token", log: self.log, type: .debug, error.localizedDescription as CVarArg)
-                completion(.error(error as NSError))
-                return
-            }
-
-            self.parseSessionIdentifier(data:data, accountIdentifier: accountIdentifier, completion: completion)
-        })
-
-        task.resume()
+    /// Deletes the session identifier of the given account from the keychain
+    /// - parameter accountIdentifier: The identifier of the belonging account
+    func removeSessionIdentifier(for accountIdentifier: String) {
+        let account = "com.elbedev.books.session.account.\(accountIdentifier)"
+        credentialStore.removePassword(for: account)
     }
 
     private func parseSessionIdentifier(data: Data?, accountIdentifier: String, completion: @escaping ((_ status: AuthenticationValidationStatus) -> Void)) {
+        os_log("Parsing access token from authentication response", log: log, type: .info)
+
         let sessionIdentifierParser = SessionIdentifierParser()
         let parseResult = sessionIdentifierParser.parseSessionIdentifier(data: data)
         switch parseResult {
         case .success(let token):
             do {
-                os_log("Storing access token", log: self.log, type: .debug, [token] as CVarArg)
+                os_log(.info, log: self.log, "Storing access token %{private}@", token)
                 try store(sessionIdentifier: token, for: accountIdentifier)
                 completion(.valid)
             } catch let err {
                 completion(.error(err as NSError))
             }
         case .failure:
+            os_log(.info, log: self.log, "Failed to get access token because of invalid credentials")
             completion(.invalid)
         case .error(let err):
-            os_log("Failed to get access token", log: self.log, type: .debug, err.localizedDescription as CVarArg)
+            os_log(.info, log: self.log, "Failed to get access token %{public}@", err.localizedDescription)
             completion(.error(err as NSError))
         }
     }
