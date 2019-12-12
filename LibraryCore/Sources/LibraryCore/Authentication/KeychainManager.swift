@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os
 
 protocol KeychainProvider {
 
@@ -34,6 +35,8 @@ protocol KeychainProvider {
 }
 
 class KeychainManager: KeychainProvider {
+
+    private let log = OSLog(subsystem: .keychainManager, category: .development)
 
     func add(password: String, to account: String) throws {
         deletePassword(of: account)

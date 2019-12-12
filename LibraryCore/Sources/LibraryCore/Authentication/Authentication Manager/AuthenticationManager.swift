@@ -35,38 +35,8 @@ public class AuthenticationManager {
     typealias Keys = UserDefaults.Keys
 
     public static var shared = AuthenticationManager()
-
     public let authenticatedSubject = PassthroughSubject<AuthenticationState, AuthenticationError>()
-
-    public func authenticateAccount(username: String?, password: String?) {
-        guard let username = username, username != "" else {
-            authenticatedSubject.send(.authenticationComplete(.missingUsername))
-            return
-        }
-
-        guard let password = password, password != "" else {
-            authenticatedSubject.send(.authenticationComplete(.missingPassword))
-            return
-        }
-
-        authenticateAccount(username, password: password, completion: { [weak self] authenticated in
-            if case let .authenticationError(error)  = authenticated {
-                self?.authenticatedSubject.send(.authenticationError(error))
-            } else {
-                UserDefaults.standard.setValue(username, forKey: Keys.defaultAccountIdentifier)
-                self?.authenticatedSubject.send(authenticated)
-            }
-        })
-    }
-
-    public func signOut(_ accountIdentifier: String) {
-        UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
-        removePassword(for: accountIdentifier)
-        removeSessionIdentifier(for: accountIdentifier)
-        authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))
-    }
-
-    private let log = OSLog(subsystem: "com.elbedev.books", category: "\(AuthenticationManager.self)")
+    private let log = OSLog(subsystem: .authenticationManager, category: .development)
     private let network: NetworkClient
     private let credentialStore: AccountCredentialStore
 
@@ -75,6 +45,43 @@ public class AuthenticationManager {
         self.credentialStore = credentialStore
     }
 
+    public func authenticateAccount(username: String?, password: String?) {
+        os_log(.info, log: self.log, "Initiating authentication for `%{private}@`", username ?? "nil")
+
+        guard let username = username, username != "" else {
+            os_log(.error, log: self.log, "Authentication failed, no username given")
+            authenticatedSubject.send(.authenticationComplete(.missingUsername))
+            return
+        }
+
+        guard let password = password, password != "" else {
+            os_log(.error, log: self.log, "Authentication failed, no password given")
+            authenticatedSubject.send(.authenticationComplete(.missingPassword))
+            return
+        }
+
+        authenticateAccount(username, password: password, completion: { [weak self] authenticated in
+            guard let self = self else { return }
+            if case let .authenticationError(error)  = authenticated {
+                self.authenticatedSubject.send(.authenticationError(error))
+            } else {
+                os_log(.info, log: self.log, "Finished authentication for account %{private}@", username)
+
+                UserDefaults.standard.set(username, forKey: Keys.defaultAccountIdentifier)
+
+                self.authenticatedSubject.send(authenticated)
+            }
+        })
+    }
+
+    public func signOut(_ accountIdentifier: String) {
+        os_log(.info, log: log, "Signing out `%{private}@`", accountIdentifier)
+
+        UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
+        removePassword(for: accountIdentifier)
+        removeSessionIdentifier(for: accountIdentifier)
+        authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))
+    }
 
     //MARK: - Account Authentication
 
@@ -100,7 +107,7 @@ public class AuthenticationManager {
     private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
         guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
             let err = NSError(domain: "\(type(of: self)).validate", code: 1)
-            os_log("Failed to create access token request", log: self.log, type: .debug, err as CVarArg)
+            os_log(.info, log: self.log, "Failed to create access token request `%{public}@`", err)
             completion(.error(err))
             return
         }
@@ -108,7 +115,7 @@ public class AuthenticationManager {
         network.dataTask(with: request, completionHandler: {(data, response, error) -> Void in
 
             if let error = error {
-                os_log("Failed to get access token", log: self.log, type: .debug, error.localizedDescription as CVarArg)
+                os_log(.info, log: self.log, "Failed to get access token `%{public}@`", error.localizedDescription)
                 completion(.error(error as NSError))
                 return
             }
@@ -121,6 +128,8 @@ public class AuthenticationManager {
     //MARK: - Password
 
     func store(password: String, for accountIdentifier: String) throws {
+        os_log("Storing password for account %{public}@", log: log, type: .info, accountIdentifier)
+
         let account = "com.elbedev.books.account.password.\(accountIdentifier)"
         try self.credentialStore.store(password, of: account)
     }
@@ -133,6 +142,8 @@ public class AuthenticationManager {
     /// Deletes the password of the given account from the keychain
     /// - parameter accountIdentifier: The identifier of the belonging account
     func removePassword(for accountIdentifier: String) {
+        os_log("Removing password for account %{public}@", log: log, type: .info, accountIdentifier)
+
         let account = "com.elbedev.books.account.password.\(accountIdentifier)"
         self.credentialStore.removePassword(for: account)
     }
@@ -169,21 +180,24 @@ public class AuthenticationManager {
     }
 
     private func parseSessionIdentifier(data: Data?, accountIdentifier: String, completion: @escaping ((_ status: AuthenticationValidationStatus) -> Void)) {
+        os_log("Parsing access token from authentication response", log: log, type: .info)
+
         let sessionIdentifierParser = SessionIdentifierParser()
         let parseResult = sessionIdentifierParser.parseSessionIdentifier(data: data)
         switch parseResult {
         case .success(let token):
             do {
-                os_log("Storing access token", log: self.log, type: .debug, [token] as CVarArg)
+                os_log(.info, log: self.log, "Storing access token %{private}@", token)
                 try store(sessionIdentifier: token, for: accountIdentifier)
                 completion(.valid)
             } catch let err {
                 completion(.error(err as NSError))
             }
         case .failure:
+            os_log(.info, log: self.log, "Failed to get access token because of invalid credentials")
             completion(.invalid)
         case .error(let err):
-            os_log("Failed to get access token", log: self.log, type: .debug, err.localizedDescription as CVarArg)
+            os_log(.info, log: self.log, "Failed to get access token %{public}@", err.localizedDescription)
             completion(.error(err as NSError))
         }
     }
