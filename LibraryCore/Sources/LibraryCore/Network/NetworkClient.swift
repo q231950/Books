@@ -21,20 +21,14 @@ public class NetworkClient {
         if let session = session {
             self.session = session
         } else {
-            let session: URLSession
-            if ProcessInfo().isUITesting {
-                let stubbedSession = StubbornNetwork.makePersistentSession(withProcessInfo: ProcessInfo())
-                stubbedSession.recordMode = .recordNew
-                stubbedSession.bodyDataProcessor = SensitiveDataProcessor()
+            let configuration = URLSessionConfiguration.default
+            configuration.httpCookieStorage?.cookieAcceptPolicy = .always
 
-                session = stubbedSession
-            } else {
-                let configuration = URLSessionConfiguration.default
-                configuration.httpCookieStorage?.cookieAcceptPolicy = .always
-                session = URLSession(configuration: configuration)
+            if ProcessInfo().isUITesting {
+                configuration.protocolClasses?.insert(StubbedSessionURLProtocol.self, at: 0)
             }
 
-            self.session = session
+            self.session = URLSession(configuration: configuration)
         }
     }
 
