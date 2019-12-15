@@ -19,8 +19,9 @@ let package = Package(
             url: "https://github.com/tadija/AEXML.git",
             .upToNextMajor(from: "4.4.0")
         ),
-        .package(url: "http://github.com/q231950/the-stubborn-network.git",
-                 .branch("master"))
+        .package(path: "/Users/kim/Development/the-stubborn-network")
+//        .package(url: "http://github.com/q231950/the-stubborn-network.git",
+//                 .branch("master"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
