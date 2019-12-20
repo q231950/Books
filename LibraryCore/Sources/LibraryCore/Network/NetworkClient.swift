@@ -25,7 +25,9 @@ public class NetworkClient {
             configuration.httpCookieStorage?.cookieAcceptPolicy = .always
 
             if ProcessInfo().isUITesting {
-                configuration.protocolClasses?.insert(StubbedSessionURLProtocol.self, at: 0)
+                #if DEBUG
+                StubbornNetwork.standard.insertStubbedSessionURLProtocol(into: configuration)
+                #endif
             }
 
             self.session = URLSession(configuration: configuration)
