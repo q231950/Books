@@ -26,7 +26,7 @@ class SignInTests: XCTestCase {
 
     func test_signIn_andRestartTheApp_keepsSignedIn() {
         // given
-        app.signIn("valid-user")
+        app.signIn()
         Navigation.openAccountView(app:app)
 
         // when
