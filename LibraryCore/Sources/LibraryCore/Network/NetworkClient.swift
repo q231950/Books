@@ -27,6 +27,7 @@ public class NetworkClient {
             if ProcessInfo().isUITesting {
                 #if DEBUG
                 StubbornNetwork.standard.insertStubbedSessionURLProtocol(into: configuration)
+                StubbornNetwork.standard.bodyDataProcessor = SensitiveDataProcessor()
                 #endif
             }
 
