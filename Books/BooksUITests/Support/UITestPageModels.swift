@@ -57,15 +57,15 @@ extension XCUIApplication {
     }
 
     /// Attempts a sign in with invalid credentials
-    func signInWithInvalidCredentials(username: String) {
+    func signInWithInvalidCredentials() {
 
         let usernameTextField = textFields.matching(identifier: "username").element
         usernameTextField.tap()
-        usernameTextField.typeText(username)
+        usernameTextField.typeText("123456789")
 
         let passwordTextField = textFields.matching(identifier: "password").element
         passwordTextField.tap()
-        passwordTextField.typeText("123")
+        passwordTextField.typeText("***")
 
         buttons["Sign in"].tap()
     }
