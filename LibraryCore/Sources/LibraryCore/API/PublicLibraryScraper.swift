@@ -111,41 +111,41 @@ public final class PublicLibraryScraper {
                         finishedCompletion(loansToProcess, loans)
                     }
                 } else {
-                completion(NSError(domain: "\(type(of: self))", code: 4, userInfo: nil), loans)
-            }
+                    completion(NSError(domain: "\(type(of: self))", code: 4, userInfo: nil), loans)
+                }
+            })
         })
-    })
-    task.resume()
-}
-
-    private func detailedLoan(loan: Loan, completion: @escaping (String, String, String) -> Void ) {
-    guard let identifier = loan.identifier, let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: identifier) else {
-        defer {
-            completion("", "", "")
-        }
-        return
+        task.resume()
     }
 
-    let task = network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-        let parser = ItemDetailsParser()
-        let infoPairs = parser.searchResultDetails(for: data)
-        var author = ""
-        var title = ""
-        var signature = identifier
-        infoPairs.forEach({ (keyValuePair) in
-            let infoPair = keyValuePair
-            if infoPair.title == "Author" {
-                author = infoPair.content
-            } else if infoPair.title == "data titel-lang" {
-                title = infoPair.content
-            } else if infoPair.title == "data signatur" {
-                signature = infoPair.content
+    private func detailedLoan(loan: Loan, completion: @escaping (String, String, String) -> Void ) {
+        guard let identifier = loan.identifier, let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: identifier) else {
+            defer {
+                completion("", "", "")
             }
+            return
+        }
+
+        let task = network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let parser = ItemDetailsParser()
+            let infoPairs = parser.searchResultDetails(for: data)
+            var author = ""
+            var title = ""
+            var signature = identifier
+            infoPairs.forEach({ (keyValuePair) in
+                let infoPair = keyValuePair
+                if infoPair.title == "Author" {
+                    author = infoPair.content
+                } else if infoPair.title == "data titel-lang" {
+                    title = infoPair.content
+                } else if infoPair.title == "data signatur" {
+                    signature = infoPair.content
+                }
+            })
+            completion(author, title, signature)
         })
-        completion(author, title, signature)
-    })
-    task.resume()
-}
+        task.resume()
+    }
 
 // MARK: Renewal
 
