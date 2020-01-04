@@ -3,7 +3,7 @@ let publicAccessTokenRequestBody = """
 <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
         <CheckBorrower xmlns="http://bibliomondo.com/websevices/webuser">
-            <borrowerNumber>111111</borrowerNumber>
+            <borrowerNumber>123</borrowerNumber>
             <pin>abc</pin>
         </CheckBorrower>
     </soap:Body>

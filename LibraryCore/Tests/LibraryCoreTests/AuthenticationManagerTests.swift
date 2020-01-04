@@ -28,7 +28,6 @@ class AccountCredentialStoreMock: AccountCredentialStore {
 
 class AuthenticationManagerTest: XCTestCase {
 
-    let urlSessionStub = StubbornNetwork.makeEphemeralSession()
     var network: NetworkClient!
     let keychainMock = TestHelper.keychainMock
     lazy var credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
@@ -37,7 +36,12 @@ class AuthenticationManagerTest: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        network = NetworkClient(session: urlSessionStub)
+        StubbornNetwork.standard = StubbornNetwork()
+
+        let configuration: URLSessionConfiguration = .ephemeral
+        StubbornNetwork.standard.insertStubbedSessionURLProtocol(into: configuration)
+        let session = URLSession(configuration: configuration)
+        network = NetworkClient(session: session)
         account = TestHelper.accountStub()
     }
 
@@ -50,8 +54,9 @@ class AuthenticationManagerTest: XCTestCase {
                                                "Accept":"*/*",
                                                "Accept-Language":"en-us",
                                                "Accept-Encoding":"br, gzip, deflate"]
+        expectedRequest.httpBody = publicAccessTokenRequestBody.data(using: .utf8)
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
-        urlSessionStub.stub(expectedRequest, data: data, response: HTTPURLResponse(), error: nil)
+        StubbornNetwork.standard.stub(request: expectedRequest, data: data, response: HTTPURLResponse(), error: nil)
         account.username = "123"
         account.password = "abc"
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
@@ -61,14 +66,15 @@ class AuthenticationManagerTest: XCTestCase {
         }
 
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
     func testValidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
-        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
+        let request = try XCTUnwrap(
+            RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
+        StubbornNetwork.standard.stub(request: request, data: data, response: nil, error: nil)
 
         account.username = "123"
         account.password = "abc"
@@ -81,14 +87,15 @@ class AuthenticationManagerTest: XCTestCase {
             if case AuthenticationState.authenticationComplete(.authenticated) = $0 { exp.fulfill() }
         }
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
     func testInvalidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicAccessTokenRequestBody.data(using: .utf8)
-        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
-        urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
+        let request = try XCTUnwrap(
+            RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
+        StubbornNetwork.standard.stub(request: request, data: data, response: nil, error: nil)
         account.username = "123"
         account.password = "abc"
         try credentialStore.store("abc", of: "123")
@@ -99,17 +106,15 @@ class AuthenticationManagerTest: XCTestCase {
             if case AuthenticationState.authenticationComplete(.manualAuthenticationFailed) = $0 { exp.fulfill() }
         }
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
-    enum TestingError: Error {
-        case loadingError
-    }
     func testErronousAuthentication() throws {
 
         let exp = expectation(description: "wait for async")
-        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "")
-        urlSessionStub.stub(try XCTUnwrap(request), data: nil, response: nil, error: TestingError.loadingError)
+        let request = try XCTUnwrap(
+            RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
+        StubbornNetwork.standard.stub(request: request, error:TestHelper.Errors.loadingError)
         account.username = "123"
         account.password = "abc"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
@@ -124,7 +129,7 @@ class AuthenticationManagerTest: XCTestCase {
             }
         }
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
     func testErrorWhenMissingPassword() {
@@ -148,9 +153,9 @@ class AuthenticationManagerTest: XCTestCase {
     func testStoresPasswordAndSessionTokenForValidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
-        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
-        account.username = "123"
+        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "abc-123", password: "abc")
+        StubbornNetwork.standard.stub(request: try XCTUnwrap(request), data: data)
+        account.username = "abc-123"
         account.password = "abc"
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
@@ -161,14 +166,14 @@ class AuthenticationManagerTest: XCTestCase {
         }
 
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
     func testDeletesPasswordForInvalidAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let data = publicAccessTokenRequestBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(try XCTUnwrap(request), data: data, response: nil, error: nil)
+        StubbornNetwork.standard.stub(request: try XCTUnwrap(request), data: data)
         account.username = "123"
         account.password = "abc"
         let credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
@@ -179,14 +184,15 @@ class AuthenticationManagerTest: XCTestCase {
             exp.fulfill()
         }
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
     func testDoesNotDeletePasswordAndSessionTokenForErronousAuthentication() throws {
         let exp = expectation(description: "wait for async")
         let expectedError = NSError(domain: "com.elbedev.test", code: 1)
-        let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
-        urlSessionStub.stub(try XCTUnwrap(request), data: nil, response: nil, error: expectedError)
+        let request = try XCTUnwrap(
+            RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
+        StubbornNetwork.standard.stub(request: request, data: nil, response: nil, error: expectedError)
         account.username = "123"
         account.password = "abc"
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
@@ -197,7 +203,7 @@ class AuthenticationManagerTest: XCTestCase {
             exp.fulfill()
         }
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
-        wait(for: [exp], timeout: 0)
+        wait(for: [exp], timeout: 0.1)
     }
 
     func testSignOutDeletesPasswordAndSessionToken() throws {

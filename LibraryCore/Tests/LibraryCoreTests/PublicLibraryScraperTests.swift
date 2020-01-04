@@ -36,8 +36,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let exp = expectation(description: "Account completion")
         let request = try XCTUnwrap(RequestBuilder().accountRequest(sessionIdentifier: "abc"))
         let data = publicAccountResponseBody.data(using: .utf8)
-        let stub = RequestStub(request: request, data: data, response: nil, error: nil)
-        stubbornNetwork.stub(stub)
+        stubbornNetwork.stub(request: request, data: data)
         scraper.charges(account: account, sessionIdentifier: "abc") { (error, charges) -> (Void) in
             let dateComponents = DateComponents(calendar: Calendar(identifier: .gregorian), timeZone: TimeZone(identifier: "Europe/Berlin"), year: 2018, month: 9, day: 20)
             XCTAssertEqual(charges.first?.amount, 1.0)
@@ -54,16 +53,13 @@ class PublicLibraryScraperTests: XCTestCase {
     func test_publicLibraryScraper_loadsLoans() throws {
         let exp = expectation(description: "Loans completion")
         let request = try XCTUnwrap(RequestBuilder().loansRequest(sessionIdentifier: "abc"))
-        let stub = RequestStub(request: request, data: publicLoansResponseBody, response: nil, error: nil)
-        stubbornNetwork.stub(stub)
+        stubbornNetwork.stub(request: request, data: publicLoansResponseBody)
 
         let loanDetailRequest = try XCTUnwrap(RequestBuilder.default.itemDetailsRequest(itemIdentifier: "T01540384X"))
-        let loanDetailStub = RequestStub(request: loanDetailRequest, data: publicLoanDetailResponseBody)
-        stubbornNetwork.stub(loanDetailStub)
+        stubbornNetwork.stub(request: loanDetailRequest, data: publicLoanDetailResponseBody)
 
         let loanDetailRequestB = try XCTUnwrap(RequestBuilder.default.itemDetailsRequest(itemIdentifier: "T01684642X"))
-        let loanDetailStubB = RequestStub(request: loanDetailRequestB, data: publicLoanDetailResponseBody)
-        stubbornNetwork.stub(loanDetailStubB)
+        stubbornNetwork.stub(request: loanDetailRequestB, data: publicLoanDetailResponseBody)
         scraper.loans(account, authenticationManager: AuthenticationManager.stubbed({ (manager) in
             manager.authenticated = .authenticationComplete(.authenticated)
             manager.stubbedSessionIdentifier = "abc"

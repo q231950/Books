@@ -7,9 +7,7 @@
 //
 
 import Foundation
-#if DEBUG
 import StubbornNetwork
-#endif
 
 public class NetworkClient {
 
