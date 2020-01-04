@@ -59,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     /// Cleans all user defaults for the application
     private func cleanAppEnvironment() {
-        LibraryCore.resetUserDefaults()
 
         do {
             try LibraryCore.clearKeychain()

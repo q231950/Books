@@ -32,9 +32,6 @@ public enum AuthenticationError: Error {
 
 public class AuthenticationManager {
 
-    typealias Keys = UserDefaults.Keys
-
-    //    public static var shared = AuthenticationManager()
     public let authenticatedSubject = PassthroughSubject<AuthenticationState, AuthenticationError>()
     private let log = OSLog(subsystem: .authenticationManager, category: .development)
     private let network: NetworkClient
@@ -84,7 +81,6 @@ public class AuthenticationManager {
     public func signOut(_ accountIdentifier: String) {
         os_log(.info, log: log, "Signing out `%{private}@`", accountIdentifier)
 
-        UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
         removePassword(for: accountIdentifier)
         removeSessionIdentifier(for: accountIdentifier)
         authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))

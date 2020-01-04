@@ -7,19 +7,20 @@
 import Foundation
 
 /// The `Subsystem` should be used as a subsystem of an `OSLog`
-typealias Subsystem = String
+public typealias Subsystem = String
 
-extension Subsystem {
+public extension Subsystem {
     static let baseSubsystem = "com.elbedev.books"
 
+    static let libraryCore = .baseSubsystem + ".library-core"
     static let keychainManager = baseSubsystem + ".keychain-manager"
     static let authenticationManager = .baseSubsystem + ".authentication-manager"
-    static let defaults = .baseSubsystem + ".defaults"
+    static let accountStore = .baseSubsystem + ".account-store"
 }
 
 /// The `Category` should be used as a category of an `OSLog`
-typealias Category = String
+public typealias Category = String
 
-extension Category {
+public extension Category {
     static let development: Category = "development"
 }

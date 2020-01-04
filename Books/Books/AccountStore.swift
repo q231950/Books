@@ -10,8 +10,13 @@ import LibraryCore
 import CoreData
 import UIKit
 
+import os
+
+fileprivate let log = OSLog(subsystem: .accountStore, category: .development)
+
 struct AccountStore {
     func clearAccounts() {
+        os_log(.info, log: log, "Clearing accounts.")
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             let context = appDelegate.dataStore.persistentContainer.newBackgroundContext()
             do {
@@ -29,6 +34,7 @@ struct AccountStore {
 
 extension AccountStore: AccountStoring {
     func storeAccount(identifier: String) {
+        os_log(.info, log: log, "Storing account identifier: %{private}@", identifier)
         DispatchQueue.main.async {
             if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 let context = appDelegate.dataStore.persistentContainer.viewContext
@@ -57,6 +63,7 @@ extension AccountStore: AccountStoring {
                 // do nothing..
             }
         }
+        os_log(.info, log: log, "Accessing default account identifier: %{public}@", identifier ?? "nil")
         return identifier
     }
 }
