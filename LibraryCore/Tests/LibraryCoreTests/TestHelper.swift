@@ -16,6 +16,10 @@ enum DataType {
 }
 
 final class TestHelper {
+
+    enum Errors: Error {
+        case loadingError
+    }
     
     static var keychainMock: TestableKeychainProvider {
         return KeychainMock()

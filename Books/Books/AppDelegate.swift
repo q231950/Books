@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import LibraryCore
+import StubbornNetwork
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

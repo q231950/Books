@@ -14,7 +14,7 @@ class RequestBuilderTests: XCTestCase {
     let requestBuilder = RequestBuilder.default
 
     func testSessionIdentifierRequest() {
-        let request = requestBuilder.sessionIdentifierRequest(accountIdentifier: "111111", password: "abc")
+        let request = requestBuilder.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
         let expectedBody = publicAccessTokenRequestBody.data(using: .utf8)
         var expectedRequest = URLRequest(url: URL(string: "https://zones.buecherhallen.de/app_webuser/WebUserSvc.asmx")!)
         expectedRequest.httpMethod = "POST"

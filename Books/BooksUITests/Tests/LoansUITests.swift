@@ -30,7 +30,10 @@ class LoansUITests: XCTestCase {
         app.signIn()
 
         // then
-        let label = app.staticTexts["🌊"]
-        wait(forElement:label, timeout:5)
+        let label1 = app.staticTexts["Parallel and concurrent programming in Haskell"]
+        wait(forElement:label1, timeout:2)
+
+        let label2 = app.staticTexts["Haskell-Intensivkurs"]
+        wait(forElement:label2, timeout:2)
     }
 }

@@ -13,13 +13,7 @@ import LibraryCore
 class LoansViewModel: ObservableObject {
     var didChange = PassthroughSubject<[LoanViewModel], Never>()
 
-    var loans: [LoanViewModel] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.didChange.send(self.loans)
-            }
-        }
-    }
+    @Published var loans: [LoanViewModel] = []
 
     init(account: Account, authenticationManager: AuthenticationManager) {
         let scraper = PublicLibraryScraper.default
@@ -27,7 +21,9 @@ class LoansViewModel: ObservableObject {
 
             let loanViewModels = loans.map { LoanViewModel(loan: $0) }
 
-            self.loans = loanViewModels
+            DispatchQueue.main.async {
+                self.loans = loanViewModels
+            }
         })
     }
 }
