@@ -35,7 +35,6 @@ struct AccountStore {
 extension AccountStore: AccountStoring {
     func storeAccount(identifier: String) {
         os_log(.info, log: log, "Storing account identifier: %{private}@", identifier)
-
         DispatchQueue.main.async {
             if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 let context = appDelegate.dataStore.persistentContainer.viewContext
@@ -55,21 +54,16 @@ extension AccountStore: AccountStoring {
 
     func defaultAccountIdentifier() -> String? {
         var identifier: String?
-
-        DispatchQueue.main.async {
-            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-                do {
-                    let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
-                    let accounts = try appDelegate.dataStore.persistentContainer.viewContext.fetch(fetchRequest)
-                    identifier = accounts.first?.username
-                } catch {
-                    // do nothing..
-                }
+        let fetchRequest: NSFetchRequest<Account> = Account.fetchRequest()
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            do {
+                let accounts = try appDelegate.dataStore.persistentContainer.viewContext.fetch(fetchRequest)
+                identifier = accounts.first?.username
+            } catch {
+                // do nothing..
             }
         }
-
-        os_log(.info, log: log, "Accessing default account identifier: %{private}@", identifier ?? "nil")
-
+        os_log(.info, log: log, "Accessing default account identifier: %{public}@", identifier ?? "nil")
         return identifier
     }
 }

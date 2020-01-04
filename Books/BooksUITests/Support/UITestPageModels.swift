@@ -29,7 +29,7 @@ extension XCUIApplication {
 
         // UserDefaults need some time when asynchronously persisting data so that other processes can access them.
         let someTime = XCTestExpectation(description: "wait...")
-        XCTWaiter().wait(for: [someTime], timeout: 2)
+        XCTWaiter().wait(for: [someTime], timeout: 1)
 
         if cleanLaunchArguments {
             launchArguments.removeAll()
