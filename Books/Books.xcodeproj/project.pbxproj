@@ -33,6 +33,7 @@
 		3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanView.swift */; };
 		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
 		3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */; };
+		FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0915BC23C119FE00625F8E /* AccountStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		3BEBF0F222D9939500EB2426 /* LoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanView.swift; sourceTree = "<group>"; };
 		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
 		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
+		FD0915BC23C119FE00625F8E /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */,
 				3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */,
 				3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */,
+				FD0915BC23C119FE00625F8E /* AccountStore.swift */,
 				3B99B70D22AC0010000CBEAD /* Views */,
 				3B4BF21C22BDDC19000218F8 /* View Models */,
 				3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */,
@@ -386,6 +389,7 @@
 				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
 				3BAF88E5236A1BE0003A356E /* SignedInContainerView.swift in Sources */,
 				3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */,
+				FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */,
 				3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,
 				3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */,

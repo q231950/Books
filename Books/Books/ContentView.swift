@@ -74,8 +74,9 @@ struct ActivityIndicator: UIViewRepresentable {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        let accountViewModel = AccountViewModel(account: Account())
-        let authenticationViewModel = AuthenticationViewModel(accountViewModel: accountViewModel)
+        let accountViewModel = AccountViewModel(account: AccountModel())
+        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
         return ContentView(authenticationViewModel: authenticationViewModel)
     }
 }

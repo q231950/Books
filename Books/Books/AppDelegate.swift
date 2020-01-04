@@ -66,6 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error)
         }
+
+        let accountStore = AccountStore()
+        accountStore.clearAccounts()
     }
 
 }

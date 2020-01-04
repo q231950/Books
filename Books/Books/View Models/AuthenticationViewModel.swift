@@ -27,11 +27,11 @@ class AuthenticationViewModel: ObservableObject {
     }
     private let authenticationManager: AuthenticationManager
 
-    init(authenticationManager: AuthenticationManager = AuthenticationManager.shared, accountViewModel: AccountViewModel) {
+    init(authenticationManager: AuthenticationManager, accountViewModel: AccountViewModel) {
         self.authenticationManager = authenticationManager
         self.accountViewModel = accountViewModel
         if let password = authenticationManager.password(for: accountViewModel.account.username) {
-            accountViewModel.account = Account(username: accountViewModel.account.username, password: password)
+            accountViewModel.account = AccountModel(username: accountViewModel.account.username, password: password)
         }
 
         authenticationSink = authenticationManager.authenticatedSubject
@@ -63,11 +63,11 @@ class AuthenticationViewModel: ObservableObject {
 
     func signOut() {
         let accountIdentifier = accountViewModel.account.username
-        accountViewModel.account = Account()
+        accountViewModel.account = AccountModel()
         authenticationManager.signOut(accountIdentifier)
     }
 
-    private func handleAuthenticationUpdate(account: Account?) {
+    private func handleAuthenticationUpdate(account: AccountModel?) {
         guard let account = account else {
             return
         }

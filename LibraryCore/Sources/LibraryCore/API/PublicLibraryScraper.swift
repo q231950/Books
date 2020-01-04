@@ -29,14 +29,14 @@ public final class PublicLibraryScraper {
     
     // MARK: Account
     
-    public func profile(_ account: Account, completion:((_ error:Error?) -> Void)!) {
+    public func profile(_ account: AccountModel, completion:((_ error:Error?) -> Void)!) {
         // profile is currently not fetched
         completion(nil)
     }
 
     // MARK: Charges
 
-    func charges(account: Account, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
+    func charges(account: AccountModel, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
 
         guard let request = RequestBuilder.default.accountRequest(sessionIdentifier: sessionIdentifier) else {
             completion(NSError(domain: "\(type(of: self))", code: 1, userInfo: nil), [])
@@ -65,7 +65,7 @@ public final class PublicLibraryScraper {
 
     // MARK: Loans
 
-    public func loans(_ account: Account, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [Loan])->(Void))) {
+    public func loans(_ account: AccountModel, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [Loan])->(Void))) {
 
         guard let sessionIdentifier = authenticationManager.sessionIdentifier(for: account.username) else {
             return
@@ -149,7 +149,7 @@ public final class PublicLibraryScraper {
 
 // MARK: Renewal
 
-func renew(account: Account, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
+func renew(account: AccountModel, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
 
     //        let credentialStore = AccountCredentialStore(keychainProvider: keychainProvider)
     //        guard let accountIdentifier = account.username,

@@ -11,7 +11,7 @@ import LibraryCore
 import SwiftUI
 
 class AccountViewModel: ObservableObject {
-    public var account: Account {
+    public var account: AccountModel {
         didSet {
             self.didChange.send(self)
         }
@@ -19,7 +19,7 @@ class AccountViewModel: ObservableObject {
 
     public var didChange: PassthroughSubject<AccountViewModel, Never>
 
-    init(account: Account) {
+    init(account: AccountModel) {
         didChange = PassthroughSubject<AccountViewModel, Never>()
         self.account = account
     }

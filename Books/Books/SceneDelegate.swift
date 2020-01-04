@@ -33,13 +33,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     /// Create an authentication view model.
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
-        var account = Account()
-        if let accountIdentifier = LibraryCore.defaultAccountIdentifier {
-            account.username = accountIdentifier
+        var account = AccountModel()
+        let store = AccountStore()
+        if let identifier = store.defaultAccountIdentifier() {
+            account.username = identifier
         }
 
         let accountViewModel = AccountViewModel(account: account)
-        return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared,
+        let accountStore = AccountStore()
+        return AuthenticationViewModel(authenticationManager: AuthenticationManager(accountStore: accountStore),
                                        accountViewModel: accountViewModel)
     }
 }
