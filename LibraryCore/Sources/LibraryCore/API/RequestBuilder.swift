@@ -16,8 +16,8 @@ final class RequestBuilder {
     /**
      - returns: An optional `URLRequest` that can be used to retrieve a session identifier
      - parameters:
-     - accountIdentifier: The account identifier of the account to retrieve the session identifier for
-     - password: The password of the account to retrieve the session identifier for
+        - accountIdentifier: The account identifier of the account to retrieve the session identifier for
+        - password: The password of the account to retrieve the session identifier for
      */
     func sessionIdentifierRequest(accountIdentifier: String, password: String) -> URLRequest? {
         let requestBody = sessionTokenRequestBody(accountIdentifier: accountIdentifier, password: password)
@@ -42,8 +42,8 @@ final class RequestBuilder {
     /**
      - returns: Optional data that represents the request body for session token requests
      - parameters:
-     - accountIdentifier: The account identifier of the account to retrieve the session identifier for
-     - password: The password of the account to retrieve the session identifier for
+        - accountIdentifier: The account identifier of the account to retrieve the session identifier for
+        - password: The password of the account to retrieve the session identifier for
      */
     private func sessionTokenRequestBody(accountIdentifier: String, password: String) -> Data? {
         let template = RequestTemplate.sessionIdentifierRequestBodyTemplate
@@ -81,7 +81,7 @@ final class RequestBuilder {
     /**
      - returns: An optional `URLRequest` to retrieve the details of an item
      - parameters:
-     - itemIdentifier: The identifier of the item to retrieve
+        - itemIdentifier: The identifier of the item to retrieve
      */
     func itemDetailsRequest(itemIdentifier: String) -> URLRequest? {
         let requestBody = itemDetailsRequestBody(itemIdentifier: itemIdentifier)
@@ -100,8 +100,8 @@ final class RequestBuilder {
     /**
      - returns: An optional `URLRequest` that allows renewing of an item
      - parameters:
-     - sessionIdentifier: The session identifier of the belonging account
-     - itemIdentifier: The identifier of the item to renew
+        -  sessionIdentifier: The session identifier of the belonging account
+        -  itemIdentifier: The identifier of the item to renew
      */
     func renewRequest(sessionIdentifier: String, itemIdentifier: String) -> URLRequest? {
         let requestBody = renewRequestBody(sessionIdentifier: sessionIdentifier, itemIdentifier: itemIdentifier)
@@ -111,8 +111,8 @@ final class RequestBuilder {
     /**
      - returns: Optional data that represents the request body for renewing items.
      - parameters:
-     - sessionIdentifier: The session identifier needed for authorization
-     - itemIdentifier: The identifier of the item to renew
+        - sessionIdentifier: The session identifier needed for authorization
+        - itemIdentifier: The identifier of the item to renew
      */
     private func renewRequestBody(sessionIdentifier: String, itemIdentifier: String) -> Data? {
         let template = RequestTemplate.renewRequestBodyTemplate
@@ -135,8 +135,8 @@ final class RequestBuilder {
     /**
      Fills the template at the given path with the arguments.
      - parameters:
-     - path: The path to the template
-     - arguments: The arguments to fill the template with
+        - path: The path to the template
+        - arguments: The arguments to fill the template with
      */
     internal func dataByFillingTemplate(_ template: String, arguments: [CVarArg] = []) -> Data? {
         let body = String(format: template, arguments: arguments)
