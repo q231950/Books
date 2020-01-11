@@ -25,6 +25,10 @@ public struct Loan {
         didSet { passthroughSubject.send(self) }
     }
 
+    public var barcode: String? {
+        didSet { passthroughSubject.send(self) }
+    }
+
     public let passthroughSubject = PassthroughSubject<Loan, Never>()
 
     public init(expiryDate: Date?) {

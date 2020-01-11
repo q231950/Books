@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum RenewStatus: Equatable {
+public enum RenewStatus: Equatable {
     case success(String)
     case failure
     case error(Error)
 
-    static func == (lhs: RenewStatus, rhs: RenewStatus) -> Bool {
+    public static func == (lhs: RenewStatus, rhs: RenewStatus) -> Bool {
         switch (lhs, rhs) {
         case let (.success(a), .success(b)): return a == b
         case (.failure, .failure): return true

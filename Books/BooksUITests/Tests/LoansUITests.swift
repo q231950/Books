@@ -31,4 +31,32 @@ class LoansUITests: XCTestCase {
         let listItemIdentifier = app.buttons["T014940950"]
         _ = listItemIdentifier.waitForExistence(timeout: 3)
     }
+
+    func test_renewalShowsError() {
+        app.signIn()
+
+        let listItemIdentifier = app.buttons["T014940950"]
+        listItemIdentifier.tap()
+
+        let renewButton = app.buttons["Renew"]
+        renewButton.tap()
+
+
+        let renewedText = app.buttons["Not renewed"]
+        renewedText.waitForExistence(timeout: 500)
+    }
+
+    func test_renewal_renews() {
+        app.signIn()
+
+        let listItemIdentifier = app.buttons["T014940950"]
+        listItemIdentifier.tap()
+
+        let renewButton = app.buttons["Renew"]
+        renewButton.tap()
+
+
+        let renewedText = app.buttons["Renewed"]
+        renewedText.waitForExistence(timeout: 500)
+    }
 }

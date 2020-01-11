@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
 
             let authenticationViewModel = createAuthenticationViewModel()
-            let contentView = ContentView(authenticationViewModel: authenticationViewModel)
+            let contentView = ContentView(authenticationViewModel: authenticationViewModel).environmentObject(authenticationViewModel)
             let hostingController = UIHostingController(rootView: contentView)
 
             window.rootViewController = hostingController
