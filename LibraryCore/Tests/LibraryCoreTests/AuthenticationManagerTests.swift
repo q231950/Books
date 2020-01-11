@@ -37,6 +37,7 @@ class AuthenticationManagerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         StubbornNetwork.standard = StubbornNetwork()
+        StubbornNetwork.standard.requestMatcherOptions = .strict
 
         let configuration: URLSessionConfiguration = .ephemeral
         StubbornNetwork.standard.insertStubbedSessionURLProtocol(into: configuration)

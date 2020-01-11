@@ -11,10 +11,15 @@ import LibraryCore
 
 struct AccountView : View {
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         return VStack {
-            Text("Account View")
-            Button(action: authenticationViewModel.signOut) {
+            Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
+                    self.authenticationViewModel.signOut()
+                }
+            }) {
                 Text("Sign out")
             }
         }

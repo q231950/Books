@@ -10,10 +10,12 @@ import XCTest
 
 class Navigation {
     static func openAccountView(app: XCUIApplication) {
-        let tabbarButtons = app.tabBars.buttons
-        let accountButton = tabbarButtons["Account"]
+        let accountButton = app.buttons["Account"]
 
         accountButton.tap()
+
+        let someTime = XCTestExpectation(description: "wait...")
+        XCTWaiter().wait(for: [someTime], timeout: 0.33)
     }
 }
 

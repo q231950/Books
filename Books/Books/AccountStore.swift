@@ -45,6 +45,7 @@ extension AccountStore: AccountStoring {
                     let account = Account.init(entity: Account.entity(), insertInto: context)
                     account.username = identifier
                     try context.save()
+                    os_log(.info, log: log, "Stored account identifier: %{private}@", identifier)
                 } catch {
                     // do nothing..
                 }

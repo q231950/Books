@@ -26,14 +26,9 @@ class LoansUITests: XCTestCase {
     }
 
     func test_loans_areVisible_afterSignIn() {
-        // given
         app.signIn()
 
-        // then
-        let label1 = app.staticTexts["Parallel and concurrent programming in Haskell"]
-        wait(forElement:label1, timeout:2)
-
-        let label2 = app.staticTexts["Haskell-Intensivkurs"]
-        wait(forElement:label2, timeout:2)
+        let listItemIdentifier = app.buttons["T014940950"]
+        _ = listItemIdentifier.waitForExistence(timeout: 3)
     }
 }

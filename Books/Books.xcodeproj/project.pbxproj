@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1817BB22ACD85F00DFD67D /* LibraryCore */; };
+		3B25DE6823C9B9AE008A5486 /* LoanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */; };
 		3B2C06A1239AE644003A8199 /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C06A0239AE644003A8199 /* SignInTests.swift */; };
 		3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD022ABAFE600D39567 /* AppDelegate.swift */; };
 		3B47FDD322ABAFE600D39567 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoanDetailView.swift; path = Views/LoanDetailView.swift; sourceTree = "<group>"; };
 		3B2C06A0239AE644003A8199 /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
 		3B47FDCD22ABAFE600D39567 /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDD022ABAFE600D39567 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				3B99B71022AC0121000CBEAD /* AccountView.swift */,
 				3B99B70E22AC002E000CBEAD /* LoansView.swift */,
 				3BEBF0F222D9939500EB2426 /* LoanView.swift */,
+				3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B25DE6823C9B9AE008A5486 /* LoanDetailView.swift in Sources */,
 				3B681A31237C8DA6002ACA4C /* CoreDataDataStore.swift in Sources */,
 				3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */,
 				3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */,

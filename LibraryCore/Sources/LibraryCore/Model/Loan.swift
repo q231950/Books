@@ -6,9 +6,13 @@
 //
 
 import Combine
+import Foundation
 
 public struct Loan {
     public var identifier: String?  {
+        didSet { passthroughSubject.send(self) }
+    }
+    public var expiryDate: String? {
         didSet { passthroughSubject.send(self) }
     }
     public var signature: String?  {
@@ -23,7 +27,11 @@ public struct Loan {
 
     public let passthroughSubject = PassthroughSubject<Loan, Never>()
 
-    public init() {
-
+    public init(expiryDate: Date?) {
+        if let expiryDate = expiryDate {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            self.expiryDate = dateFormatter.string(from: expiryDate)
+        }
     }
 }

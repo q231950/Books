@@ -94,21 +94,21 @@ public final class PublicLibraryScraper {
 
             let parser = FlamingoLoansParser(baseUrl: baseUrl)
             let minimalFlamingoLoans = parser.loans(data: data)
-            var loansToProcess = minimalFlamingoLoans.count
-            if loansToProcess == 0 {
-                finishedCompletion(loansToProcess, loans)
+            var numberOfLoansToProcess = minimalFlamingoLoans.count
+            if numberOfLoansToProcess == 0 {
+                finishedCompletion(numberOfLoansToProcess, loans)
             }
             minimalFlamingoLoans.forEach({ (minimalLoan) in
                 if let signature = minimalLoan.signature {
-                    var loan = Loan()
+                    var loan = Loan(expiryDate: minimalLoan.expiryDate)
                     loan.identifier = signature
                     self.detailedLoan(loan: loan) { (author, title, signature) in
                         loan.author = author
                         loan.title = title
                         loan.signature = signature
                         loans.append(loan)
-                        loansToProcess -= 1
-                        finishedCompletion(loansToProcess, loans)
+                        numberOfLoansToProcess -= 1
+                        finishedCompletion(numberOfLoansToProcess, loans)
                     }
                 } else {
                     completion(NSError(domain: "\(type(of: self))", code: 4, userInfo: nil), loans)

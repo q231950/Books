@@ -15,6 +15,10 @@ struct SignInView : View {
 
     var body: some View {
         VStack(){
+            Text("Please enter your credentials of the Public Library of Hamburg.")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .padding(EdgeInsets(top: 80, leading: 0, bottom: 20, trailing: 0))
             HStack() {
                 Spacer()
                 TextField("username", text: $authentication.accountViewModel.account.username)
@@ -40,6 +44,7 @@ struct SignInView : View {
                 }
                 Spacer()
             }
+            Spacer()
         }
     }
 }
