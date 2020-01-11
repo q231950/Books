@@ -15,7 +15,7 @@ struct LoanRow : View {
     var body: some View {
         return VStack {
             loanViewModel.loan.map({ loan in
-                NavigationLink(destination: LoanDetailView()) {
+                NavigationLink(destination: LoanDetailView(loanViewModel: loanViewModel)) {
                     VStack(alignment: .leading) {
                         loan.title.map({ s in
                             Text(s)

@@ -31,7 +31,7 @@
 		3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E1236A1A94003A356E /* SignInView.swift */; };
 		3BAF88E5236A1BE0003A356E /* SignedInContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E4236A1BE0003A356E /* SignedInContainerView.swift */; };
 		3BEA3E5E237B4B2E00E7EE24 /* AccountUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */; };
-		3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanView.swift */; };
+		3BEBF0F322D9939500EB2426 /* LoanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanRow.swift */; };
 		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
 		3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */; };
 		FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0915BC23C119FE00625F8E /* AccountStore.swift */; };
@@ -83,7 +83,7 @@
 		3BAF88E1236A1A94003A356E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		3BAF88E4236A1BE0003A356E /* SignedInContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedInContainerView.swift; sourceTree = "<group>"; };
 		3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountUITests.swift; sourceTree = "<group>"; };
-		3BEBF0F222D9939500EB2426 /* LoanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanView.swift; sourceTree = "<group>"; };
+		3BEBF0F222D9939500EB2426 /* LoanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanRow.swift; sourceTree = "<group>"; };
 		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
 		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
 		FD0915BC23C119FE00625F8E /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 				3BAF88E3236A1BA5003A356E /* Sign In and Out Views */,
 				3B99B71022AC0121000CBEAD /* AccountView.swift */,
 				3B99B70E22AC002E000CBEAD /* LoansView.swift */,
-				3BEBF0F222D9939500EB2426 /* LoanView.swift */,
+				3BEBF0F222D9939500EB2426 /* LoanRow.swift */,
 				3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */,
 			);
 			name = Views;
@@ -388,7 +388,7 @@
 				3B25DE6823C9B9AE008A5486 /* LoanDetailView.swift in Sources */,
 				3B681A31237C8DA6002ACA4C /* CoreDataDataStore.swift in Sources */,
 				3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */,
-				3BEBF0F322D9939500EB2426 /* LoanView.swift in Sources */,
+				3BEBF0F322D9939500EB2426 /* LoanRow.swift in Sources */,
 				3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */,
 				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
 				3BAF88E5236A1BE0003A356E /* SignedInContainerView.swift in Sources */,
