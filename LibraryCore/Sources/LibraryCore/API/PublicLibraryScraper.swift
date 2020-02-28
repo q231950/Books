@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os
 
 public typealias SessionIdentifier = String
 
@@ -16,6 +17,7 @@ public final class PublicLibraryScraper {
     private let keychainProvider: KeychainProvider
     private let baseUrlString = "https://www.buecherhallen.de"
     var authenticationSink: Any?
+    let log = OSLog(subsystem: .development, category: .scraper)
 
     public static var `default`: PublicLibraryScraper {
         get {
@@ -66,13 +68,13 @@ public final class PublicLibraryScraper {
 
     // MARK: Loans
 
-    public func loans(_ account: AccountModel, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [Loan])->(Void))) {
+    public func loans(_ account: AccountModel, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [FlamingoLoan])->(Void))) {
 
         guard let sessionIdentifier = authenticationManager.sessionIdentifier(for: account.username) else {
             return
         }
 
-        var loans = [Loan]()
+        var loans = [FlamingoLoan]()
 
         guard let req = RequestBuilder.default.loansRequest(sessionIdentifier: sessionIdentifier),
             let baseUrl = URL(string: baseUrlString) else {
@@ -80,7 +82,7 @@ public final class PublicLibraryScraper {
                 return
         }
 
-        let finishedCompletion = { (count: Int, loans: [Loan]) -> Void in
+        let finishedCompletion = { (count: Int, loans: [FlamingoLoan]) -> Void in
             guard count == 0 else {
                 return
             }
@@ -100,30 +102,20 @@ public final class PublicLibraryScraper {
                 finishedCompletion(numberOfLoansToProcess, loans)
             }
             minimalFlamingoLoans.forEach({ (minimalLoan) in
-                if let signature = minimalLoan.signature {
-                    var loan = Loan(expiryDate: minimalLoan.expiryDate)
-                    loan.identifier = signature
-                    self.detailedLoan(loan: loan) { (author, title, signature) in
-                        loan.author = author
-                        loan.title = title
-                        loan.signature = signature
-                        loan.barcode = minimalLoan.barcode
-                        loans.append(loan)
-                        numberOfLoansToProcess -= 1
-                        finishedCompletion(numberOfLoansToProcess, loans)
-                    }
-                } else {
-                    completion(NSError(domain: "\(type(of: self))", code: 4, userInfo: nil), loans)
+                self.detailedLoan(loan: minimalLoan) {
+                    loans.append(minimalLoan)
+                    numberOfLoansToProcess -= 1
+                    finishedCompletion(numberOfLoansToProcess, loans)
                 }
             })
         })
         task.resume()
     }
 
-    private func detailedLoan(loan: Loan, completion: @escaping (String, String, String) -> Void ) {
+    private func detailedLoan(loan: FlamingoLoan, completion: @escaping () -> Void ) {
         guard let identifier = loan.identifier, let request = RequestBuilder.default.itemDetailsRequest(itemIdentifier: identifier) else {
             defer {
-                completion("", "", "")
+                completion()
             }
             return
         }
@@ -131,20 +123,34 @@ public final class PublicLibraryScraper {
         let task = network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             let parser = ItemDetailsParser()
             let infoPairs = parser.searchResultDetails(for: data)
-            var author = ""
-            var title = ""
-            var signature = identifier
-            infoPairs.forEach({ (keyValuePair) in
-                let infoPair = keyValuePair
+            infoPairs.forEach({ (infoPair) in
                 if infoPair.title == "Author" {
-                    author = infoPair.content
+                    loan.author = infoPair.content
                 } else if infoPair.title == "data titel-lang" {
-                    title = infoPair.content
+                    loan.title = infoPair.content
                 } else if infoPair.title == "data signatur" {
-                    signature = infoPair.content
+                    loan.signature = infoPair.content
+                } else if infoPair.title == "data isbn-ean" {
+                    loan.ean = infoPair.content
+                } else if infoPair.title == "MaterialTypeName" {
+                    loan.materialName = infoPair.content
+                } else if infoPair.title == "InterestLevelName" {
+                    loan.interestLevelName = infoPair.content
+                } else if infoPair.title == "data erschienen" {
+                    loan.publishedYear = infoPair.content
+                } else if infoPair.title == "BACOWN" {
+                    loan.owner = infoPair.content
+                } else if infoPair.title == "data preis" {
+                    loan.price = infoPair.content
+                } else if infoPair.title == "data sprache" {
+                    loan.language = infoPair.content
+                } else if infoPair.title == "identifier" {
+                    
+                } else {
+
                 }
             })
-            completion(author, title, signature)
+            completion()
         })
         task.resume()
     }
@@ -153,16 +159,17 @@ public final class PublicLibraryScraper {
 
     public func renew(account: AccountModel, accountStore: AccountStoring, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
 
+        os_log(.info, log: self.log, "Initiating renewal of %{private}@.", itemIdentifier)
         let credentialStore = AccountCredentialStore(keychainProvider: keychainProvider)
         let authenticationManager = AuthenticationManager(network: network,
                                                           credentialStore: credentialStore,
                                                           accountStore: accountStore)
         authenticationSink = authenticationManager.authenticatedSubject
             .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let authenticationError): ()
-                case .finished: ()
+            .sink(receiveCompletion: { done in
+                switch done {
+                case .failure(_): os_log(.info, log: self.log, "Failed to authenticate during renewal")
+                case .finished: os_log(.info, log: self.log, "Finished authentication during renewal")
                 }
             }, receiveValue: { authenticated in
                 guard let token = authenticationManager.sessionIdentifier(for: account.username) else {
@@ -184,6 +191,7 @@ public final class PublicLibraryScraper {
                     }
 
                     let renewalParser = RenewalParser()
+                    os_log(.info, log: self.log, "Finished renewal")
                     completion(renewalParser.isRenewed(data: data))
                 })
                 task.resume()

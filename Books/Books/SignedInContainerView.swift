@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import LibraryCore
 
 struct SignedInContainerView : View {
     @State private var selection = 0
@@ -21,7 +22,6 @@ struct SignedInContainerView : View {
                     self.showingAccount.toggle()
                 }) {
                     Image(systemName: "person.crop.circle").imageScale(Image.Scale.large)
-                        .accentColor(.pink)
                         .accessibility(identifier: "Account")
                 }.sheet(isPresented: $showingAccount) {
                     AccountView(authenticationViewModel: self.authentication)
@@ -29,3 +29,17 @@ struct SignedInContainerView : View {
         }
     }
 }
+
+#if DEBUG
+
+struct SignedIn_preview: PreviewProvider {
+
+    static var previews: some View {
+        let accountViewModel = AccountViewModel(account: AccountModel())
+        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
+        return SignedInContainerView(authentication: authenticationViewModel)
+    }
+}
+
+#endif

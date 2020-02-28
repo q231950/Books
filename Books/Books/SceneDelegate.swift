@@ -19,6 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
 
+            setUpColors(window: window)
+
             let authenticationViewModel = createAuthenticationViewModel()
             let contentView = ContentView(authenticationViewModel: authenticationViewModel).environmentObject(authenticationViewModel)
             let hostingController = UIHostingController(rootView: contentView)
@@ -28,7 +30,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+    }
 
+    /// Setup the colors for this scene
+    private func setUpColors(window: UIWindow) {
+        window.tintColor = UIColor(named: "accent")
     }
 
     /// Create an authentication view model.

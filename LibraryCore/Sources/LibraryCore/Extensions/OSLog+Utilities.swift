@@ -16,6 +16,7 @@ public extension Subsystem {
     static let keychainManager = baseSubsystem + ".keychain-manager"
     static let authenticationManager = .baseSubsystem + ".authentication-manager"
     static let accountStore = .baseSubsystem + ".account-store"
+    static let scraper = .baseSubsystem + ".scraper"
 }
 
 /// The `Category` should be used as a category of an `OSLog`

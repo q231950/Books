@@ -32,8 +32,12 @@ struct LoanRow : View {
                                     .font(.body)
                             })
                             Spacer()
-                            loan.expiryDate.map({ d in
-                                Text("\(d)").font(.body).bold()
+                            loan.expiryDateString.map({ d in
+                                Text("\(d)")
+                                    .foregroundColor(Color("gray text"))
+                                    .font(.body)
+                                    .bold()
+
                             })
                         }
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
@@ -41,7 +45,7 @@ struct LoanRow : View {
                 }
             })
         }
-        .accessibility(identifier: loanViewModel.identifier ?? "")
+        .accessibility(identifier: loanViewModel.loan?.identifier ?? "")
     }
 }
 
@@ -62,16 +66,16 @@ struct LoanRow_Previews : PreviewProvider {
 }
 
 var loanViewModels: [LoanViewModel] {
-    var loan1 = Loan(expiryDate: Date(timeIntervalSinceNow: 3600*48))
-    loan1.identifier = "abc"
+    let loan1 = FlamingoLoan()
+    loan1.expiryDate = Date(timeIntervalSinceNow: 3600*48)
     loan1.title = "Akira"
     loan1.author = "Kodansha"
     loan1.signature = "123456789-abc"
     let viewModel1 = LoanViewModel(loan: loan1)
 
 
-    var loan2 = Loan(expiryDate: Date(timeIntervalSinceNow: 3600*24))
-    loan2.identifier = "abc2"
+    let loan2 = FlamingoLoan()
+    loan2.expiryDate = Date(timeIntervalSinceNow: 3600*24)
     loan2.title = "War and Peace"
     loan2.author = "Leo Tolstoy"
     loan2.signature = "222222-bbb"

@@ -59,4 +59,8 @@ class LoansUITests: XCTestCase {
         let renewedText = app.buttons["Renewed"]
         renewedText.waitForExistence(timeout: 500)
     }
+
+    func test_neverRenewed_showsNeverRenewed() {
+        // ... add test when there is a media that fulfills the criteria
+    }
 }
