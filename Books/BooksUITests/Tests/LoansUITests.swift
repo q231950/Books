@@ -43,7 +43,7 @@ class LoansUITests: XCTestCase {
 
 
         let renewedText = app.buttons["Not renewed"]
-        renewedText.waitForExistence(timeout: 500)
+        _ = renewedText.waitForExistence(timeout: 500)
     }
 
     func test_renewal_renews() {
@@ -57,10 +57,25 @@ class LoansUITests: XCTestCase {
 
 
         let renewedText = app.buttons["Renewed"]
-        renewedText.waitForExistence(timeout: 500)
+        _ = renewedText.waitForExistence(timeout: 500)
+    }
+
+    func test_loanDetails_showInformation() {
+        app.signIn()
+
+        let secondLoan: XCUIElement = app.cells.element(boundBy: 1)
+        secondLoan.tap()
+
+        
     }
 
     func test_neverRenewed_showsNeverRenewed() {
-        // ... add test when there is a media that fulfills the criteria
+        app.signIn()
+
+        let secondLoan: XCUIElement = app.cells.element(boundBy: 1)
+        secondLoan.tap()
+
+        
+
     }
 }
