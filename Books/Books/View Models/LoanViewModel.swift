@@ -29,7 +29,7 @@ public class LoanViewModel: ObservableObject, Hashable {
     public var didChange = PassthroughSubject<LoanViewModel, Never>()
 
     var identifier: String? {
-        loan?.signature
+        loan?.identifier
     }
 
     init(loan: FlamingoLoan) {
