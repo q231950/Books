@@ -83,13 +83,13 @@ class LoansParserTests: XCTestCase {
         }
     }
 
-    func testLoansSignatures() {
-        let expectedSignatures = ["T01540384X", "T01684642X"]
+    func testLoansIdentifiers() {
+        let expectedIdentifiers = ["T01540384X", "T01684642X"]
         let loans = parser.loans(data: data)
 
-        for index in 0..<expectedSignatures.count {
-            let expectedSignature = expectedSignatures[index]
-            XCTAssertEqual(loans[index].signature, expectedSignature)
+        for index in 0..<expectedIdentifiers.count {
+            let expectedIdentifier = expectedIdentifiers[index]
+            XCTAssertEqual(loans[index].identifier, expectedIdentifier)
         }
     }
 
