@@ -56,12 +56,12 @@ struct LoanDetailView: View {
                     .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                 }
                 .navigationBarTitle(Text("Details"), displayMode: .inline)
-        })
+            })
     }
 
-    private func renewButton(loan: FlamingoLoan) -> AnyView {
-        if (loan.renewable == true) {
-            return AnyView(
+    private func renewButton(loan: FlamingoLoan) -> some View {
+        Group {
+            if (loan.renewable == true) {
                 HStack {
                     Spacer()
 
@@ -70,8 +70,8 @@ struct LoanDetailView: View {
                         PublicLibraryScraper.default.renew(account: self.authenticationViewModel.accountViewModel.account,
                                                            accountStore: AccountStore(),
                                                            itemIdentifier: self.loanViewModel.loan?.barcode ?? "") { renewStatus in
-                                                            self.isRenewing = false
-                                                            self.onRenewal(status: renewStatus, loan: loan)
+                            self.isRenewing = false
+                            self.onRenewal(status: renewStatus, loan: loan)
                         }
                     }) {
                         Text("Renew")
@@ -86,9 +86,8 @@ struct LoanDetailView: View {
 
                     Spacer()
                 }
-            )
-        } else {
-            return AnyView(
+
+            } else {
                 HStack {
                     Spacer()
 
@@ -106,7 +105,7 @@ struct LoanDetailView: View {
 
                     Spacer()
                 }
-            )
+            }
         }
     }
 
