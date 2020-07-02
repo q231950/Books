@@ -17,7 +17,9 @@ struct LoansView : View {
             VStack {
                 List(loansViewModel.loans, id: \.identifier) { loanViewModel in
                     LoanRow(loanViewModel: loanViewModel)
+                    .padding()
                 }
+                .listStyle(PlainListStyle())
             }
             .tag(0)
             .tabItem { Text("Loans") }

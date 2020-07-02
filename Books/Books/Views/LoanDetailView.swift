@@ -63,8 +63,6 @@ struct LoanDetailView: View {
         Group {
             if (loan.renewable == true) {
                 HStack {
-                    Spacer()
-
                     Button(action: {
                         self.isRenewing = true
                         PublicLibraryScraper.default.renew(account: self.authenticationViewModel.accountViewModel.account,
@@ -78,35 +76,36 @@ struct LoanDetailView: View {
                             .font(.callout)
                             .bold()
                             .padding(EdgeInsets(top: 4, leading: 20, bottom: 6, trailing: 20))
+                            .frame(maxWidth: .infinity)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.accentColor, lineWidth: 1))
+                                    .stroke(Color.black.opacity(0.8), lineWidth: 2)
+                            )
                     }
                     .accessibility(identifier: "Renew")
-
-                    Spacer()
                 }
 
             } else {
                 HStack {
-                    Spacer()
-
                     Button(action: {}) {
                         Text("No renewal possible")
                             .font(.callout)
                             .bold()
                             .padding(EdgeInsets(top: 4, leading: 20, bottom: 6, trailing: 20))
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(Color.black.opacity(0.7))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.accentColor, lineWidth: 1))
+                                    .stroke(Color.black.opacity(0.2), lineWidth: 2)
+                            )
                     }
                     .disabled(true)
                     .accessibility(identifier: "No renewal possible")
-
-                    Spacer()
+                    .padding()
                 }
             }
         }
+        .padding(.bottom, 20)
     }
 
     private func properties(for loan: FlamingoLoan) -> AnyView {
