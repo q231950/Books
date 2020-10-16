@@ -76,6 +76,7 @@ struct ContentView_Previews : PreviewProvider {
         let authenticationManager = AuthenticationManager(accountStore: AccountStore())
         let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
         return ContentView(authenticationViewModel: authenticationViewModel)
+            .preferredColorScheme(.dark)
     }
 }
 #endif

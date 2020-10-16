@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/tadija/AEXML.git",
-            .upToNextMajor(from: "4.4.0")
+            .upToNextMajor(from: "4.6.0")
         ),
         .package(url: "http://github.com/q231950/the-stubborn-network.git",
                  .branch("master"))
