@@ -14,37 +14,30 @@ struct SignInView : View {
     @ObservedObject var authentication: AuthenticationViewModel
 
     var body: some View {
-        VStack(){
+        VStack(alignment: .center, spacing: 10) {
             Text("Please enter your credentials of the Public Library of Hamburg.")
                 .font(.headline)
                 .multilineTextAlignment(.center)
                 .padding(EdgeInsets(top: 80, leading: 0, bottom: 20, trailing: 0))
-            HStack() {
-                Spacer()
-                TextField("username", text: $authentication.accountViewModel.account.username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .textContentType(.username)
-                    .accessibility(identifier: "user")
-                Spacer()
+
+            TextField("username", text: $authentication.accountViewModel.account.username)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .textContentType(.username)
+                .accessibility(identifier: "user")
+
+            TextField("password", text: $authentication.accountViewModel.account.password)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .textContentType(.password)
+                .accessibility(identifier: "password")
+
+            Button(action: {
+                self.authentication.authenticate()
+            }) {
+                Text("Sign in")
             }
-            HStack() {
-                Spacer()
-                TextField("password", text: $authentication.accountViewModel.account.password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .textContentType(.password)
-                    .accessibility(identifier: "password")
-                Spacer()
-            }
-            HStack() {
-                Spacer()
-                Button(action: {
-                    self.authentication.authenticate()
-                }) {
-                    Text("Sign in")
-                }
-                Spacer()
-            }
+
             Spacer()
         }
+        .padding([.leading, .trailing], 20)
     }
 }
