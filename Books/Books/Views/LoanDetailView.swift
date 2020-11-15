@@ -10,17 +10,31 @@ import SwiftUI
 import LibraryCore
 
 struct LoanDetailView: View {
+    enum RenewalState {
+        case idle, renewing, renewed, error
+    }
+
     @State var isRenewing: Bool = false
+    @State var renewalState: RenewalState = .idle
     @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
     let loanViewModel: LoanViewModel
 
     var body: some View {
-        if isRenewing {
+        if renewalState == .renewing {
             return renewingBody()
+        } else if renewalState == .renewed {
+            return AnyView(standardBody().alert(isPresented: .constant(true)) {
+                Alert(title: Text("Renewed"), message: Text("The item has been renewed."), dismissButton: .default(Text("Ok")))
+            })
+        } else if renewalState == .error {
+            return AnyView(standardBody().alert(isPresented: .constant(true)) {
+                Alert(title: Text("Not Renewed"), message: Text("The item has not been renewed!"), dismissButton: .default(Text("Ok")))
+            })
         } else {
             return standardBody()
         }
     }
+
 
     private func renewingBody() -> AnyView {
         AnyView(ActivityIndicator(isAnimating: $isRenewing, style: .medium))
@@ -65,6 +79,7 @@ struct LoanDetailView: View {
                 HStack {
                     Button(action: {
                         self.isRenewing = true
+                        self.renewalState = .renewing
                         PublicLibraryScraper.default.renew(account: self.authenticationViewModel.accountViewModel.account,
                                                            accountStore: AccountStore(),
                                                            itemIdentifier: self.loanViewModel.loan?.barcode ?? "") { renewStatus in
@@ -185,6 +200,8 @@ struct LoanDetailView: View {
         )
     }
 
+    @State private var renewalAlertContent: (title: String, message: String)?
+
     private func onRenewal(status: RenewStatus, loan: FlamingoLoan) {
         var title: String
         var message: String
@@ -195,9 +212,11 @@ struct LoanDetailView: View {
             message = "The item has been renewed (\(s))."
             let dateFormatter = FlamingoLoan.dateFormatter()
             loan.renewalDate = dateFormatter.date(from: s)
+            self.renewalState = .renewed
         case .error(let err):
             title = "Error"
             message = "An error occurred when renewing the item (\(err))."
+            self.renewalState = .error
         case .failure:
             title = "Failure"
             message = "Item could not be renewed."

@@ -86,7 +86,10 @@ public final class PublicLibraryScraper {
             guard count == 0 else {
                 return
             }
-            completion(nil, loans)
+
+            completion(nil, loans.sorted { (a, b) -> Bool in
+                a.expiryDate ?? Date() < b.expiryDate ?? Date()
+            })
         }
 
         let task = self.network.dataTask(with: req, completionHandler: { (data, response, error) in

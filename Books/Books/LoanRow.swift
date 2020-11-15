@@ -45,7 +45,8 @@ struct LoanRow : View {
                 }
             })
         }
-        .accessibility(identifier: loanViewModel.loan?.identifier ?? "")
+        .accessibility(identifier: loanViewModel.loan?.identifier ?? "n/a")
+        .accessibility(label: Text(loanViewModel.loan?.title ?? "n/a"))
     }
 }
 

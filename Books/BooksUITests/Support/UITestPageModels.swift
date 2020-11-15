@@ -67,7 +67,7 @@ extension XCUIApplication {
 
         let passwordTextField = textFields.matching(identifier: "password").element
         passwordTextField.tap()
-        passwordTextField.typeText("***")
+        passwordTextField.typeText("xxx")
 
         buttons["Sign in"].tap()
     }

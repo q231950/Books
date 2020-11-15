@@ -28,8 +28,7 @@ class LoansUITests: XCTestCase {
     func test_loans_areVisible_afterSignIn() {
         app.signIn()
 
-        let listItemIdentifier = app.buttons["T014940950"]
-        _ = listItemIdentifier.waitForExistence(timeout: 3)
+        wait(forElement: app.buttons["T016637199"], timeout: 3)
     }
 
     func test_renewalShowsError() {
@@ -41,32 +40,33 @@ class LoansUITests: XCTestCase {
         let renewButton = app.buttons["Renew"]
         renewButton.tap()
 
-
-        let renewedText = app.buttons["Not renewed"]
-        _ = renewedText.waitForExistence(timeout: 500)
+        wait(forElement: app.staticTexts["Not Renewed"], timeout: 2)
     }
 
     func test_renewal_renews() {
         app.signIn()
 
-        let listItemIdentifier = app.buttons["T014940950"]
+        let listItemIdentifier = app.buttons["T017285249"]
         listItemIdentifier.tap()
 
         let renewButton = app.buttons["Renew"]
         renewButton.tap()
 
-
-        let renewedText = app.buttons["Renewed"]
-        _ = renewedText.waitForExistence(timeout: 500)
+        wait(forElement: app.staticTexts["Renewed"], timeout: 2)
     }
 
     func test_loanDetails_showInformation() {
         app.signIn()
 
-        let secondLoan: XCUIElement = app.cells.element(boundBy: 1)
-        secondLoan.tap()
+        let newAtlantisLoan = app.buttons["T019605398"]
+        newAtlantisLoan.tap()
 
-        
+        wait(forElement: app.staticTexts["Salty Days"], timeout: 1)
+        wait(forElement: app.staticTexts["Smallpeople"], timeout: 1)
+        wait(forElement: app.staticTexts["muc R 2 SMAL Rock, Pop"], timeout: 1)
+        wait(forElement: app.staticTexts["Vinyl"], timeout: 1)
+        wait(forElement: app.staticTexts["14.02.2020"], timeout: 1)
+        wait(forElement: app.staticTexts["13.03.2020"], timeout: 1)
     }
 
     func test_neverRenewed_showsNeverRenewed() {
@@ -75,7 +75,6 @@ class LoansUITests: XCTestCase {
         let secondLoan: XCUIElement = app.cells.element(boundBy: 1)
         secondLoan.tap()
 
-        
-
+        wait(forElement: app.staticTexts["never renewed"], timeout: 1)
     }
 }
