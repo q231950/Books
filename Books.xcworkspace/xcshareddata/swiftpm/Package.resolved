@@ -12,7 +12,7 @@
       },
       {
         "package": "rorschach",
-        "repositoryURL": "git@github.com:q231950/rorschach.git",
+        "repositoryURL": "https://github.com/q231950/rorschach.git",
         "state": {
           "branch": null,
           "revision": "0fe1b7a7b3e6e9a160fe6046d71604248e369c74",
