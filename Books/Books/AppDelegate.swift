@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
-    /// Cleans all user defaults for the application
+    /// Cleans the keychain and any persisted data
     private func cleanAppEnvironment() {
 
         do {

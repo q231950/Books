@@ -37,6 +37,7 @@
 		FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0915BC23C119FE00625F8E /* AccountStore.swift */; };
 		FD52477A2561B5C80020BE9D /* RorschachSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5247792561B5C80020BE9D /* RorschachSupport.swift */; };
 		FDE151B2258FDA1F00F56A9F /* Rorschach in Frameworks */ = {isa = PBXBuildFile; productRef = FDE151B1258FDA1F00F56A9F /* Rorschach */; };
+		FDE151B7258FE05900F56A9F /* XCUIApplication+launchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE151B6258FE05900F56A9F /* XCUIApplication+launchOptions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
 		FD0915BC23C119FE00625F8E /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
 		FD5247792561B5C80020BE9D /* RorschachSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RorschachSupport.swift; sourceTree = "<group>"; };
+		FDE151B6258FE05900F56A9F /* XCUIApplication+launchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+launchOptions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				3B568A15237B4AEB00835E3E /* XCTestCase+Extensions.swift */,
+				FDE151B6258FE05900F56A9F /* XCUIApplication+launchOptions.swift */,
 				3B568A13237B4AB100835E3E /* UITestPageModels.swift */,
 				FD5247792561B5C80020BE9D /* RorschachSupport.swift */,
 			);
@@ -428,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDE151B7258FE05900F56A9F /* XCUIApplication+launchOptions.swift in Sources */,
 				3B568A14237B4AB100835E3E /* UITestPageModels.swift in Sources */,
 				3BEA3E5E237B4B2E00E7EE24 /* AccountUITests.swift in Sources */,
 				3B47FDF622ABAFE800D39567 /* LoansUITests.swift in Sources */,
