@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Rorschach
 
 class LoansUITests: XCTestCase {
 
@@ -32,15 +33,30 @@ class LoansUITests: XCTestCase {
     }
 
     func test_renewalShowsError() {
-        app.signIn()
+        var context = Context(app: app, test: self)
 
-        let listItemIdentifier = app.buttons["T014940950"]
-        listItemIdentifier.tap()
+        expect(in: &context) {
+            Given {
+                GeneralStep("I sign in and select a loan that cannot be renewed") { c in
+                    c.app.signIn()
 
-        let renewButton = app.buttons["Renew"]
-        renewButton.tap()
+                    let listItemIdentifier = c.app.buttons["T014940950"]
+                    listItemIdentifier.tap()
+                }
+            }
 
-        wait(forElement: app.staticTexts["Not Renewed"], timeout: 2)
+            When {
+                GeneralStep("I renew the loan") { c in
+                    c.app.buttons["Renew"].tap()
+                }
+            }
+
+            Then {
+                GeneralAssertion("I see that the loan has not been renewed") { c in
+                    c.test.wait(forElement: c.app.staticTexts["Not Renewed"], timeout: 2)
+                }
+            }
+        }
     }
 
     func test_renewal_renews() {

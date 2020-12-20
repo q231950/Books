@@ -35,6 +35,8 @@
 		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
 		3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */; };
 		FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0915BC23C119FE00625F8E /* AccountStore.swift */; };
+		FD52477A2561B5C80020BE9D /* RorschachSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5247792561B5C80020BE9D /* RorschachSupport.swift */; };
+		FDE151A9258FD06900F56A9F /* Rorschach in Frameworks */ = {isa = PBXBuildFile; productRef = FDE151A8258FD06900F56A9F /* Rorschach */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,7 @@
 		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
 		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
 		FD0915BC23C119FE00625F8E /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
+		FD5247792561B5C80020BE9D /* RorschachSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RorschachSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDE151A9258FD06900F56A9F /* Rorschach in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +250,7 @@
 			children = (
 				3B568A15237B4AEB00835E3E /* XCTestCase+Extensions.swift */,
 				3B568A13237B4AB100835E3E /* UITestPageModels.swift */,
+				FD5247792561B5C80020BE9D /* RorschachSupport.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -306,6 +311,9 @@
 				3B47FDF322ABAFE800D39567 /* PBXTargetDependency */,
 			);
 			name = BooksUITests;
+			packageProductDependencies = (
+				FDE151A8258FD06900F56A9F /* Rorschach */,
+			);
 			productName = BooksUITests;
 			productReference = 3B47FDF122ABAFE800D39567 /* BooksUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -342,6 +350,9 @@
 				Base,
 			);
 			mainGroup = 3B47FDC422ABAFE600D39567;
+			packageReferences = (
+				FDE151A7258FD06900F56A9F /* XCRemoteSwiftPackageReference "rorschach" */,
+			);
 			productRefGroup = 3B47FDCE22ABAFE600D39567 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -420,6 +431,7 @@
 				3B568A14237B4AB100835E3E /* UITestPageModels.swift in Sources */,
 				3BEA3E5E237B4B2E00E7EE24 /* AccountUITests.swift in Sources */,
 				3B47FDF622ABAFE800D39567 /* LoansUITests.swift in Sources */,
+				FD52477A2561B5C80020BE9D /* RorschachSupport.swift in Sources */,
 				3B568A16237B4AEB00835E3E /* XCTestCase+Extensions.swift in Sources */,
 				3B2C06A1239AE644003A8199 /* SignInTests.swift in Sources */,
 			);
@@ -737,6 +749,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		FDE151A7258FD06900F56A9F /* XCRemoteSwiftPackageReference "rorschach" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:q231950/rorschach.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		3B1817BB22ACD85F00DFD67D /* LibraryCore */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -745,6 +768,11 @@
 		3B6179D722DB760300D77E84 /* StubbornNetwork */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = StubbornNetwork;
+		};
+		FDE151A8258FD06900F56A9F /* Rorschach */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDE151A7258FD06900F56A9F /* XCRemoteSwiftPackageReference "rorschach" */;
+			productName = Rorschach;
 		};
 /* End XCSwiftPackageProductDependency section */
 
