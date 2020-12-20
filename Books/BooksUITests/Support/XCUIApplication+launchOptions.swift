@@ -9,12 +9,16 @@
 import Foundation
 import XCTest
 
+enum StubbingSubject {
+    case networkRequests
+}
+
 /// Launch options to apply to the launch of an `XCUIApplication`
 ///
 enum LaunchOption {
     /// This option tells the application to either playback stubbed network
     /// requests for the given test case or record a new stub if none exists yet.
-    case stubbed(_ test: XCTestCase)
+    case stub(_ subject: StubbingSubject, `in`: XCTestCase)
     /// This option tells the application to clean the keychain and any persisted data.
     case clean
 }
@@ -28,7 +32,8 @@ extension XCUIApplication {
 
         for option in options {
             switch option {
-            case .stubbed(let test):
+            case .stub(_, let test):
+                // all stubs are network request stubs at the moment, hence the subject is ignored right now
                 let processInfo = ProcessInfo()
 
                 launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/BooksUITests/Stubs"

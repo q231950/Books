@@ -16,7 +16,7 @@ class LoansUITests: XCTestCase {
     override func setUp() {
         app = XCUIApplication()
 
-        app.launch(options: [.stubbed(self), .clean])
+        app.launch(options: [.stub(.networkRequests, in: self), .clean])
     }
 
     func test_loans_areVisible_afterSignIn() {
