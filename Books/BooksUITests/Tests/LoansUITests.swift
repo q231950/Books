@@ -16,14 +16,7 @@ class LoansUITests: XCTestCase {
     override func setUp() {
         app = XCUIApplication()
 
-        let processInfo = ProcessInfo()
-        app.launchEnvironment["STUB_PATH"] = "\(processInfo.environment["PROJECT_DIR"] ?? "")/BooksUITests/Stubs"
-        app.launchEnvironment["THE_STUBBORN_NETWORK_UI_TESTING"] = "YES"
-        app.launchEnvironment["STUB_NAME"] = self.name
-
-        app.launchArguments.append("clean")
-
-        app.launch()
+        app.launch(options: [.stubbed(self), .clean])
     }
 
     func test_loans_areVisible_afterSignIn() {
