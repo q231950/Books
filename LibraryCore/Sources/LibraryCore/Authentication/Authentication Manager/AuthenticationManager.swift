@@ -32,17 +32,22 @@ public enum AuthenticationError: Error {
 
 public class AuthenticationManager {
 
-    typealias Keys = UserDefaults.Keys
-
-    public static var shared = AuthenticationManager()
     public let authenticatedSubject = PassthroughSubject<AuthenticationState, AuthenticationError>()
     private let log = OSLog(subsystem: .authenticationManager, category: .development)
     private let network: NetworkClient
     private let credentialStore: AccountCredentialStore
+    private let accountStore: AccountStoring
 
-    init(network: NetworkClient = NetworkClient.shared, credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager())) {
+    public convenience init(accountStore: AccountStoring) {
+        self.init(network: NetworkClient.shared,
+        credentialStore: AccountCredentialStore(keychainProvider: KeychainManager()),
+        accountStore: accountStore)
+    }
+
+    init(network: NetworkClient = NetworkClient.shared, credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager()), accountStore: AccountStoring = NoOpAccountStore()) {
         self.network = network
         self.credentialStore = credentialStore
+        self.accountStore = accountStore
     }
 
     public func authenticateAccount(username: String?, password: String?) {
@@ -67,8 +72,7 @@ public class AuthenticationManager {
             } else {
                 os_log(.info, log: self.log, "Finished authentication for account %{private}@", username)
 
-                UserDefaults.standard.set(username, forKey: Keys.defaultAccountIdentifier)
-
+                self.accountStore.storeAccount(identifier: username)
                 self.authenticatedSubject.send(authenticated)
             }
         })
@@ -77,7 +81,6 @@ public class AuthenticationManager {
     public func signOut(_ accountIdentifier: String) {
         os_log(.info, log: log, "Signing out `%{private}@`", accountIdentifier)
 
-        UserDefaults.standard.removeObject(forKey: Keys.defaultAccountIdentifier)
         removePassword(for: accountIdentifier)
         removeSessionIdentifier(for: accountIdentifier)
         authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))

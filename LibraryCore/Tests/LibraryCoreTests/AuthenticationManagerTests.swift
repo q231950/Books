@@ -31,12 +31,13 @@ class AuthenticationManagerTest: XCTestCase {
     var network: NetworkClient!
     let keychainMock = TestHelper.keychainMock
     lazy var credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
-    var account: Account!
+    var account: AccountModel!
     var sink: AnyCancellable?
 
     override func setUp() {
         super.setUp()
         StubbornNetwork.standard = StubbornNetwork()
+        StubbornNetwork.standard.requestMatcherOptions = .strict
 
         let configuration: URLSessionConfiguration = .ephemeral
         StubbornNetwork.standard.insertStubbedSessionURLProtocol(into: configuration)

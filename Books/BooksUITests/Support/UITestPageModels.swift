@@ -10,10 +10,12 @@ import XCTest
 
 class Navigation {
     static func openAccountView(app: XCUIApplication) {
-        let tabbarButtons = app.tabBars.buttons
-        let accountButton = tabbarButtons["Account"]
+        let accountButton = app.buttons["Account"]
 
         accountButton.tap()
+
+        let someTime = XCTestExpectation(description: "wait...")
+        XCTWaiter().wait(for: [someTime], timeout: 0.33)
     }
 }
 
@@ -29,7 +31,7 @@ extension XCUIApplication {
 
         // UserDefaults need some time when asynchronously persisting data so that other processes can access them.
         let someTime = XCTestExpectation(description: "wait...")
-        XCTWaiter().wait(for: [someTime], timeout: 10)
+        XCTWaiter().wait(for: [someTime], timeout: 1)
 
         if cleanLaunchArguments {
             launchArguments.removeAll()
@@ -65,7 +67,7 @@ extension XCUIApplication {
 
         let passwordTextField = textFields.matching(identifier: "password").element
         passwordTextField.tap()
-        passwordTextField.typeText("***")
+        passwordTextField.typeText("xxx")
 
         buttons["Sign in"].tap()
     }

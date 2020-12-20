@@ -11,10 +11,15 @@ import LibraryCore
 
 struct AccountView : View {
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @Environment(\.presentationMode) var presentationMode
     var body: some View {
         return VStack {
-            Text("Account View")
-            Button(action: authenticationViewModel.signOut) {
+            Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
+                    self.authenticationViewModel.signOut()
+                }
+            }) {
                 Text("Sign out")
             }
         }
@@ -27,8 +32,9 @@ struct AccountView : View {
 #if DEBUG
 struct AccountView_Previews : PreviewProvider {
     static var previews: some View {
-        let accountViewModel = AccountViewModel(account: Account())
-        let authenticationViewModel = AuthenticationViewModel(accountViewModel: accountViewModel)
+        let accountViewModel = AccountViewModel(account: AccountModel())
+        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
         return AccountView(authenticationViewModel: authenticationViewModel)
     }
 }

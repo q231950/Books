@@ -25,7 +25,7 @@ final class TestHelper {
         return KeychainMock()
     }
 
-    static func accountStub() -> Account {
-        return Account()
+    static func accountStub() -> AccountModel {
+        return AccountModel()
     }
 }

@@ -20,7 +20,7 @@ public class LoanViewModel: ObservableObject, Hashable {
         hasher.combine(loan?.signature)
     }
 
-    public var loan: Loan? {
+    public var loan: FlamingoLoan? {
         didSet {
             self.didChange.send(self)
         }
@@ -32,7 +32,7 @@ public class LoanViewModel: ObservableObject, Hashable {
         loan?.identifier
     }
 
-    init(loan: Loan) {
+    init(loan: FlamingoLoan) {
         self.loan = loan
     }
 

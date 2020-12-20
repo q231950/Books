@@ -13,23 +13,37 @@ import Combine
 struct LoansView : View {
     @ObservedObject var loansViewModel: LoansViewModel
     var body: some View {
-        return VStack{
-            Text("🌊")
-            List(loansViewModel.loans, id: \.identifier) { loanViewModel in
-                LoanView(loanViewModel: loanViewModel)
+        return
+            VStack {
+                List(loansViewModel.loans, id: \.identifier) { loanViewModel in
+                    LoanRow(loanViewModel: loanViewModel)
+                    .padding()
+                }
+                .listStyle(PlainListStyle())
             }
-        }
-        .tag(0)
-        .tabItem { Text("Loans") }
+            .tag(0)
+            .tabItem { Text("Loans") }
     }
 }
 
 
 #if DEBUG
-//    struct LoansView_Previews : PreviewProvider {
-//        static var previews: some View {
-//            let loansViewModel = LoansViewModel(account: <#T##Account#>, authenticationManager: <#T##AuthenticationManager#>)
-//            return LoansView(loansViewModel: loansViewModel)
-//        }
-//    }
+    struct LoansView_Previews : PreviewProvider {
+        static var previews: some View {
+
+            let account = AccountModel(username: "abc", password: "123")
+            let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+            let loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager)
+            loansViewModel.loans.append(loanViewModels[0])
+            loansViewModel.loans.append(loanViewModels[1])
+
+            return Group {
+                LoansView(loansViewModel: loansViewModel).previewDisplayName("Loans on light")
+                LoansView(loansViewModel: loansViewModel)
+                .environment(\.colorScheme, .dark)
+                .previewDisplayName("Loans on dark")
+
+            }
+        }
+    }
 #endif

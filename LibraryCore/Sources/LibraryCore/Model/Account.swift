@@ -7,7 +7,7 @@
 
 import Combine
 
-public struct Account {
+public struct AccountModel {
     public var username: String = ""
     public var password: String = ""
 

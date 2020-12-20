@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/tadija/AEXML.git",
         "state": {
           "branch": null,
-          "revision": "8623e73b193386909566a9ca20203e33a09af142",
-          "version": "4.5.0"
+          "revision": "502c4d43a6cc9c395d19111e09dc62ad834977b5",
+          "version": "4.6.0"
+        }
+      },
+      {
+        "package": "rorschach",
+        "repositoryURL": "https://github.com/q231950/rorschach.git",
+        "state": {
+          "branch": null,
+          "revision": "0fe1b7a7b3e6e9a160fe6046d71604248e369c74",
+          "version": "1.0.1"
         }
       },
       {

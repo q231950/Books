@@ -23,18 +23,17 @@ struct ContentView : View {
         case .authenticating:
             return AnyView(ActivityIndicator(isAnimating: .constant(true), style: .medium))
         case .authenticationComplete(.authenticated):
-            return AnyView(SignedInContainerView(authentication: authenticationViewModel)
-                .padding(EdgeInsets(top: CGFloat(0), leading: CGFloat(10), bottom: CGFloat(0), trailing: CGFloat(10))))
+            return AnyView(SignedInContainerView(authentication: authenticationViewModel))
         case .authenticationComplete(.manualAuthenticationFailed):
             return AnyView(signInView().alert(isPresented: .constant(true)) {
                 Alert(title: Text("Invalid Credentials"), message: Text("The username and password do not match. Have you recently changed your password?"), dismissButton: .default(Text("Ok")))
-                })
+            })
         case .authenticationComplete(.automaticAuthenticationFailed):
             return AnyView(signInView())
         case .authenticationError(let error):
             return AnyView(signInView().alert(isPresented: .constant(true)) {
-                    Alert(title: Text("Error"), message: Text(error.localizedDescription), dismissButton: .default(Text("Ok")))
-                })
+                Alert(title: Text("Error"), message: Text(error.localizedDescription), dismissButton: .default(Text("Ok")))
+            })
         case .authenticationComplete(.signOutSucceeded):
             return AnyView(signInView().alert(isPresented: .constant(true)) {
                 Alert(title: Text("Signed Out"), message: Text("You are now signed out"), dismissButton: .default(Text("Ok")))
@@ -53,7 +52,6 @@ struct ContentView : View {
 
     func signInView() -> some View {
         return SignInView(authentication: authenticationViewModel)
-            .padding(EdgeInsets(top: CGFloat(0), leading: CGFloat(10), bottom: CGFloat(0), trailing: CGFloat(10)))
     }
 }
 
@@ -74,9 +72,11 @@ struct ActivityIndicator: UIViewRepresentable {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        let accountViewModel = AccountViewModel(account: Account())
-        let authenticationViewModel = AuthenticationViewModel(accountViewModel: accountViewModel)
+        let accountViewModel = AccountViewModel(account: AccountModel())
+        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
         return ContentView(authenticationViewModel: authenticationViewModel)
+            .preferredColorScheme(.dark)
     }
 }
 #endif

@@ -19,8 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
 
+            setUpColors(window: window)
+
             let authenticationViewModel = createAuthenticationViewModel()
-            let contentView = ContentView(authenticationViewModel: authenticationViewModel)
+            let contentView = ContentView(authenticationViewModel: authenticationViewModel).environmentObject(authenticationViewModel)
             let hostingController = UIHostingController(rootView: contentView)
 
             window.rootViewController = hostingController
@@ -28,18 +30,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+    }
 
+    /// Setup the colors for this scene
+    private func setUpColors(window: UIWindow) {
+        window.tintColor = UIColor(named: "accent")
     }
 
     /// Create an authentication view model.
     private func createAuthenticationViewModel() -> AuthenticationViewModel {
-        var account = Account()
-        if let accountIdentifier = LibraryCore.defaultAccountIdentifier {
-            account.username = accountIdentifier
+        var account = AccountModel()
+        let store = AccountStore()
+        if let identifier = store.defaultAccountIdentifier() {
+            account.username = identifier
         }
 
         let accountViewModel = AccountViewModel(account: account)
-        return AuthenticationViewModel(authenticationManager: AuthenticationManager.shared,
+        let accountStore = AccountStore()
+        return AuthenticationViewModel(authenticationManager: AuthenticationManager(accountStore: accountStore),
                                        accountViewModel: accountViewModel)
     }
 }

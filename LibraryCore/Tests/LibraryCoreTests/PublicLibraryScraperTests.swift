@@ -13,14 +13,14 @@ import StubbornNetwork
 class PublicLibraryScraperTests: XCTestCase {
 
     let keychainMock = TestHelper.keychainMock
-    var account: Account!
+    var account: AccountModel!
     var network: NetworkClient!
     var scraper: PublicLibraryScraper!
     var stubbornNetwork: StubbornNetwork!
 
     override func setUp() {
         super.setUp()
-        account = Account()
+        account = AccountModel()
         stubbornNetwork = StubbornNetwork.standard
         let configuration: URLSessionConfiguration = .ephemeral
         stubbornNetwork.insertStubbedSessionURLProtocol(into: configuration)
