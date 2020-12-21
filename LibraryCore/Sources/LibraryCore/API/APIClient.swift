@@ -30,14 +30,14 @@ public final class APIClient {
         self.keychainProvider = keychainProvider
     }
     
-    // MARK: Account
+    // MARK: - User Profile
     
-    public func profile(_ account: AccountModel, completion:((_ error:Error?) -> Void)!) {
+    public func profile(_ account: AccountModel, completion:((_ error:Error?) -> Void)) {
         // profile is currently not fetched
         completion(nil)
     }
 
-    // MARK: Charges
+    // MARK: - Charges
 
     func charges(account: AccountModel, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
 
@@ -66,7 +66,7 @@ public final class APIClient {
         task.resume()
     }
 
-    // MARK: Loans
+    // MARK: - Loans
 
     public func loans(_ account: AccountModel, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [FlamingoLoan])->(Void))) {
 
@@ -77,9 +77,9 @@ public final class APIClient {
         var loans = [FlamingoLoan]()
 
         guard let req = RequestBuilder.default.loansRequest(sessionIdentifier: sessionIdentifier),
-            let baseUrl = URL(string: baseUrlString) else {
-                completion(NSError(domain: "\(type(of: self))", code: 3, userInfo: nil), loans)
-                return
+              let baseUrl = URL(string: baseUrlString) else {
+            completion(NSError(domain: "\(type(of: self))", code: 3, userInfo: nil), loans)
+            return
         }
 
         let finishedCompletion = { (count: Int, loans: [FlamingoLoan]) -> Void in
@@ -158,7 +158,7 @@ public final class APIClient {
         task.resume()
     }
 
-    // MARK: Renewal
+    // MARK: - Renewal
 
     public func renew(account: AccountModel, accountStore: AccountStoring, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
 
@@ -181,10 +181,10 @@ public final class APIClient {
                 }
 
                 guard let request = RequestBuilder.default.renewRequest(
-                    sessionIdentifier: token,
-                    itemIdentifier: itemIdentifier) else {
-                        completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 2)))
-                        return
+                        sessionIdentifier: token,
+                        itemIdentifier: itemIdentifier) else {
+                    completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 2)))
+                    return
                 }
 
                 let task = self.network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
@@ -198,7 +198,7 @@ public final class APIClient {
                     completion(renewalParser.isRenewed(data: data))
                 })
                 task.resume()
-        })
+            })
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
     }
 
