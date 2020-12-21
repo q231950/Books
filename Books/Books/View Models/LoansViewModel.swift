@@ -16,7 +16,7 @@ class LoansViewModel: ObservableObject {
     @Published var loans: [LoanViewModel] = []
 
     init(account: AccountModel, authenticationManager: AuthenticationManager) {
-        let scraper = PublicLibraryScraper.default
+        let scraper = APIClient.default
         scraper.loans(account, authenticationManager: authenticationManager, completion: { (error, loans) -> (Void) in
 
             let loanViewModels = loans.map { LoanViewModel(loan: $0) }

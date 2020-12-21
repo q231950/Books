@@ -1,5 +1,5 @@
 //
-//  PublicLibraryScraper.swift
+//  APIClient.swift
 //  books
 //
 //  Created by Martin Kim Dung-Pham on 01/09/14.
@@ -11,7 +11,7 @@ import os
 
 public typealias SessionIdentifier = String
 
-public final class PublicLibraryScraper {
+public final class APIClient {
 
     private let network: NetworkClient
     private let keychainProvider: KeychainProvider
@@ -19,9 +19,9 @@ public final class PublicLibraryScraper {
     var authenticationSink: Any?
     let log = OSLog(subsystem: .development, category: .scraper)
 
-    public static var `default`: PublicLibraryScraper {
+    public static var `default`: APIClient {
         get {
-            return PublicLibraryScraper()
+            return APIClient()
         }
     }
 
@@ -176,20 +176,20 @@ public final class PublicLibraryScraper {
                 }
             }, receiveValue: { authenticated in
                 guard let token = authenticationManager.sessionIdentifier(for: account.username) else {
-                    completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 1)))
+                    completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 1)))
                     return
                 }
 
                 guard let request = RequestBuilder.default.renewRequest(
                     sessionIdentifier: token,
                     itemIdentifier: itemIdentifier) else {
-                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 2)))
+                        completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 2)))
                         return
                 }
 
                 let task = self.network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                     guard error == nil else {
-                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 3)))
+                        completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 3)))
                         return
                     }
 
