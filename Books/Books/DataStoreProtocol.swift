@@ -12,7 +12,7 @@ import CoreData
 protocol DataStore {
 
     /// The persistent container of the DataStore can be used to fetch items from its contexts or create new ones
-    var persistentContainer: NSPersistentCloudKitContainer { get }
+    var container: NSPersistentContainer { get }
 
     /// Saves the current state of the store
     func saveViewContext()

@@ -10,8 +10,7 @@
 		3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1817BB22ACD85F00DFD67D /* LibraryCore */; };
 		3B25DE6823C9B9AE008A5486 /* LoanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */; };
 		3B2C06A1239AE644003A8199 /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C06A0239AE644003A8199 /* SignInTests.swift */; };
-		3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD022ABAFE600D39567 /* AppDelegate.swift */; };
-		3B47FDD322ABAFE600D39567 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */; };
+		3B47FDD322ABAFE600D39567 /* BooksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD222ABAFE600D39567 /* BooksApp.swift */; };
 		3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */; };
 		3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD722ABAFE700D39567 /* ContentView.swift */; };
 		3B47FDDA22ABAFE800D39567 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B47FDD922ABAFE800D39567 /* Assets.xcassets */; };
@@ -35,6 +34,7 @@
 		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
 		3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */; };
 		FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0915BC23C119FE00625F8E /* AccountStore.swift */; };
+		FD0E0E42259728B0002A8242 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD0E0E41259728B0002A8242 /* CloudKit.framework */; };
 		FD52477A2561B5C80020BE9D /* RorschachSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5247792561B5C80020BE9D /* RorschachSupport.swift */; };
 		FDE151B2258FDA1F00F56A9F /* Rorschach in Frameworks */ = {isa = PBXBuildFile; productRef = FDE151B1258FDA1F00F56A9F /* Rorschach */; };
 		FDE151B7258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE151B6258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift */; };
@@ -61,8 +61,7 @@
 		3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoanDetailView.swift; path = Views/LoanDetailView.swift; sourceTree = "<group>"; };
 		3B2C06A0239AE644003A8199 /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
 		3B47FDCD22ABAFE600D39567 /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B47FDD022ABAFE600D39567 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3B47FDD222ABAFE600D39567 /* BooksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksApp.swift; sourceTree = "<group>"; };
 		3B47FDD522ABAFE700D39567 /* Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Books.xcdatamodel; sourceTree = "<group>"; };
 		3B47FDD722ABAFE700D39567 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B47FDD922ABAFE800D39567 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -90,6 +89,8 @@
 		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
 		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
 		FD0915BC23C119FE00625F8E /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
+		FD0E0E3D259728A1002A8242 /* Books.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Books.entitlements; sourceTree = "<group>"; };
+		FD0E0E41259728B0002A8242 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		FD5247792561B5C80020BE9D /* RorschachSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RorschachSupport.swift; sourceTree = "<group>"; };
 		FDE151B6258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+LaunchOptions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD0E0E42259728B0002A8242 /* CloudKit.framework in Frameworks */,
 				3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */,
 				3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */,
 			);
@@ -146,10 +148,10 @@
 		3B47FDCF22ABAFE600D39567 /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				3B47FDD022ABAFE600D39567 /* AppDelegate.swift */,
+				FD0E0E3D259728A1002A8242 /* Books.entitlements */,
 				3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */,
 				3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */,
-				3B47FDD222ABAFE600D39567 /* SceneDelegate.swift */,
+				3B47FDD222ABAFE600D39567 /* BooksApp.swift */,
 				FD0915BC23C119FE00625F8E /* AccountStore.swift */,
 				3B99B70D22AC0010000CBEAD /* Views */,
 				3B4BF21C22BDDC19000218F8 /* View Models */,
@@ -224,6 +226,7 @@
 		3B99B71222ACD399000CBEAD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FD0E0E41259728B0002A8242 /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -408,14 +411,13 @@
 				3BAF88E5236A1BE0003A356E /* SignedInContainerView.swift in Sources */,
 				3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */,
 				FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */,
-				3B47FDD122ABAFE600D39567 /* AppDelegate.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,
 				3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */,
 				3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */,
 				3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */,
 				3B681A2F237C8D7A002ACA4C /* DataStoreProtocol.swift in Sources */,
 				3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */,
-				3B47FDD322ABAFE600D39567 /* SceneDelegate.swift in Sources */,
+				3B47FDD322ABAFE600D39567 /* BooksApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,7 +521,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -574,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -588,6 +590,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Books/Books.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "Books/Preview\\ Content";
 				DEVELOPMENT_TEAM = X29V4JPQ55;
@@ -611,6 +614,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Books/Books.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "Books/Preview\\ Content";
 				DEVELOPMENT_TEAM = X29V4JPQ55;

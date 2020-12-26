@@ -16,14 +16,13 @@ public final class APIClient {
     private let network: NetworkClient
     private let keychainProvider: KeychainProvider
     private let baseUrlString = "https://www.buecherhallen.de"
-    var authenticationSink: Any?
-    let log = OSLog(subsystem: .development, category: .scraper)
+    private let log = OSLog(subsystem: .development, category: .scraper)
 
-    public static var `default`: APIClient {
-        get {
-            return APIClient()
-        }
-    }
+    var authenticationSink: Any?
+
+    public static var shared: APIClient = {
+        APIClient()
+    }()
 
     init(network: NetworkClient = NetworkClient.shared, keychainProvider: KeychainProvider = KeychainManager()) {
         self.network = network

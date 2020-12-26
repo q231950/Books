@@ -80,7 +80,7 @@ struct LoanDetailView: View {
                     Button(action: {
                         self.isRenewing = true
                         self.renewalState = .renewing
-                        APIClient.default.renew(account: self.authenticationViewModel.accountViewModel.account,
+                        APIClient.shared.renew(account: self.authenticationViewModel.accountViewModel.account,
                                                            accountStore: AccountStore(),
                                                            itemIdentifier: self.loanViewModel.loan?.barcode ?? "") { renewStatus in
                             self.isRenewing = false

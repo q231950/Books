@@ -15,7 +15,7 @@ class AccountUITests: XCTestCase {
     override func setUp() {
         app = XCUIApplication()
 
-        app.launch(options: [.stub(.networkRequests, in: self), .clean])
+        app.launch(options: [.stub(.networkRequests, in: self), .cleanKeychain, .customDataStore(name: name)])
     }
 
     func testSignOutButton() {

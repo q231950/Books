@@ -25,7 +25,7 @@ extension XCUIApplication {
     /// - Parameters:
     ///   - cleanLaunchArguments: Before activating the app `cleanLaunchArguments` defines whether or not all its previous launch arguments
     ///                           should be cleared
-    func restart(cleanLaunchArguments: Bool = true) {
+    func restart(cleanLaunchOptions: [LaunchOption] = []) {
 
         XCUIDevice.shared.press(XCUIDevice.Button.home)
 
@@ -33,8 +33,8 @@ extension XCUIApplication {
         let someTime = XCTestExpectation(description: "wait...")
         XCTWaiter().wait(for: [someTime], timeout: 1)
 
-        if cleanLaunchArguments {
-            launchArguments.removeAll()
+        for option in cleanLaunchOptions {
+            removeOption(option)
         }
 
         launch()

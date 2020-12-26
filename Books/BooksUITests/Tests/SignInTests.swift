@@ -13,17 +13,17 @@ class SignInTests: XCTestCase {
 
     override func setUp() {
         app = XCUIApplication()
-
-        app.launch(options: [.stub(.networkRequests, in: self), .clean])
     }
 
     func test_signIn_andRestartTheApp_keepsSignedIn() {
         // given
+        app.launch(options: [.stub(.networkRequests, in: self), .customDataStore(name: name), .cleanKeychain])
+
         app.signIn()
         Navigation.openAccountView(app:app)
 
         // when
-        app.restart()
+        app.restart(cleanLaunchOptions: [.cleanKeychain])
 
         // then
         Navigation.openAccountView(app:app)
@@ -31,6 +31,8 @@ class SignInTests: XCTestCase {
 
     func test_signIn_withInvalidCredentials_remembersUsername() {
         // given
+        app.launch(options: [.stub(.networkRequests, in: self), .customDataStore(name: name)])
+
         app.signInWithInvalidCredentials()
         app.buttons["Ok"].tap()
 

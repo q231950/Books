@@ -11,13 +11,11 @@ import SwiftUI
 import LibraryCore
 
 class LoansViewModel: ObservableObject {
-    var didChange = PassthroughSubject<[LoanViewModel], Never>()
-
     @Published var loans: [LoanViewModel] = []
 
     init(account: AccountModel, authenticationManager: AuthenticationManager) {
-        let scraper = APIClient.default
-        scraper.loans(account, authenticationManager: authenticationManager, completion: { (error, loans) -> (Void) in
+        let apiClient = APIClient.shared
+        apiClient.loans(account, authenticationManager: authenticationManager, completion: { (error, loans) -> (Void) in
 
             let loanViewModels = loans.map { LoanViewModel(loan: $0) }
 
