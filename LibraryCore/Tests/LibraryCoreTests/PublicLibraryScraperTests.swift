@@ -15,7 +15,7 @@ class PublicLibraryScraperTests: XCTestCase {
     let keychainMock = TestHelper.keychainMock
     var account: AccountModel!
     var network: NetworkClient!
-    var scraper: PublicLibraryScraper!
+    var scraper: APIClient!
     var stubbornNetwork: StubbornNetwork!
 
     override func setUp() {
@@ -27,7 +27,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let session = URLSession(configuration: configuration)
         network = NetworkClient(session: session)
 
-        scraper = PublicLibraryScraper(network: network, keychainProvider: keychainMock)
+        scraper = APIClient(network: network, keychainProvider: keychainMock)
         account.username = "123"
         try! keychainMock.add(password: "abc", to: account.username)
     }

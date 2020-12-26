@@ -1,5 +1,5 @@
 //
-//  PublicLibraryScraper.swift
+//  APIClient.swift
 //  books
 //
 //  Created by Martin Kim Dung-Pham on 01/09/14.
@@ -11,33 +11,32 @@ import os
 
 public typealias SessionIdentifier = String
 
-public final class PublicLibraryScraper {
+public final class APIClient {
 
     private let network: NetworkClient
     private let keychainProvider: KeychainProvider
     private let baseUrlString = "https://www.buecherhallen.de"
-    var authenticationSink: Any?
-    let log = OSLog(subsystem: .development, category: .scraper)
+    private let log = OSLog(subsystem: .development, category: .scraper)
 
-    public static var `default`: PublicLibraryScraper {
-        get {
-            return PublicLibraryScraper()
-        }
-    }
+    var authenticationSink: Any?
+
+    public static var shared: APIClient = {
+        APIClient()
+    }()
 
     init(network: NetworkClient = NetworkClient.shared, keychainProvider: KeychainProvider = KeychainManager()) {
         self.network = network
         self.keychainProvider = keychainProvider
     }
     
-    // MARK: Account
+    // MARK: - User Profile
     
-    public func profile(_ account: AccountModel, completion:((_ error:Error?) -> Void)!) {
+    public func profile(_ account: AccountModel, completion:((_ error:Error?) -> Void)) {
         // profile is currently not fetched
         completion(nil)
     }
 
-    // MARK: Charges
+    // MARK: - Charges
 
     func charges(account: AccountModel, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
 
@@ -66,7 +65,7 @@ public final class PublicLibraryScraper {
         task.resume()
     }
 
-    // MARK: Loans
+    // MARK: - Loans
 
     public func loans(_ account: AccountModel, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [FlamingoLoan])->(Void))) {
 
@@ -77,9 +76,9 @@ public final class PublicLibraryScraper {
         var loans = [FlamingoLoan]()
 
         guard let req = RequestBuilder.default.loansRequest(sessionIdentifier: sessionIdentifier),
-            let baseUrl = URL(string: baseUrlString) else {
-                completion(NSError(domain: "\(type(of: self))", code: 3, userInfo: nil), loans)
-                return
+              let baseUrl = URL(string: baseUrlString) else {
+            completion(NSError(domain: "\(type(of: self))", code: 3, userInfo: nil), loans)
+            return
         }
 
         let finishedCompletion = { (count: Int, loans: [FlamingoLoan]) -> Void in
@@ -158,7 +157,7 @@ public final class PublicLibraryScraper {
         task.resume()
     }
 
-    // MARK: Renewal
+    // MARK: - Renewal
 
     public func renew(account: AccountModel, accountStore: AccountStoring, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
 
@@ -176,20 +175,20 @@ public final class PublicLibraryScraper {
                 }
             }, receiveValue: { authenticated in
                 guard let token = authenticationManager.sessionIdentifier(for: account.username) else {
-                    completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 1)))
+                    completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 1)))
                     return
                 }
 
                 guard let request = RequestBuilder.default.renewRequest(
-                    sessionIdentifier: token,
-                    itemIdentifier: itemIdentifier) else {
-                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 2)))
-                        return
+                        sessionIdentifier: token,
+                        itemIdentifier: itemIdentifier) else {
+                    completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 2)))
+                    return
                 }
 
                 let task = self.network.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                     guard error == nil else {
-                        completion(.error(NSError(domain: "com.elbedev.sync.PublicLibraryAccountScraper.renew", code: 3)))
+                        completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 3)))
                         return
                     }
 
@@ -198,7 +197,7 @@ public final class PublicLibraryScraper {
                     completion(renewalParser.isRenewed(data: data))
                 })
                 task.resume()
-        })
+            })
         authenticationManager.authenticateAccount(username: account.username, password: account.password)
     }
 

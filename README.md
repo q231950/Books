@@ -10,4 +10,4 @@
 
 For the Xcode UITests it comes handy to prepare the keyboard in advance so that the monkey can type properly:
 
-`defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0`
+`defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false`
