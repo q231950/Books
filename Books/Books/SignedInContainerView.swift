@@ -19,7 +19,7 @@ struct SignedInContainerView : View {
             authentication.loansViewModel.map({ LoansView(loansViewModel: $0) })
                 .navigationBarTitle(Text("BTLB"))
                 .navigationBarItems(trailing: Button(action: {
-                    self.showingAccount.toggle()
+                    showingAccount.toggle()
                 }) {
                     Image(systemName: "person.crop.circle").imageScale(Image.Scale.large)
                         .accessibility(identifier: "Account")

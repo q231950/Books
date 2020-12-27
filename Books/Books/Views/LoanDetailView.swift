@@ -251,7 +251,9 @@ struct LoanDetailView_Previews: PreviewProvider {
         loan.material = "Material"
         loan.materialName = "Buch Erwachsene"
         loan.isReserved = false
+
         let viewModel = LoanViewModel(loan: loan)
+
         return LoanDetailView(loanViewModel: viewModel)
             .environment(\.colorScheme, .light)
     }

@@ -121,15 +121,15 @@ final class RequestBuilder {
 
     /// - returns: An optional `URLRequest` for the given body and SOAP action
     private func request(with body: Data?, path: String, action: String) -> URLRequest? {
-        return URLRequest.request(method: "POST",
-                                  host: "zones.buecherhallen.de",
-                                  path: path,
-                                  body: body,
-                                  headers: ["Content-Type": "text/xml; charset=utf-8",
-                                            "SOAPAction": "http://bibliomondo.com/websevices/\(action)",
-                                    "Accept": "*/*",
-                                    "Accept-Language": "en-us",
-                                    "Accept-Encoding": "br, gzip, deflate"])
+        URLRequest.request(method: "POST",
+                           host: "zones.buecherhallen.de",
+                           path: path,
+                           body: body,
+                           headers: ["Content-Type": "text/xml; charset=utf-8",
+                                     "SOAPAction": "http://bibliomondo.com/websevices/\(action)",
+                                     "Accept": "*/*",
+                                     "Accept-Language": "en-us",
+                                     "Accept-Encoding": "br, gzip, deflate"])
     }
 
     /**

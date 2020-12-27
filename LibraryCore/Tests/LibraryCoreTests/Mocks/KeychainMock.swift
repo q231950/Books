@@ -22,7 +22,7 @@ class KeychainMock: TestableKeychainProvider {
     }
 
     func password(for account: String) -> String? {
-        return addedKeychainItems[account]
+        addedKeychainItems[account]
     }
 
     func deletePassword(of account: String) {

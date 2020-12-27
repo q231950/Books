@@ -13,7 +13,7 @@ import LibraryCore
 public class LoanViewModel: ObservableObject, Hashable {
 
     public static func == (lhs: LoanViewModel, rhs: LoanViewModel) -> Bool {
-        return lhs.loan?.signature == rhs.loan?.signature
+        lhs.loan?.signature == rhs.loan?.signature
     }
 
     public func hash(into hasher: inout Hasher) {

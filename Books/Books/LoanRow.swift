@@ -13,7 +13,7 @@ struct LoanRow : View {
     var loanViewModel: LoanViewModel
 
     var body: some View {
-        return VStack {
+        VStack {
             loanViewModel.loan.map({ loan in
                 NavigationLink(destination: LoanDetailView(loanViewModel: loanViewModel)) {
                     VStack(alignment: .leading) {
@@ -53,7 +53,7 @@ struct LoanRow : View {
 #if DEBUG
 struct LoanRow_Previews : PreviewProvider {
     static var previews: some View {
-        return Group {
+        Group {
             LoanRow(loanViewModel: loanViewModels[0])
                 .environment(\.colorScheme, .dark)
                 .previewLayout(.fixed(width: 300, height: 100))

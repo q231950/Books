@@ -13,9 +13,10 @@ import Combine
 struct ContentView : View {
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
     var body: some View {
-        view(for: authenticationViewModel.authenticated).onAppear() {
-            self.authenticationViewModel.attemptAutomaticAuthentication()
-        }
+        view(for: authenticationViewModel.state)
+            .onAppear() {
+                self.authenticationViewModel.attemptAutomaticAuthentication()
+            }
     }
 
     func view(for state: AuthenticationState) -> AnyView {
@@ -51,7 +52,7 @@ struct ContentView : View {
     }
 
     func signInView() -> some View {
-        return SignInView(authentication: authenticationViewModel)
+        SignInView(authentication: authenticationViewModel)
     }
 }
 
@@ -61,7 +62,7 @@ struct ActivityIndicator: UIViewRepresentable {
     let style: UIActivityIndicatorView.Style
 
     func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
-        return UIActivityIndicatorView(style: style)
+        UIActivityIndicatorView(style: style)
     }
 
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {

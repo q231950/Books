@@ -21,7 +21,7 @@ extension XCUIApplication {
     ///
     /// ```
     /// app = XCUIApplication()
-    /// app.launch(options: [.stub(.networkRequests, in: self), .clean])
+    /// app.launch(options: [.stub(.networkRequests, in: self), .cleanKeychain])
     /// ```
     ///
     /// - Parameter options: the options to apply.
@@ -54,6 +54,10 @@ enum StubbingSubject {
 }
 
 extension XCUIApplication {
+
+    /// Adds a launch option to the launch of the application under test.
+    ///
+    /// - Parameter option: The option to add
     func addOption(_ option: LaunchOption) {
         let processInfo = ProcessInfo()
 
@@ -69,6 +73,9 @@ extension XCUIApplication {
         }
     }
 
+    /// Removes a launch option of the application under test.
+    ///
+    /// - Parameter option: The option to remove
     func removeOption(_ option: LaunchOption) {
 
         switch option {

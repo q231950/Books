@@ -22,10 +22,10 @@ final class TestHelper {
     }
     
     static var keychainMock: TestableKeychainProvider {
-        return KeychainMock()
+        KeychainMock()
     }
 
     static func accountStub() -> AccountModel {
-        return AccountModel()
+        AccountModel()
     }
 }

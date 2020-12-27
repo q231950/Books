@@ -61,7 +61,7 @@ class PublicLibraryScraperTests: XCTestCase {
         let loanDetailRequestB = try XCTUnwrap(RequestBuilder.default.itemDetailsRequest(itemIdentifier: "T01684642X"))
         stubbornNetwork.stub(request: loanDetailRequestB, data: publicLoanDetailResponseBody)
         scraper.loans(account, authenticationManager: AuthenticationManager.stubbed({ (manager) in
-            manager.authenticated = .authenticationComplete(.authenticated)
+            manager.state = .authenticationComplete(.authenticated)
             manager.stubbedSessionIdentifier = "abc"
         })) { (error, loans) -> (Void) in
             XCTAssertEqual(loans.count, 2)
