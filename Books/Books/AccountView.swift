@@ -10,32 +10,33 @@ import SwiftUI
 import LibraryCore
 
 struct AccountView : View {
-    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+    @ObservedObject var accountViewModel: AccountViewModel
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        VStack {
-            Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
-                    self.authenticationViewModel.signOut()
-                }
-            }) {
-                Text("Sign out")
-            }
-        }
-        .tabItem { Text("Account") }
-        .tag(1)
+        Text("AccountView")
+//        VStack {
+//            Button(action: {
+//                self.presentationMode.wrappedValue.dismiss()
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
+//                    self.authenticationViewModel.signOut()
+//                }
+//            }) {
+//                Text("Sign out")
+//            }
+//        }
+//        .tabItem { Text("Account") }
+//        .tag(1)
     }
 }
 
 
 #if DEBUG
-struct AccountView_Previews : PreviewProvider {
-    static var previews: some View {
-        let accountViewModel = AccountViewModel(account: AccountModel())
-        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
-        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
-        return AccountView(authenticationViewModel: authenticationViewModel)
-    }
-}
+//struct AccountView_Previews : PreviewProvider {
+//    static var previews: some View {
+//        let accountViewModel = AccountViewModel(account: AccountModel())
+//        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+//        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
+//        return AccountView(authenticationViewModel: authenticationViewModel)
+//    }
+//}
 #endif

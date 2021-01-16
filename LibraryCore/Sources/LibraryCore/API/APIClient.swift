@@ -67,9 +67,9 @@ public final class APIClient {
 
     // MARK: - Loans
 
-    public func loans(_ account: AccountModel, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [FlamingoLoan])->(Void))) {
+    public func loans(_ credentials: Credentials, authenticationManager: AuthenticationManager, completion:@escaping ((_ error:Error?, _ loans: [FlamingoLoan])->(Void))) {
 
-        guard let sessionIdentifier = authenticationManager.sessionIdentifier(for: account.username) else {
+        guard let sessionIdentifier = authenticationManager.sessionIdentifier(for: credentials.username) else {
             return
         }
 
@@ -159,7 +159,7 @@ public final class APIClient {
 
     // MARK: - Renewal
 
-    public func renew(account: AccountModel, accountStore: AccountStoring, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
+    public func renew(credentials: Credentials, accountStore: AccountStoring, itemIdentifier: String, completion:@escaping ((_ renewState: RenewStatus) -> Void)) {
 
         os_log(.info, log: self.log, "Initiating renewal of %{private}@.", itemIdentifier)
         let credentialStore = AccountCredentialStore(keychainProvider: keychainProvider)
@@ -174,7 +174,7 @@ public final class APIClient {
                 case .finished: os_log(.info, log: self.log, "Finished authentication during renewal")
                 }
             }, receiveValue: { authenticated in
-                guard let token = authenticationManager.sessionIdentifier(for: account.username) else {
+                guard let token = authenticationManager.sessionIdentifier(for: credentials.username) else {
                     completion(.error(NSError(domain: "com.elbedev.sync.APIClient.renew", code: 1)))
                     return
                 }
@@ -198,7 +198,7 @@ public final class APIClient {
                 })
                 task.resume()
             })
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: credentials.username, password: credentials.password)
     }
 
 }

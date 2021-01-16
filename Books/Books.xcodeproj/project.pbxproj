@@ -8,34 +8,43 @@
 
 /* Begin PBXBuildFile section */
 		3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3B1817BB22ACD85F00DFD67D /* LibraryCore */; };
-		3B25DE6823C9B9AE008A5486 /* LoanDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */; };
+		3B25DE6823C9B9AE008A5486 /* BorrowedItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25DE6723C9B9AE008A5486 /* BorrowedItemView.swift */; };
 		3B2C06A1239AE644003A8199 /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2C06A0239AE644003A8199 /* SignInTests.swift */; };
 		3B47FDD322ABAFE600D39567 /* BooksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD222ABAFE600D39567 /* BooksApp.swift */; };
 		3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */; };
-		3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDD722ABAFE700D39567 /* ContentView.swift */; };
 		3B47FDDA22ABAFE800D39567 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B47FDD922ABAFE800D39567 /* Assets.xcassets */; };
 		3B47FDDD22ABAFE800D39567 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B47FDDC22ABAFE800D39567 /* Preview Assets.xcassets */; };
 		3B47FDE022ABAFE800D39567 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */; };
 		3B47FDEB22ABAFE800D39567 /* BooksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDEA22ABAFE800D39567 /* BooksTests.swift */; };
 		3B47FDF622ABAFE800D39567 /* LoansUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B47FDF522ABAFE800D39567 /* LoansUITests.swift */; };
 		3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */; };
-		3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */; };
 		3B568A14237B4AB100835E3E /* UITestPageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B568A13237B4AB100835E3E /* UITestPageModels.swift */; };
 		3B568A16237B4AEB00835E3E /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B568A15237B4AEB00835E3E /* XCTestCase+Extensions.swift */; };
 		3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6179D722DB760300D77E84 /* StubbornNetwork */; settings = {ATTRIBUTES = (Required, ); }; };
 		3B681A2F237C8D7A002ACA4C /* DataStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */; };
 		3B681A31237C8DA6002ACA4C /* CoreDataDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */; };
-		3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* LoansView.swift */; };
+		3B99B70F22AC002E000CBEAD /* BorrowedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* BorrowedItemsView.swift */; };
 		3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B71022AC0121000CBEAD /* AccountView.swift */; };
 		3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E1236A1A94003A356E /* SignInView.swift */; };
 		3BAF88E5236A1BE0003A356E /* SignedInContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF88E4236A1BE0003A356E /* SignedInContainerView.swift */; };
 		3BEA3E5E237B4B2E00E7EE24 /* AccountUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */; };
 		3BEBF0F322D9939500EB2426 /* LoanRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F222D9939500EB2426 /* LoanRow.swift */; };
-		3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */; };
-		3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */; };
+		3BEBF0F522D9940800EB2426 /* BorrowedItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F422D9940800EB2426 /* BorrowedItemViewModel.swift */; };
+		3BEBF0F722D9B29C00EB2426 /* BorrowedItemsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBF0F622D9B29C00EB2426 /* BorrowedItemsViewModel.swift */; };
 		FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0915BC23C119FE00625F8E /* AccountStore.swift */; };
 		FD0E0E42259728B0002A8242 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD0E0E41259728B0002A8242 /* CloudKit.framework */; };
+		FD19D30325B36CB700E2FDAE /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D30225B36CB700E2FDAE /* AppState.swift */; };
+		FD19D30D25B36D2D00E2FDAE /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D30C25B36D2D00E2FDAE /* AuthenticationView.swift */; };
+		FD19D31225B36D4700E2FDAE /* AppContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D31125B36D4700E2FDAE /* AppContainerView.swift */; };
+		FD19D32025B36E1E00E2FDAE /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D31F25B36E1E00E2FDAE /* Environment.swift */; };
+		FD19D32525B36E4000E2FDAE /* AuthenticationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D32425B36E4000E2FDAE /* AuthenticationInteractor.swift */; };
+		FD19D32A25B36E5000E2FDAE /* BorrowedItemsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D32925B36E5000E2FDAE /* BorrowedItemsInteractor.swift */; };
+		FD19D32F25B36E5900E2FDAE /* BorrowedItemInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D32E25B36E5900E2FDAE /* BorrowedItemInteractor.swift */; };
 		FD52477A2561B5C80020BE9D /* RorschachSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5247792561B5C80020BE9D /* RorschachSupport.swift */; };
+		FDD2445725A0A9EB0063C049 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2445625A0A9EB0063C049 /* Coordinator.swift */; };
+		FDD2446025A0AB230063C049 /* AppContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2445F25A0AB230063C049 /* AppContainerViewModel.swift */; };
+		FDD2446525A0AB620063C049 /* AppStateInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2446425A0AB620063C049 /* AppStateInteractor.swift */; };
+		FDD2447F25A0B2EF0063C049 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2447E25A0B2EF0063C049 /* SignInViewModel.swift */; };
 		FDE151B2258FDA1F00F56A9F /* Rorschach in Frameworks */ = {isa = PBXBuildFile; productRef = FDE151B1258FDA1F00F56A9F /* Rorschach */; };
 		FDE151B7258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE151B6258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift */; };
 /* End PBXBuildFile section */
@@ -58,12 +67,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoanDetailView.swift; path = Views/LoanDetailView.swift; sourceTree = "<group>"; };
+		3B25DE6723C9B9AE008A5486 /* BorrowedItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BorrowedItemView.swift; path = Views/BorrowedItemView.swift; sourceTree = "<group>"; };
 		3B2C06A0239AE644003A8199 /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
 		3B47FDCD22ABAFE600D39567 /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDD222ABAFE600D39567 /* BooksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksApp.swift; sourceTree = "<group>"; };
 		3B47FDD522ABAFE700D39567 /* Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Books.xcdatamodel; sourceTree = "<group>"; };
-		3B47FDD722ABAFE700D39567 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3B47FDD922ABAFE800D39567 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3B47FDDC22ABAFE800D39567 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3B47FDDF22ABAFE800D39567 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -75,23 +83,33 @@
 		3B47FDF522ABAFE800D39567 /* LoansUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansUITests.swift; sourceTree = "<group>"; };
 		3B47FDF722ABAFE800D39567 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
-		3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		3B568A13237B4AB100835E3E /* UITestPageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestPageModels.swift; sourceTree = "<group>"; };
 		3B568A15237B4AEB00835E3E /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
 		3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStoreProtocol.swift; sourceTree = "<group>"; };
 		3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDataStore.swift; sourceTree = "<group>"; };
-		3B99B70E22AC002E000CBEAD /* LoansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansView.swift; sourceTree = "<group>"; };
+		3B99B70E22AC002E000CBEAD /* BorrowedItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemsView.swift; sourceTree = "<group>"; };
 		3B99B71022AC0121000CBEAD /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		3BAF88E1236A1A94003A356E /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		3BAF88E4236A1BE0003A356E /* SignedInContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedInContainerView.swift; sourceTree = "<group>"; };
 		3BEA3E5D237B4B2E00E7EE24 /* AccountUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountUITests.swift; sourceTree = "<group>"; };
 		3BEBF0F222D9939500EB2426 /* LoanRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanRow.swift; sourceTree = "<group>"; };
-		3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoanViewModel.swift; sourceTree = "<group>"; };
-		3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoansViewModel.swift; sourceTree = "<group>"; };
+		3BEBF0F422D9940800EB2426 /* BorrowedItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemViewModel.swift; sourceTree = "<group>"; };
+		3BEBF0F622D9B29C00EB2426 /* BorrowedItemsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemsViewModel.swift; sourceTree = "<group>"; };
 		FD0915BC23C119FE00625F8E /* AccountStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountStore.swift; sourceTree = "<group>"; };
 		FD0E0E3D259728A1002A8242 /* Books.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Books.entitlements; sourceTree = "<group>"; };
 		FD0E0E41259728B0002A8242 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		FD19D30225B36CB700E2FDAE /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		FD19D30C25B36D2D00E2FDAE /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthenticationView.swift; path = Architecture/Views/AuthenticationView.swift; sourceTree = "<group>"; };
+		FD19D31125B36D4700E2FDAE /* AppContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppContainerView.swift; path = Architecture/Views/AppContainerView.swift; sourceTree = "<group>"; };
+		FD19D31F25B36E1E00E2FDAE /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		FD19D32425B36E4000E2FDAE /* AuthenticationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationInteractor.swift; sourceTree = "<group>"; };
+		FD19D32925B36E5000E2FDAE /* BorrowedItemsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemsInteractor.swift; sourceTree = "<group>"; };
+		FD19D32E25B36E5900E2FDAE /* BorrowedItemInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemInteractor.swift; sourceTree = "<group>"; };
 		FD5247792561B5C80020BE9D /* RorschachSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RorschachSupport.swift; sourceTree = "<group>"; };
+		FDD2445625A0A9EB0063C049 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		FDD2445F25A0AB230063C049 /* AppContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainerViewModel.swift; sourceTree = "<group>"; };
+		FDD2446425A0AB620063C049 /* AppStateInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateInteractor.swift; sourceTree = "<group>"; };
+		FDD2447E25A0B2EF0063C049 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		FDE151B6258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+LaunchOptions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,13 +166,14 @@
 		3B47FDCF22ABAFE600D39567 /* Books */ = {
 			isa = PBXGroup;
 			children = (
-				FD0E0E3D259728A1002A8242 /* Books.entitlements */,
-				3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */,
-				3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */,
 				3B47FDD222ABAFE600D39567 /* BooksApp.swift */,
-				FD0915BC23C119FE00625F8E /* AccountStore.swift */,
-				3B99B70D22AC0010000CBEAD /* Views */,
-				3B4BF21C22BDDC19000218F8 /* View Models */,
+				FDD2445E25A0AADE0063C049 /* Architecture */,
+				FD0E0E3D259728A1002A8242 /* Books.entitlements */,
+				FDD2447E25A0B2EF0063C049 /* SignInViewModel.swift */,
+				FDD2445525A0A9DA0063C049 /* Architecture Components */,
+				3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */,
+				3BEBF0F222D9939500EB2426 /* LoanRow.swift */,
+				3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */,
 				3B47FDDE22ABAFE800D39567 /* LaunchScreen.storyboard */,
 				3B47FDE122ABAFE800D39567 /* Info.plist */,
 				3B47FDD422ABAFE700D39567 /* Books.xcdatamodeld */,
@@ -194,10 +213,10 @@
 		3B4BF21C22BDDC19000218F8 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				FDD2445F25A0AB230063C049 /* AppContainerViewModel.swift */,
 				3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */,
-				3B4BF21F22BDE2EC000218F8 /* AuthenticationViewModel.swift */,
-				3BEBF0F622D9B29C00EB2426 /* LoansViewModel.swift */,
-				3BEBF0F422D9940800EB2426 /* LoanViewModel.swift */,
+				3BEBF0F622D9B29C00EB2426 /* BorrowedItemsViewModel.swift */,
+				3BEBF0F422D9940800EB2426 /* BorrowedItemViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -213,14 +232,15 @@
 		3B99B70D22AC0010000CBEAD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3B47FDD722ABAFE700D39567 /* ContentView.swift */,
-				3BAF88E3236A1BA5003A356E /* Sign In and Out Views */,
+				FD19D30C25B36D2D00E2FDAE /* AuthenticationView.swift */,
+				3B99B70E22AC002E000CBEAD /* BorrowedItemsView.swift */,
+				3B25DE6723C9B9AE008A5486 /* BorrowedItemView.swift */,
 				3B99B71022AC0121000CBEAD /* AccountView.swift */,
-				3B99B70E22AC002E000CBEAD /* LoansView.swift */,
-				3BEBF0F222D9939500EB2426 /* LoanRow.swift */,
-				3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */,
+				FD19D31125B36D4700E2FDAE /* AppContainerView.swift */,
+				3BAF88E3236A1BA5003A356E /* Sign In and Out Views */,
 			);
 			name = Views;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		3B99B71222ACD399000CBEAD /* Frameworks */ = {
@@ -259,6 +279,62 @@
 				FD5247792561B5C80020BE9D /* RorschachSupport.swift */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		FD19D2FA25B36B7400E2FDAE /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				FD19D31F25B36E1E00E2FDAE /* Environment.swift */,
+				FD19D30125B36CAA00E2FDAE /* States */,
+				FDD2447925A0B2D10063C049 /* Interactors */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
+		FD19D30125B36CAA00E2FDAE /* States */ = {
+			isa = PBXGroup;
+			children = (
+				FD19D30225B36CB700E2FDAE /* AppState.swift */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
+		FD54A29325B3859100628F5B /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				FD0915BC23C119FE00625F8E /* AccountStore.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		FDD2445525A0A9DA0063C049 /* Architecture Components */ = {
+			isa = PBXGroup;
+			children = (
+				FDD2445625A0A9EB0063C049 /* Coordinator.swift */,
+			);
+			path = "Architecture Components";
+			sourceTree = "<group>";
+		};
+		FDD2445E25A0AADE0063C049 /* Architecture */ = {
+			isa = PBXGroup;
+			children = (
+				FD54A29325B3859100628F5B /* Stores */,
+				3B4BF21C22BDDC19000218F8 /* View Models */,
+				3B99B70D22AC0010000CBEAD /* Views */,
+				FD19D2FA25B36B7400E2FDAE /* Environment */,
+			);
+			path = Architecture;
+			sourceTree = "<group>";
+		};
+		FDD2447925A0B2D10063C049 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				FDD2446425A0AB620063C049 /* AppStateInteractor.swift */,
+				FD19D32425B36E4000E2FDAE /* AuthenticationInteractor.swift */,
+				FD19D32925B36E5000E2FDAE /* BorrowedItemsInteractor.swift */,
+				FD19D32E25B36E5900E2FDAE /* BorrowedItemInteractor.swift */,
+			);
+			path = Interactors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,21 +478,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B25DE6823C9B9AE008A5486 /* LoanDetailView.swift in Sources */,
+				3B25DE6823C9B9AE008A5486 /* BorrowedItemView.swift in Sources */,
+				FDD2446525A0AB620063C049 /* AppStateInteractor.swift in Sources */,
+				FD19D32A25B36E5000E2FDAE /* BorrowedItemsInteractor.swift in Sources */,
+				FD19D31225B36D4700E2FDAE /* AppContainerView.swift in Sources */,
 				3B681A31237C8DA6002ACA4C /* CoreDataDataStore.swift in Sources */,
-				3BEBF0F522D9940800EB2426 /* LoanViewModel.swift in Sources */,
+				3BEBF0F522D9940800EB2426 /* BorrowedItemViewModel.swift in Sources */,
+				FDD2447F25A0B2EF0063C049 /* SignInViewModel.swift in Sources */,
 				3BEBF0F322D9939500EB2426 /* LoanRow.swift in Sources */,
 				3B99B71122AC0121000CBEAD /* AccountView.swift in Sources */,
 				3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */,
 				3BAF88E5236A1BE0003A356E /* SignedInContainerView.swift in Sources */,
-				3BEBF0F722D9B29C00EB2426 /* LoansViewModel.swift in Sources */,
+				3BEBF0F722D9B29C00EB2426 /* BorrowedItemsViewModel.swift in Sources */,
 				FD0915BD23C119FE00625F8E /* AccountStore.swift in Sources */,
+				FD19D32525B36E4000E2FDAE /* AuthenticationInteractor.swift in Sources */,
+				FD19D30325B36CB700E2FDAE /* AppState.swift in Sources */,
+				FD19D32025B36E1E00E2FDAE /* Environment.swift in Sources */,
 				3B47FDD622ABAFE700D39567 /* Books.xcdatamodeld in Sources */,
+				FD19D32F25B36E5900E2FDAE /* BorrowedItemInteractor.swift in Sources */,
+				FDD2446025A0AB230063C049 /* AppContainerViewModel.swift in Sources */,
+				FDD2445725A0A9EB0063C049 /* Coordinator.swift in Sources */,
 				3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */,
-				3B4BF22022BDE2EC000218F8 /* AuthenticationViewModel.swift in Sources */,
-				3B99B70F22AC002E000CBEAD /* LoansView.swift in Sources */,
+				3B99B70F22AC002E000CBEAD /* BorrowedItemsView.swift in Sources */,
+				FD19D30D25B36D2D00E2FDAE /* AuthenticationView.swift in Sources */,
 				3B681A2F237C8D7A002ACA4C /* DataStoreProtocol.swift in Sources */,
-				3B47FDD822ABAFE700D39567 /* ContentView.swift in Sources */,
 				3B47FDD322ABAFE600D39567 /* BooksApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

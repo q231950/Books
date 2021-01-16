@@ -1,0 +1,39 @@
+//
+//  BorrowedItemViewModel.swift
+//  Books
+//
+//  Created by Martin Kim Dung-Pham on 13.07.19.
+//  Copyright © 2019 Martin Kim Dung-Pham. All rights reserved.
+//
+
+import SwiftUI
+import Combine
+import LibraryCore
+
+public class BorrowedItemViewModel: ObservableObject, Hashable {
+
+    public static func == (lhs: BorrowedItemViewModel, rhs: BorrowedItemViewModel) -> Bool {
+        lhs.loan?.signature == rhs.loan?.signature
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(loan?.signature)
+    }
+
+    public var loan: FlamingoLoan? {
+        didSet {
+            self.didChange.send(self)
+        }
+    }
+
+    public var didChange = PassthroughSubject<BorrowedItemViewModel, Never>()
+
+    var identifier: String? {
+        loan?.identifier
+    }
+
+    init(loan: FlamingoLoan) {
+        self.loan = loan
+    }
+
+}

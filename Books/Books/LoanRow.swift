@@ -10,12 +10,12 @@ import SwiftUI
 import LibraryCore
 
 struct LoanRow : View {
-    var loanViewModel: LoanViewModel
+    var loanViewModel: BorrowedItemViewModel
 
     var body: some View {
         VStack {
             loanViewModel.loan.map({ loan in
-                NavigationLink(destination: LoanDetailView(loanViewModel: loanViewModel)) {
+                NavigationLink(destination: BorrowedItemView(loanViewModel: loanViewModel)) {
                     VStack(alignment: .leading) {
                         loan.title.map({ s in
                             Text(s)
@@ -66,13 +66,13 @@ struct LoanRow_Previews : PreviewProvider {
     }
 }
 
-var loanViewModels: [LoanViewModel] {
+var loanViewModels: [BorrowedItemViewModel] {
     let loan1 = FlamingoLoan()
     loan1.expiryDate = Date(timeIntervalSinceNow: 3600*48)
     loan1.title = "Akira"
     loan1.author = "Kodansha"
     loan1.signature = "123456789-abc"
-    let viewModel1 = LoanViewModel(loan: loan1)
+    let viewModel1 = BorrowedItemViewModel(loan: loan1)
 
 
     let loan2 = FlamingoLoan()
@@ -80,7 +80,7 @@ var loanViewModels: [LoanViewModel] {
     loan2.title = "War and Peace"
     loan2.author = "Leo Tolstoy"
     loan2.signature = "222222-bbb"
-    let viewModel2 = LoanViewModel(loan: loan2)
+    let viewModel2 = BorrowedItemViewModel(loan: loan2)
 
     return [viewModel1, viewModel2]
 }

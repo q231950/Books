@@ -10,22 +10,6 @@ import Foundation
 import os
 import Combine
 
-public enum AuthenticationState {
-    public enum Completion {
-        case authenticated
-        case manualAuthenticationFailed
-        case automaticAuthenticationFailed
-        case missingUsername
-        case missingPassword
-        case signOutSucceeded
-    }
-
-    case authenticating
-    case authenticationComplete(Completion)
-    case authenticationError(Error)
-
-}
-
 public enum AuthenticationError: Error {
     case subsystem(Error)
 }
@@ -51,16 +35,16 @@ public class AuthenticationManager {
     }
 
     public func authenticateAccount(username: String?, password: String?) {
-        os_log(.info, log: self.log, "Initiating authentication for `%{private}@`", username ?? "nil")
+        os_log(.info, log: log, "Initiating authentication for `%{private}@`", username ?? "nil")
 
         guard let username = username, username != "" else {
-            os_log(.error, log: self.log, "Authentication failed, no username given")
+            os_log(.error, log: log, "Authentication failed, no username given")
             authenticatedSubject.send(.authenticationComplete(.missingUsername))
             return
         }
 
         guard let password = password, password != "" else {
-            os_log(.error, log: self.log, "Authentication failed, no password given")
+            os_log(.error, log: log, "Authentication failed, no password given")
             authenticatedSubject.send(.authenticationComplete(.missingPassword))
             return
         }
@@ -110,7 +94,7 @@ public class AuthenticationManager {
     private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
         guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
             let err = NSError(domain: "\(type(of: self)).validate", code: 1)
-            os_log(.info, log: self.log, "Failed to create access token request `%{public}@`", err)
+            os_log(.info, log: log, "Failed to create access token request `%{public}@`", err)
             completion(.error(err))
             return
         }
@@ -190,17 +174,17 @@ public class AuthenticationManager {
         switch parseResult {
         case .success(let token):
             do {
-                os_log(.info, log: self.log, "Storing access token %{private}@", token)
+                os_log(.info, log: log, "Storing access token %{private}@", token)
                 try store(sessionIdentifier: token, for: accountIdentifier)
                 completion(.valid)
             } catch let err {
                 completion(.error(err as NSError))
             }
         case .failure:
-            os_log(.info, log: self.log, "Failed to get access token because of invalid credentials")
+            os_log(.info, log: log, "Failed to get access token because of invalid credentials")
             completion(.invalid)
         case .error(let err):
-            os_log(.info, log: self.log, "Failed to get access token %{public}@", err.localizedDescription)
+            os_log(.info, log: log, "Failed to get access token %{public}@", err.localizedDescription)
             completion(.error(err as NSError))
         }
     }

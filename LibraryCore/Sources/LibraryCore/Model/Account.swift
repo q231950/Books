@@ -8,14 +8,10 @@
 import Combine
 
 public struct AccountModel {
-    public var username: String = ""
-    public var password: String = ""
 
-    public init() {
-    }
+    public let credentials: Credentials
 
-    public init(username: String, password: String) {
-        self.username = username
-        self.password = password
+    public init(credentials: Credentials) {
+        self.credentials = credentials
     }
 }
