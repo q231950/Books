@@ -21,11 +21,11 @@ extension AuthenticationManager {
     /// }
     /// ```
     ///
-    public static func stubbed(_ stub: ((AuthenticationManagerStub) -> Void)) -> AuthenticationManager {
-        let stubbedAuthenticationManager = AuthenticationManagerStub.init()
-
-        stub(stubbedAuthenticationManager)
-
-        return stubbedAuthenticationManager
-    }
+//    public static func stubbed(_ stub: ((AuthenticationManagerStub) -> Void)) -> AuthenticationManager {
+//        let stubbedAuthenticationManager = AuthenticationManagerStub.init(accountStore: , authenticationSubject: <#T##AuthenticationSubject#>)
+//
+//        stub(stubbedAuthenticationManager)
+//
+//        return stubbedAuthenticationManager
+//    }
 }

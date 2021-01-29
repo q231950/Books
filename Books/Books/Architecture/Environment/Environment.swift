@@ -11,32 +11,39 @@ import Combine
 import LibraryCore
 
 typealias AppStatePublisher = CurrentValueSubject<AppState, Never>
-typealias AuthenticationStatePublisher = CurrentValueSubject<AuthenticationState, Never>
 
 struct AppEnvironment {
 
-    static var current: AppEnvironment = {
-        AppEnvironment()
-    }()
+    static var current: AppEnvironment = AppEnvironment()
+
+    // MARK: - Publishers
 
     let appStatePublisher = AppStatePublisher(.authentication)
-    let authenticationStatePublisher = AuthenticationStatePublisher(.idle)
+    let authenticationStatePublisher = AuthenticationStateSubject(.idle)
+
+    // MARK: - Interactors
 
     let authenticationInteractor: AuthenticationInteractor
+    let borrowedItemInteractor: BorrowedItemInteractor
 
+    // MARK: - Stores
     let stores: Stores
 
     private init() {
 
-        stores = Stores.current
+        let authenticationManager = AuthenticationManager(authenticationSubject: authenticationStatePublisher)
+        let accountStore = AccountStore(authenticationManager: authenticationManager)
 
-        let authenticationManager = AuthenticationManager(accountStore: self.stores.account)
+        stores = Stores(account: accountStore,
+                                borrowedItems: BorrowedItemsStore(authenticationStatePublisher: authenticationStatePublisher, authenticationManager: authenticationManager))
+
         authenticationInteractor = AuthenticationInteractor(authenticationManager: authenticationManager)
+        borrowedItemInteractor = BorrowedItemInteractor(authenticationStatePublisher: authenticationStatePublisher, accountStore: accountStore)
     }
 }
 
 struct Stores {
-    static let current = Stores(account: AccountStore())
 
     let account: AccountStore
+    let borrowedItems: BorrowedItemsStore
 }

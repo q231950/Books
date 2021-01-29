@@ -25,7 +25,16 @@ final class TestHelper {
         KeychainMock()
     }
 
-    static func accountStub() -> AccountModel {
-        AccountModel()
+    static func accountStub(username: String? = nil, password: String? = nil) -> AccountModel {
+        var credentials = Credentials()
+        if let username = username {
+            credentials = credentials.withUsername(username)
+        }
+
+        if let password = password {
+            credentials = credentials.withPassword(password)
+        }
+
+        return AccountModel(credentials: credentials)
     }
 }

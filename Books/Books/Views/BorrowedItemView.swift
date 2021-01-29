@@ -10,23 +10,17 @@ import SwiftUI
 import LibraryCore
 
 struct BorrowedItemView: View {
-    enum RenewalState {
-        case idle, renewing, renewed, error
-    }
-
-    @State var isRenewing: Bool = false
-    @State var renewalState: RenewalState = .idle
-//    @EnvironmentObject var authenticationViewModel: AuthenticationViewModel
-    let loanViewModel: BorrowedItemViewModel
+    
+    @ObservedObject var viewModel: BorrowedItemViewModel
 
     var body: some View {
-        if renewalState == .renewing {
+        if viewModel.renewalState == .renewing {
             return renewingBody()
-        } else if renewalState == .renewed {
+        } else if viewModel.renewalState == .renewed {
             return AnyView(standardBody().alert(isPresented: .constant(true)) {
                 Alert(title: Text("Renewed"), message: Text("The item has been renewed."), dismissButton: .default(Text("Ok")))
             })
-        } else if renewalState == .error {
+        } else if viewModel.renewalState == .error {
             return AnyView(standardBody().alert(isPresented: .constant(true)) {
                 Alert(title: Text("Not Renewed"), message: Text("The item has not been renewed!"), dismissButton: .default(Text("Ok")))
             })
@@ -37,17 +31,17 @@ struct BorrowedItemView: View {
 
 
     private func renewingBody() -> AnyView {
-        AnyView(ActivityIndicator(isAnimating: $isRenewing, style: .medium))
+        AnyView(ActivityIndicator(isAnimating: .constant(true), style: .medium))
     }
 
     private func standardBody() -> AnyView {
         AnyView(
-            loanViewModel.loan.map { loan in
+            viewModel.loan.map { loan in
                 Group {
                     VStack(alignment: .leading) {
                         Spacer().frame(height:20)
 
-                        Text(loanViewModel.loan?.title ?? "Unknown Item")
+                        Text(viewModel.loan?.title ?? "Unknown Item")
                             .font(.largeTitle)
 
                         Text("\(loan.author ?? "")")
@@ -78,14 +72,7 @@ struct BorrowedItemView: View {
             if (loan.renewable == true) {
                 HStack {
                     Button(action: {
-                        self.isRenewing = true
-                        self.renewalState = .renewing
-//                        APIClient.shared.renew(account: self.authenticationViewModel.accountViewModel.account,
-//                                                           accountStore: AccountStore(),
-//                                                           itemIdentifier: self.loanViewModel.loan?.barcode ?? "") { renewStatus in
-//                            self.isRenewing = false
-//                            self.onRenewal(status: renewStatus, loan: loan)
-//                        }
+                        AppEnvironment.current.borrowedItemInteractor.renew(identifier: viewModel.identifier)
                     }) {
                         Text("Renew")
                             .font(.callout)
@@ -212,11 +199,9 @@ struct BorrowedItemView: View {
             message = "The item has been renewed (\(s))."
             let dateFormatter = FlamingoLoan.dateFormatter()
             loan.renewalDate = dateFormatter.date(from: s)
-            self.renewalState = .renewed
         case .error(let err):
             title = "Error"
             message = "An error occurred when renewing the item (\(err))."
-            self.renewalState = .error
         case .failure:
             title = "Failure"
             message = "Item could not be renewed."
@@ -254,7 +239,7 @@ struct LoanDetailView_Previews: PreviewProvider {
 
         let viewModel = BorrowedItemViewModel(loan: loan)
 
-        return BorrowedItemView(loanViewModel: viewModel)
+        return BorrowedItemView(viewModel: viewModel)
             .environment(\.colorScheme, .light)
     }
 }

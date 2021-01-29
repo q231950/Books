@@ -1,5 +1,5 @@
 //
-//  Account.swift
+//  AccountModel.swift
 //  
 //
 //  Created by Martin Kim Dung-Pham on 15.06.19.

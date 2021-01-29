@@ -20,7 +20,6 @@
 		3B4BF21E22BDDC3E000218F8 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4BF21D22BDDC3E000218F8 /* AccountViewModel.swift */; };
 		3B568A14237B4AB100835E3E /* UITestPageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B568A13237B4AB100835E3E /* UITestPageModels.swift */; };
 		3B568A16237B4AEB00835E3E /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B568A15237B4AEB00835E3E /* XCTestCase+Extensions.swift */; };
-		3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */ = {isa = PBXBuildFile; productRef = 3B6179D722DB760300D77E84 /* StubbornNetwork */; settings = {ATTRIBUTES = (Required, ); }; };
 		3B681A2F237C8D7A002ACA4C /* DataStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B681A2E237C8D7A002ACA4C /* DataStoreProtocol.swift */; };
 		3B681A31237C8DA6002ACA4C /* CoreDataDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B681A30237C8DA6002ACA4C /* CoreDataDataStore.swift */; };
 		3B99B70F22AC002E000CBEAD /* BorrowedItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99B70E22AC002E000CBEAD /* BorrowedItemsView.swift */; };
@@ -41,6 +40,7 @@
 		FD19D32A25B36E5000E2FDAE /* BorrowedItemsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D32925B36E5000E2FDAE /* BorrowedItemsInteractor.swift */; };
 		FD19D32F25B36E5900E2FDAE /* BorrowedItemInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19D32E25B36E5900E2FDAE /* BorrowedItemInteractor.swift */; };
 		FD52477A2561B5C80020BE9D /* RorschachSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5247792561B5C80020BE9D /* RorschachSupport.swift */; };
+		FD783C5225B46CE3003B9C6B /* BorrowedItemsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD783C5125B46CE3003B9C6B /* BorrowedItemsStore.swift */; };
 		FDD2445725A0A9EB0063C049 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2445625A0A9EB0063C049 /* Coordinator.swift */; };
 		FDD2446025A0AB230063C049 /* AppContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2445F25A0AB230063C049 /* AppContainerViewModel.swift */; };
 		FDD2446525A0AB620063C049 /* AppStateInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD2446425A0AB620063C049 /* AppStateInteractor.swift */; };
@@ -106,11 +106,22 @@
 		FD19D32925B36E5000E2FDAE /* BorrowedItemsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemsInteractor.swift; sourceTree = "<group>"; };
 		FD19D32E25B36E5900E2FDAE /* BorrowedItemInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemInteractor.swift; sourceTree = "<group>"; };
 		FD5247792561B5C80020BE9D /* RorschachSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RorschachSupport.swift; sourceTree = "<group>"; };
+		FD783C5125B46CE3003B9C6B /* BorrowedItemsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowedItemsStore.swift; sourceTree = "<group>"; };
 		FDD2445625A0A9EB0063C049 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		FDD2445F25A0AB230063C049 /* AppContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainerViewModel.swift; sourceTree = "<group>"; };
 		FDD2446425A0AB620063C049 /* AppStateInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateInteractor.swift; sourceTree = "<group>"; };
 		FDD2447E25A0B2EF0063C049 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		FDE151B6258FE05900F56A9F /* XCUIApplication+LaunchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+LaunchOptions.swift"; sourceTree = "<group>"; };
+		FDFCABBA25B760FA000F054C /* LoansUITests_test_loanDetails_showInformation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoansUITests_test_loanDetails_showInformation.json; sourceTree = "<group>"; };
+		FDFCABBB25B760FA000F054C /* LoansUITests_test_neverRenewed_showsNeverRenewed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoansUITests_test_neverRenewed_showsNeverRenewed.json; sourceTree = "<group>"; };
+		FDFCABBC25B760FA000F054C /* LoansUITests_test_renewalShowsError.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoansUITests_test_renewalShowsError.json; sourceTree = "<group>"; };
+		FDFCABBD25B760FA000F054C /* SignInTests_test_signIn_withInvalidCredentials_remembersUsername.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SignInTests_test_signIn_withInvalidCredentials_remembersUsername.json; sourceTree = "<group>"; };
+		FDFCABBE25B760FA000F054C /* LoansUITests_test_loans_areVisible_afterSignIn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoansUITests_test_loans_areVisible_afterSignIn.json; sourceTree = "<group>"; };
+		FDFCABBF25B760FA000F054C /* AccountUITests_testSignOutAllowsNewSignIn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AccountUITests_testSignOutAllowsNewSignIn.json; sourceTree = "<group>"; };
+		FDFCABC025B760FA000F054C /* LoansUITests_test_renewal_renews.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = LoansUITests_test_renewal_renews.json; sourceTree = "<group>"; };
+		FDFCABC125B760FA000F054C /* AccountUITests_test_SignOut_showsAlertWhenSuccessful.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AccountUITests_test_SignOut_showsAlertWhenSuccessful.json; sourceTree = "<group>"; };
+		FDFCABC225B760FA000F054C /* AccountUITests_testSignOutButton.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AccountUITests_testSignOutButton.json; sourceTree = "<group>"; };
+		FDFCABC325B760FA000F054C /* SignInTests_test_signIn_andRestartTheApp_keepsSignedIn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SignInTests_test_signIn_andRestartTheApp_keepsSignedIn.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +130,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD0E0E42259728B0002A8242 /* CloudKit.framework in Frameworks */,
-				3B6179D822DB760300D77E84 /* StubbornNetwork in Frameworks */,
 				3B1817BC22ACD85F00DFD67D /* LibraryCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,6 +213,7 @@
 		3B47FDF422ABAFE800D39567 /* BooksUITests */ = {
 			isa = PBXGroup;
 			children = (
+				FDFCABB925B760FA000F054C /* Stubs */,
 				3BEA3E5F237B4B9100E7EE24 /* Tests */,
 				3BEA3E60237B4B9F00E7EE24 /* Support */,
 				3B47FDF722ABAFE800D39567 /* Info.plist */,
@@ -303,6 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				FD0915BC23C119FE00625F8E /* AccountStore.swift */,
+				FD783C5125B46CE3003B9C6B /* BorrowedItemsStore.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -337,6 +349,23 @@
 			path = Interactors;
 			sourceTree = "<group>";
 		};
+		FDFCABB925B760FA000F054C /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				FDFCABC225B760FA000F054C /* AccountUITests_testSignOutButton.json */,
+				FDFCABBA25B760FA000F054C /* LoansUITests_test_loanDetails_showInformation.json */,
+				FDFCABBB25B760FA000F054C /* LoansUITests_test_neverRenewed_showsNeverRenewed.json */,
+				FDFCABBC25B760FA000F054C /* LoansUITests_test_renewalShowsError.json */,
+				FDFCABBD25B760FA000F054C /* SignInTests_test_signIn_withInvalidCredentials_remembersUsername.json */,
+				FDFCABBE25B760FA000F054C /* LoansUITests_test_loans_areVisible_afterSignIn.json */,
+				FDFCABBF25B760FA000F054C /* AccountUITests_testSignOutAllowsNewSignIn.json */,
+				FDFCABC025B760FA000F054C /* LoansUITests_test_renewal_renews.json */,
+				FDFCABC125B760FA000F054C /* AccountUITests_test_SignOut_showsAlertWhenSuccessful.json */,
+				FDFCABC325B760FA000F054C /* SignInTests_test_signIn_andRestartTheApp_keepsSignedIn.json */,
+			);
+			path = Stubs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -355,7 +384,6 @@
 			name = Books;
 			packageProductDependencies = (
 				3B1817BB22ACD85F00DFD67D /* LibraryCore */,
-				3B6179D722DB760300D77E84 /* StubbornNetwork */,
 			);
 			productName = Books;
 			productReference = 3B47FDCD22ABAFE600D39567 /* Books.app */;
@@ -498,6 +526,7 @@
 				FD19D32F25B36E5900E2FDAE /* BorrowedItemInteractor.swift in Sources */,
 				FDD2446025A0AB230063C049 /* AppContainerViewModel.swift in Sources */,
 				FDD2445725A0A9EB0063C049 /* Coordinator.swift in Sources */,
+				FD783C5225B46CE3003B9C6B /* BorrowedItemsStore.swift in Sources */,
 				3BAF88E2236A1A94003A356E /* SignInView.swift in Sources */,
 				3B99B70F22AC002E000CBEAD /* BorrowedItemsView.swift in Sources */,
 				FD19D30D25B36D2D00E2FDAE /* AuthenticationView.swift in Sources */,
@@ -857,10 +886,6 @@
 		3B1817BB22ACD85F00DFD67D /* LibraryCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LibraryCore;
-		};
-		3B6179D722DB760300D77E84 /* StubbornNetwork */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = StubbornNetwork;
 		};
 		FDE151B1258FDA1F00F56A9F /* Rorschach */ = {
 			isa = XCSwiftPackageProductDependency;

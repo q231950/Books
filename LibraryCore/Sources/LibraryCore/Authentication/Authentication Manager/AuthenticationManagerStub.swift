@@ -17,10 +17,10 @@ public class AuthenticationManagerStub: AuthenticationManager {
     public var stubbedSessionIdentifier: String? = nil
 
     public override func authenticateAccount(username: String?, password: String?) {
-        authenticatedSubject.send(state)
+        authenticationSubject?.send(state)
     }
 
-    override func sessionIdentifier(for accountIdentifier: String) -> String? {
+    override public func sessionIdentifier(for accountIdentifier: String) -> String? {
         stubbedSessionIdentifier
     }
 }

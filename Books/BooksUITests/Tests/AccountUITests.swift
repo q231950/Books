@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Rorschach
 
 class AccountUITests: XCTestCase {
 
@@ -16,6 +17,28 @@ class AccountUITests: XCTestCase {
         app = XCUIApplication()
 
         app.launch(options: [.stub(.networkRequests, in: self), .cleanKeychain, .customDataStore(name: name)])
+    }
+
+    func testAccountName() {
+        var context = Context(app: app, test: self)
+        expect(in: &context) {
+            Given {
+                GeneralStep("I sign in") {
+                    $0.app.signIn()
+                }
+            }
+            When {
+                GeneralStep("I open the account view") {
+                    Navigation.openAccountView(app: $0.app)
+                }
+            }
+            Then {
+                GeneralAssertion("I can see my name") {
+                    let nameText = $0.app.staticTexts["my name"]
+                    $0.test.wait(forElement:nameText, timeout:2)
+                }
+            }
+        }
     }
 
     func testSignOutButton() {

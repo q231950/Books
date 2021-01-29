@@ -11,17 +11,15 @@ import SwiftUI
 import LibraryCore
 
 class BorrowedItemsViewModel: ObservableObject {
-    @Published var loans: [BorrowedItemViewModel] = []
+    @Published var borrowedItems: [FlamingoLoan]
+    private var disposeBag = [AnyCancellable]()
 
-    init(account: AccountModel, authenticationManager: AuthenticationManager) {
-        let apiClient = APIClient.shared
-        apiClient.loans(account.credentials, authenticationManager: authenticationManager, completion: { (error, loans) -> (Void) in
+    init() {
+        borrowedItems = AppEnvironment.current.stores.borrowedItems.items.value
 
-            let loanViewModels = loans.map { BorrowedItemViewModel(loan: $0) }
-
-            DispatchQueue.main.async {
-                self.loans = loanViewModels
-            }
-        })
+        AppEnvironment.current.stores.borrowedItems.items.sink { items in
+            self.borrowedItems = items
+        }
+        .store(in: &disposeBag)
     }
 }

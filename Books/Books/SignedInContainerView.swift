@@ -10,25 +10,24 @@ import SwiftUI
 import LibraryCore
 
 struct SignedInContainerView : View {
-//    @State private var selection = 0
-//    @ObservedObject var authentication: AppContainerViewModel
-//    @State private var showingAccount = false
+    @State private var showingAccount = false
 
     var body: some View {
-        Text("SignedInContainerView")
-//        NavigationView {
-//            authentication.borrowedItemsViewModel.map({ BorrowedItemsView(borrowedItemsViewModel: $0) })
-//                .navigationBarTitle(Text("BTLB"))
-//                .navigationBarItems(trailing: Button(action: {
-//                    showingAccount.toggle()
-//                }) {
-//                    Image(systemName: "person.crop.circle").imageScale(Image.Scale.large)
-//                        .accessibility(identifier: "Account")
-//                }.sheet(isPresented: $showingAccount) {
-//                    AccountView(authenticationViewModel: authentication)
-//                })
-//        }
+        NavigationView {
+            BorrowedItemsView()
+                .navigationBarTitle(Text("BTLB"))
+                .navigationBarItems(trailing: Button(action: {
+                    showingAccount.toggle()
+                }) {
+                    Image(systemName: "person.crop.circle").imageScale(Image.Scale.large)
+                        .accessibility(identifier: "Account")
+                })
+                .sheet(isPresented: $showingAccount) {
+                    AccountView(accountViewModel: AccountViewModel())
+                }
+        }
     }
+
 }
 
 //#if DEBUG

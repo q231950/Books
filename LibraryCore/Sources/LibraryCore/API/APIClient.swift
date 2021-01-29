@@ -8,6 +8,8 @@
 
 import Foundation
 import os
+import Combine
+import XMLCoder
 
 public typealias SessionIdentifier = String
 
@@ -18,7 +20,7 @@ public final class APIClient {
     private let baseUrlString = "https://www.buecherhallen.de"
     private let log = OSLog(subsystem: .development, category: .scraper)
 
-    var authenticationSink: Any?
+    var disposeBag = Set<AnyCancellable>()
 
     public static var shared: APIClient = {
         APIClient()
@@ -29,23 +31,36 @@ public final class APIClient {
         self.keychainProvider = keychainProvider
     }
     
-    // MARK: - User Profile
+    // MARK: - User Account
     
-    public func profile(_ account: AccountModel, completion:((_ error:Error?) -> Void)) {
-        // profile is currently not fetched
-        completion(nil)
+    public func account(_ sessionIdentifier: SessionIdentifier, completion: @escaping (Result<UserModel, Error>) -> Void) {
+
+        guard let request = RequestBuilder.default.accountRequest(sessionIdentifier: sessionIdentifier) else {
+
+            completion(.failure(NSError(domain: "\(type(of: self))", code: 1, userInfo: nil)))
+            return
+        }
+
+        network.dataTask(with: request) { (data, response, error) in
+        let decoder = XMLDecoder()
+        decoder.shouldProcessNamespaces = true
+            let user = try? decoder.decode(UserModel.self, from: data!)
+
+            completion(.success(user))
+        }
+        .resume()
     }
 
     // MARK: - Charges
 
-    func charges(account: AccountModel, sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
+    func charges(sessionIdentifier: SessionIdentifier, completion:@escaping ((_ error: Error?, _ charges: [Charge]) -> (Void))) {
 
         guard let request = RequestBuilder.default.accountRequest(sessionIdentifier: sessionIdentifier) else {
             completion(NSError(domain: "\(type(of: self))", code: 1, userInfo: nil), [])
             return
         }
 
-        let task = network.dataTask(with: request) { (data, response, error) in
+        network.dataTask(with: request) { (data, response, error) in
             guard error == nil else {
                 completion(error, [])
                 return
@@ -62,7 +77,7 @@ public final class APIClient {
             })
             completion(nil, charges)
         }
-        task.resume()
+        .resume()
     }
 
     // MARK: - Loans
@@ -163,10 +178,11 @@ public final class APIClient {
 
         os_log(.info, log: self.log, "Initiating renewal of %{private}@.", itemIdentifier)
         let credentialStore = AccountCredentialStore(keychainProvider: keychainProvider)
+        let authenticationSubject = AuthenticationStateSubject(.idle)
         let authenticationManager = AuthenticationManager(network: network,
                                                           credentialStore: credentialStore,
-                                                          accountStore: accountStore)
-        authenticationSink = authenticationManager.authenticatedSubject
+                                                          authenticationSubject: authenticationSubject)
+        authenticationSubject
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: { done in
                 switch done {
@@ -198,6 +214,8 @@ public final class APIClient {
                 })
                 task.resume()
             })
+            .store(in: &disposeBag)
+
         authenticationManager.authenticateAccount(username: credentials.username, password: credentials.password)
     }
 

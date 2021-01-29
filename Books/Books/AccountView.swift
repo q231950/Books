@@ -12,20 +12,22 @@ import LibraryCore
 struct AccountView : View {
     @ObservedObject var accountViewModel: AccountViewModel
     @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
-        Text("AccountView")
-//        VStack {
-//            Button(action: {
-//                self.presentationMode.wrappedValue.dismiss()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
-//                    self.authenticationViewModel.signOut()
-//                }
-//            }) {
-//                Text("Sign out")
-//            }
-//        }
-//        .tabItem { Text("Account") }
-//        .tag(1)
+        VStack {
+            Text("my name")
+
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
+                    AppEnvironment.current.authenticationInteractor.signOut()
+                }
+            }) {
+                Text("Sign out")
+            }
+        }
+        .tabItem { Text("Account") }
     }
 }
 

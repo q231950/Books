@@ -28,7 +28,7 @@ final class RequestBuilder {
     /// - parameter sessionIdentifier: The session identifier that identifies the user
     func accountRequest(sessionIdentifier: String) -> URLRequest? {
         let requestBody = accountRequestBody(sessionIdentifier: sessionIdentifier)
-        return request(with: requestBody, path: "app_webuser/WebUserSvc.asmx", action:"webuser/GetBorrowerAccount")
+        return request(with: requestBody, path: "app_webuser/WebUserSvc.asmx", action:"webuser/GetBorrowerSummary")
     }
 
     /// - returns: The optional data that represents the request body for retrieving an account.

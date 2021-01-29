@@ -10,7 +10,7 @@ import Foundation
 
 public enum AuthenticationState {
     public enum Completion {
-        case authenticated
+        case authenticated(credentials: Credentials)
         case manualAuthenticationFailed
         case automaticAuthenticationFailed
         case missingUsername

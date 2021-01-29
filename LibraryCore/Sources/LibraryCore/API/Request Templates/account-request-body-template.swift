@@ -1,15 +1,12 @@
 struct RequestTemplate {
     static let accountRequestBodyTemplate = """
-<?xml version="1.0" encoding="utf-8"?>
-<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-    <soap:Body>
-        <GetBorrowerAccount xmlns="http://bibliomondo.com/websevices/webuser">
+<?xml version='1.0' encoding='utf-8'?><soap12:Envelope xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soap12='http://www.w3.org/2003/05/soap-envelope'>
+    <soap12:Body>
+        <GetBorrowerSummary xmlns='http://bibliomondo.com/websevices/webuser'>
             <sessionId>%1$@</sessionId>
-        </GetBorrowerAccount>
-    </soap:Body>
-</soap:Envelope>
+        </GetBorrowerSummary>
+    </soap12:Body>
+</soap12:Envelope>
 """
 
 }

@@ -17,20 +17,12 @@ struct AuthenticationInteractor {
 
     init(authenticationManager: AuthenticationManager) {
         self.authenticationManager = authenticationManager
-
-        authenticationManager.authenticatedSubject.sink { (result) in
-
-        } receiveValue: { state in
-            AppEnvironment.current.authenticationStatePublisher.send(state)
-        }
-        .store(in: &disposeBag)
-
     }
 
     func attemptAutomaticAuthentication() {
         AppEnvironment.current.authenticationStatePublisher.send(.authenticating)
 
-        if let username = AppEnvironment.current.stores.account.defaultAccountIdentifier(),
+        if let username = AppEnvironment.current.stores.account.signedInAccountIdentifier(),
            let password = authenticationManager.password(for: username) {
             let credentials = Credentials().withUsername(username).withPassword(password)
             if credentials.isValid {
@@ -50,16 +42,14 @@ struct AuthenticationInteractor {
     }
 
     func signOut() {
-        //        let accountIdentifier = accountViewModel.account.username
-        //        accountViewModel.account = AccountModel()
-        //        authenticationManager.signOut(accountIdentifier)
+        let accountPublisher = AppEnvironment.current.stores.account.accountPublisher
+        let currentAccount = accountPublisher.value
+
+        guard let username = currentAccount?.credentials.username else { return }
+
+        authenticationManager.signOut(username)
+        AppEnvironment.current.stores.account.removeSignedInAccountIdentifier(username)
+        accountPublisher.send(nil)
+
     }
-
-    private func handleAuthenticationUpdate() {
-
-        //        if case AuthenticationState.authenticationComplete(.authenticated) = self.state {
-        //            self.borrowedItemsViewModel = BorrowedItemsViewModel(account: account, authenticationManager: authenticationManager)
-        //        }
-    }
-
 }

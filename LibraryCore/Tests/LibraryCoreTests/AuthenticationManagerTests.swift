@@ -43,7 +43,6 @@ class AuthenticationManagerTest: XCTestCase {
         StubbornNetwork.standard.insertStubbedSessionURLProtocol(into: configuration)
         let session = URLSession(configuration: configuration)
         network = NetworkClient(session: session)
-        account = TestHelper.accountStub()
     }
 
     func testAuthenticationRequest() {
@@ -58,15 +57,14 @@ class AuthenticationManagerTest: XCTestCase {
         expectedRequest.httpBody = publicAccessTokenRequestBody.data(using: .utf8)
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
         StubbornNetwork.standard.stub(request: expectedRequest, data: data, response: HTTPURLResponse(), error: nil)
-        account.username = "123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "123", password: "abc")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { (_) in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { (_) in
         }) { _ in
             exp.fulfill()
         }
 
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -77,17 +75,16 @@ class AuthenticationManagerTest: XCTestCase {
             RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
         StubbornNetwork.standard.stub(request: request, data: data, response: nil, error: nil)
 
-        account.username = "123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "123", password: "abc")
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { _ in
             XCTFail()
         }) {
             if case AuthenticationState.authenticationComplete(.authenticated) = $0 { exp.fulfill() }
         }
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -97,16 +94,15 @@ class AuthenticationManagerTest: XCTestCase {
         let request = try XCTUnwrap(
             RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
         StubbornNetwork.standard.stub(request: request, data: data, response: nil, error: nil)
-        account.username = "123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "123", password: "abc")
         try credentialStore.store("abc", of: "123")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { _ in
             XCTFail()
         }) {
             if case AuthenticationState.authenticationComplete(.manualAuthenticationFailed) = $0 { exp.fulfill() }
         }
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -116,11 +112,10 @@ class AuthenticationManagerTest: XCTestCase {
         let request = try XCTUnwrap(
             RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
         StubbornNetwork.standard.stub(request: request, error:TestHelper.Errors.loadingError)
-        account.username = "123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "123", password: "abc")
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { _ in
         }) { value in
             switch value {
             case .authenticationError(let error):
@@ -129,16 +124,15 @@ class AuthenticationManagerTest: XCTestCase {
                 XCTFail()
             }
         }
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
     func testErrorWhenMissingPassword() {
         let exp = expectation(description: "wait for async")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        account = TestHelper.accountStub()
-        account.username = "user id"
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { _ in
+        account = TestHelper.accountStub(username: "user id")
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { _ in
         }) { value in
             switch value {
             case .authenticationComplete(.missingPassword):
@@ -147,7 +141,7 @@ class AuthenticationManagerTest: XCTestCase {
                 XCTFail()
             }
         }
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0)
     }
 
@@ -156,17 +150,16 @@ class AuthenticationManagerTest: XCTestCase {
         let data = publicSessionIdentifierResponseBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "abc-123", password: "abc")
         StubbornNetwork.standard.stub(request: try XCTUnwrap(request), data: data)
-        account.username = "abc-123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "abc-123", password: "abc")
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { completion in
         }) { _ in
             // Password + session token = 2
             XCTAssertEqual(self.credentialStore.didStoreSecretCount, 2)
             exp.fulfill()
         }
 
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -175,16 +168,15 @@ class AuthenticationManagerTest: XCTestCase {
         let data = publicAccessTokenRequestBody.data(using: .utf8)
         let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc")
         StubbornNetwork.standard.stub(request: try XCTUnwrap(request), data: data)
-        account.username = "123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "123", password: "abc")
         let credentialStore = AccountCredentialStoreMock(keychainProvider: keychainMock)
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { completion in
         }) { _ in
             XCTAssertEqual(credentialStore.didDeleteSecretCount, 1)
             exp.fulfill()
         }
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -194,16 +186,15 @@ class AuthenticationManagerTest: XCTestCase {
         let request = try XCTUnwrap(
             RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: "123", password: "abc"))
         StubbornNetwork.standard.stub(request: request, data: nil, response: nil, error: expectedError)
-        account.username = "123"
-        account.password = "abc"
+        account = TestHelper.accountStub(username: "123", password: "abc")
         let credentialStore = AccountCredentialStore(keychainProvider: keychainMock)
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
-        sink = authenticationManager.authenticatedSubject.sink(receiveCompletion: { completion in
+        sink = authenticationManager.authenticationSubject?.sink(receiveCompletion: { completion in
         }) { _ in
             XCTAssertEqual(self.credentialStore.didDeleteSecretCount, 0)
             exp.fulfill()
         }
-        authenticationManager.authenticateAccount(username: account.username, password: account.password)
+        authenticationManager.authenticateAccount(username: account.credentials.username, password: account.credentials.password)
         wait(for: [exp], timeout: 0.1)
     }
 
@@ -212,9 +203,8 @@ class AuthenticationManagerTest: XCTestCase {
         let authenticationManager = AuthenticationManager(network: network, credentialStore: credentialStore)
         try authenticationManager.store(password: "abc", for: "123")
         try authenticationManager.store(sessionIdentifier: "session-identifier", for: "123")
-        account.username = "123"
-        account.password = "abc"
-        authenticationManager.signOut(account.username)
+        account = TestHelper.accountStub(username: "123", password: "abc")
+        authenticationManager.signOut(account.credentials.username)
 
         // then both, password and session identifier must deleted from the keychain
         XCTAssertEqual(keychainMock.addedKeychainItems.count, 0)

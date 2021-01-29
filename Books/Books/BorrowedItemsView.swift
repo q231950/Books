@@ -11,12 +11,12 @@ import LibraryCore
 import Combine
 
 struct BorrowedItemsView : View {
-    @ObservedObject var borrowedItemsViewModel: BorrowedItemsViewModel
+    @ObservedObject var viewModel: BorrowedItemsViewModel = BorrowedItemsViewModel()
     var body: some View {
         return
             VStack {
-                List(borrowedItemsViewModel.loans, id: \.identifier) { loanViewModel in
-                    LoanRow(loanViewModel: loanViewModel)
+                List(viewModel.borrowedItems, id: \.identifier) { loan in
+                    LoanRow(loanViewModel: BorrowedItemViewModel(loan: loan))
                     .padding()
                 }
                 .listStyle(PlainListStyle())
@@ -27,23 +27,23 @@ struct BorrowedItemsView : View {
 }
 
 
-#if DEBUG
-    struct BorrowedItemsView_Previews : PreviewProvider {
-        static var previews: some View {
-
-            let account = AccountModel(credentials: Credentials().withUsername("abc").withPassword("123"))
-            let authenticationManager = AuthenticationManager(accountStore: AccountStore())
-            let borrowedItemsViewModel = BorrowedItemsViewModel(account: account, authenticationManager: authenticationManager)
-            borrowedItemsViewModel.loans.append(loanViewModels[0])
-            borrowedItemsViewModel.loans.append(loanViewModels[1])
-
-            return Group {
-                BorrowedItemsView(borrowedItemsViewModel: borrowedItemsViewModel).previewDisplayName("Loans on light")
-                BorrowedItemsView(borrowedItemsViewModel: borrowedItemsViewModel)
-                .environment(\.colorScheme, .dark)
-                .previewDisplayName("Loans on dark")
-
-            }
-        }
-    }
-#endif
+//#if DEBUG
+//    struct BorrowedItemsView_Previews : PreviewProvider {
+//        static var previews: some View {
+//
+//            let account = AccountModel(credentials: Credentials().withUsername("abc").withPassword("123"))
+//            let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+//            let borrowedItemsViewModel = BorrowedItemsViewModel(account: account, authenticationManager: authenticationManager)
+//            borrowedItemsViewModel.loans.append(loanViewModels[0])
+//            borrowedItemsViewModel.loans.append(loanViewModels[1])
+//
+//            return Group {
+//                BorrowedItemsView(borrowedItemsViewModel: borrowedItemsViewModel).previewDisplayName("Loans on light")
+//                BorrowedItemsView(borrowedItemsViewModel: borrowedItemsViewModel)
+//                .environment(\.colorScheme, .dark)
+//                .previewDisplayName("Loans on dark")
+//
+//            }
+//        }
+//    }
+//#endif

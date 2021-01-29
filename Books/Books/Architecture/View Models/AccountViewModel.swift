@@ -10,17 +10,15 @@ import Combine
 import LibraryCore
 import SwiftUI
 
-class AccountViewModel: ObservableObject, CredentialsProvider {
+class AccountViewModel: ObservableObject {
 
-    var account = CurrentValueSubject<AccountModel, Never>(AccountModel(credentials: Credentials()))
-
-    var credentialsPublisher = PassthroughSubject<Credentials, Never>()
+    @Published var account: AccountModel?
 
     private var disposeBag = Set<AnyCancellable>()
 
     init() {
-        account.sink(receiveValue: { [weak self] account in
-            self?.credentialsPublisher.send(account.credentials)
+        AppEnvironment.current.stores.account.accountPublisher.sink(receiveValue: { [weak self] account in
+            self?.account = account
         })
         .store(in: &disposeBag)
     }
