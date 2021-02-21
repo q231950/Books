@@ -13,7 +13,7 @@ struct AccountView : View {
     @ObservedObject var authenticationViewModel: AuthenticationViewModel
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        return VStack {
+        VStack {
             Button(action: {
                 self.presentationMode.wrappedValue.dismiss()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {

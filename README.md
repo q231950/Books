@@ -11,3 +11,5 @@
 For the Xcode UITests it comes handy to prepare the keyboard in advance so that the monkey can type properly:
 
 `defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false`
+
+[![Build Status](https://travis-ci.com/q231950/Books.svg?branch=master)](https://travis-ci.com/q231950/Books)

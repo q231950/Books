@@ -36,7 +36,7 @@ struct SensitiveDataProcessor: BodyDataProcessor {
     }
 
     func dataForDeliveringResponseBody(data: Data?, of request: URLRequest) -> Data? {
-        return data
+        data
     }
 
 }

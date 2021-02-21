@@ -20,7 +20,7 @@ class AuthenticationViewModel: ObservableObject {
     }
     var accountViewModel: AccountViewModel
 
-    @Published var authenticated: AuthenticationState = .authenticating {
+    @Published var state: AuthenticationState = .authenticating {
         didSet {
             self.handleAuthenticationUpdate(account: self.accountViewModel.account)
         }
@@ -39,11 +39,11 @@ class AuthenticationViewModel: ObservableObject {
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let authenticationError):
-                    self.authenticated = .authenticationError(authenticationError)
+                    self.state = .authenticationError(authenticationError)
                 case .finished: ()
                 }
             }) { authenticated in
-                self.authenticated = authenticated
+                self.state = authenticated
         }
     }
 
@@ -72,7 +72,7 @@ class AuthenticationViewModel: ObservableObject {
             return
         }
 
-        if case AuthenticationState.authenticationComplete(.authenticated) = self.authenticated {
+        if case AuthenticationState.authenticationComplete(.authenticated) = self.state {
             self.loansViewModel = LoansViewModel(account: account, authenticationManager: authenticationManager)
         }
     }

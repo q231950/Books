@@ -24,10 +24,10 @@ class FlamingoCharge: Equatable {
     }
 
     static func ==(lhs: FlamingoCharge, rhs: FlamingoCharge) -> Bool {
-        return lhs.reason == rhs.reason &&
-            lhs.date == rhs.date &&
-            lhs.debit == rhs.debit &&
-            lhs.credit == rhs.credit
+        lhs.reason == rhs.reason &&
+        lhs.date == rhs.date &&
+        lhs.debit == rhs.debit &&
+        lhs.credit == rhs.credit
     }
 
     var debugDescription: String {
@@ -45,8 +45,8 @@ class FlamingoAccount {
 
     init?(identifier: String?, name: String?, email: String?, charges: [FlamingoCharge] = []) {
         guard let identifier = identifier,
-            let name = name, let email = email else {
-                return nil
+              let name = name, let email = email else {
+            return nil
         }
 
         self.identifier = identifier
