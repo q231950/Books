@@ -6,8 +6,15 @@
 //
 
 import Foundation
+import Combine
+
+public typealias AccountPublisher = CurrentValueSubject<AccountModel?, Never>
 
 public protocol AccountStoring {
-    func storeAccount(identifier: String)
-    func defaultAccountIdentifier() -> String?
+
+    var accountPublisher: AccountPublisher { get }
+
+    func storeSignedInAccountIdentifier(_ identifier: String)
+    func removeSignedInAccountIdentifier(_ identifier: String)
+    func signedInAccountIdentifier() -> String?
 }

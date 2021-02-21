@@ -4,7 +4,10 @@
 
 ## Build generated
 build/
-DerivedData/
+Books/BooksUITests/DataStores
+
+## Test generated
+DataStores
 
 ## Various settings
 *.pbxuser

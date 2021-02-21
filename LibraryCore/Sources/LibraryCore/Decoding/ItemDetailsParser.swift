@@ -19,13 +19,14 @@ class FlamingoInfoPair: Equatable {
     }
 
     static func ==(lhs: FlamingoInfoPair, rhs: FlamingoInfoPair) -> Bool {
-        return lhs.title == rhs.title && lhs.content == rhs.content
+        lhs.title == rhs.title && lhs.content == rhs.content
     }
 }
 
 extension FlamingoInfoPair: CustomDebugStringConvertible {
+
     var debugDescription: String {
-        return "FlamingoInfoPair(title: \"\(title)\", content: \"\(content)\")"
+        "FlamingoInfoPair(title: \"\(title)\", content: \"\(content)\")"
     }
 }
 

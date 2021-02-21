@@ -34,7 +34,7 @@ public class NetworkClient {
     }
 
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        return session.dataTask(with: request, completionHandler: completionHandler)
+        session.dataTask(with: request, completionHandler: completionHandler)
     }
 
 }

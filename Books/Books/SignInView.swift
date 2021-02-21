@@ -11,7 +11,10 @@ import LibraryCore
 
 /// This is the view that people get to see when they are signed out
 struct SignInView : View {
-    @ObservedObject var authentication: AuthenticationViewModel
+    @ObservedObject var viewModel: SignInViewModel
+    let appContainerViewModel: AppContainerViewModel
+    @State private var username: String = ""
+    @State private var password: String = ""
 
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
@@ -20,18 +23,20 @@ struct SignInView : View {
                 .multilineTextAlignment(.center)
                 .padding(EdgeInsets(top: 80, leading: 0, bottom: 20, trailing: 0))
 
-            TextField("username", text: $authentication.accountViewModel.account.username)
+            TextField("username", text: $username)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textContentType(.username)
                 .accessibility(identifier: "user")
 
-            TextField("password", text: $authentication.accountViewModel.account.password)
+            TextField("password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .textContentType(.password)
                 .accessibility(identifier: "password")
 
             Button(action: {
-                self.authentication.authenticate()
+                AppEnvironment.current.authenticationInteractor.authenticate(credentials: Credentials()
+                                                                                .withUsername(username)
+                                                                                .withPassword(password))
             }) {
                 Text("Sign in")
             }
@@ -39,5 +44,9 @@ struct SignInView : View {
             Spacer()
         }
         .padding([.leading, .trailing], 20)
+        .onReceive(viewModel.credentialsPublisher) { credentials in
+            username = credentials.username
+            password = credentials.password
+        }
     }
 }

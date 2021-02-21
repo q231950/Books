@@ -10,70 +10,56 @@ import Foundation
 import os
 import Combine
 
-public enum AuthenticationState {
-    public enum Completion {
-        case authenticated
-        case manualAuthenticationFailed
-        case automaticAuthenticationFailed
-        case missingUsername
-        case missingPassword
-        case signOutSucceeded
-    }
-
-    case authenticating
-    case authenticationComplete(Completion)
-    case authenticationError(Error)
-
-}
-
 public enum AuthenticationError: Error {
     case subsystem(Error)
 }
 
+public typealias AuthenticationStateSubject = CurrentValueSubject<AuthenticationState, Never>
+
 public class AuthenticationManager {
 
-    public let authenticatedSubject = PassthroughSubject<AuthenticationState, AuthenticationError>()
+    public let authenticationSubject: AuthenticationStateSubject?
     private let log = OSLog(subsystem: .authenticationManager, category: .development)
     private let network: NetworkClient
     private let credentialStore: AccountCredentialStore
-    private let accountStore: AccountStoring
 
-    public convenience init(accountStore: AccountStoring) {
+    public convenience init(authenticationSubject: AuthenticationStateSubject? = nil) {
         self.init(network: NetworkClient.shared,
-        credentialStore: AccountCredentialStore(keychainProvider: KeychainManager()),
-        accountStore: accountStore)
+                  credentialStore: AccountCredentialStore(keychainProvider: KeychainManager()),
+                  authenticationSubject: authenticationSubject)
     }
 
-    init(network: NetworkClient = NetworkClient.shared, credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager()), accountStore: AccountStoring = NoOpAccountStore()) {
+    init(network: NetworkClient = NetworkClient.shared,
+         credentialStore: AccountCredentialStore = AccountCredentialStore(keychainProvider: KeychainManager()),
+         authenticationSubject: AuthenticationStateSubject? = nil) {
         self.network = network
         self.credentialStore = credentialStore
-        self.accountStore = accountStore
+        self.authenticationSubject = authenticationSubject
     }
 
     public func authenticateAccount(username: String?, password: String?) {
-        os_log(.info, log: self.log, "Initiating authentication for `%{private}@`", username ?? "nil")
+        os_log(.info, log: log, "Initiating authentication for `%{private}@`", username ?? "nil")
 
         guard let username = username, username != "" else {
-            os_log(.error, log: self.log, "Authentication failed, no username given")
-            authenticatedSubject.send(.authenticationComplete(.missingUsername))
+            os_log(.error, log: log, "Authentication failed, no username given")
+            authenticationSubject?.send(.authenticationComplete(.missingUsername))
             return
         }
 
         guard let password = password, password != "" else {
-            os_log(.error, log: self.log, "Authentication failed, no password given")
-            authenticatedSubject.send(.authenticationComplete(.missingPassword))
+            os_log(.error, log: log, "Authentication failed, no password given")
+            authenticationSubject?.send(.authenticationComplete(.missingPassword))
             return
         }
 
         authenticateAccount(username, password: password, completion: { [weak self] authenticated in
             guard let self = self else { return }
             if case let .authenticationError(error)  = authenticated {
-                self.authenticatedSubject.send(.authenticationError(error))
+                self.authenticationSubject?.send(.authenticationError(error))
             } else {
                 os_log(.info, log: self.log, "Finished authentication for account %{private}@", username)
 
-                self.accountStore.storeAccount(identifier: username)
-                self.authenticatedSubject.send(authenticated)
+                self.authenticationSubject?.send(authenticated)
             }
         })
     }
@@ -83,7 +69,7 @@ public class AuthenticationManager {
 
         removePassword(for: accountIdentifier)
         removeSessionIdentifier(for: accountIdentifier)
-        authenticatedSubject.send(.authenticationComplete(.signOutSucceeded))
+        authenticationSubject?.send(.authenticationComplete(.signOutSucceeded))
     }
 
     //MARK: - Account Authentication
@@ -94,7 +80,8 @@ public class AuthenticationManager {
                 switch validationStatus {
                 case .valid:
                     try self.store(password: password, for: identifier)
-                    completion(.authenticationComplete(.authenticated))
+                    let credentials = Credentials().withUsername(identifier).withPassword(password)
+                    completion(.authenticationComplete(.authenticated(credentials: credentials)))
                 case .invalid:
                     self.credentialStore.removePassword(for: identifier)
                     completion(.authenticationComplete(.manualAuthenticationFailed))
@@ -110,7 +97,7 @@ public class AuthenticationManager {
     private func validate(_ accountIdentifier:String, password:String, completion:@escaping ((_ status:AuthenticationValidationStatus) -> Void)) {
         guard let request = RequestBuilder.default.sessionIdentifierRequest(accountIdentifier: accountIdentifier, password: password) else {
             let err = NSError(domain: "\(type(of: self)).validate", code: 1)
-            os_log(.info, log: self.log, "Failed to create access token request `%{public}@`", err)
+            os_log(.info, log: log, "Failed to create access token request `%{public}@`", err)
             completion(.error(err))
             return
         }
@@ -159,7 +146,7 @@ public class AuthenticationManager {
      - returns: The optional session identifier if one was found
      - parameter accountIdentifier: The identifier of the belonging account
      */
-    func sessionIdentifier(for accountIdentifier: String) -> String? {
+    public func sessionIdentifier(for accountIdentifier: String) -> String? {
         let account = "com.elbedev.books.session.account.\(accountIdentifier)"
         return credentialStore.password(for: account)
     }
@@ -190,17 +177,17 @@ public class AuthenticationManager {
         switch parseResult {
         case .success(let token):
             do {
-                os_log(.info, log: self.log, "Storing access token %{private}@", token)
+                os_log(.info, log: log, "Storing access token %{private}@", token)
                 try store(sessionIdentifier: token, for: accountIdentifier)
                 completion(.valid)
             } catch let err {
                 completion(.error(err as NSError))
             }
         case .failure:
-            os_log(.info, log: self.log, "Failed to get access token because of invalid credentials")
+            os_log(.info, log: log, "Failed to get access token because of invalid credentials")
             completion(.invalid)
         case .error(let err):
-            os_log(.info, log: self.log, "Failed to get access token %{public}@", err.localizedDescription)
+            os_log(.info, log: log, "Failed to get access token %{public}@", err.localizedDescription)
             completion(.error(err as NSError))
         }
     }

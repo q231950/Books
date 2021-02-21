@@ -17,9 +17,9 @@ struct BooksApp: App {
 
     var body: some Scene {
         WindowGroup {
-            makeContentView()
+            AppContainerView()
                 .accentColor(Color("accent"))
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 
@@ -30,26 +30,6 @@ struct BooksApp: App {
 
         handleProcessInfo(processInfo)
 #endif
-    }
-
-    private func makeContentView() -> some View {
-        let authenticationViewModel = createAuthenticationViewModel()
-
-        return ContentView(authenticationViewModel: authenticationViewModel).environmentObject(authenticationViewModel)
-    }
-
-    /// Create an authentication view model.
-    private func createAuthenticationViewModel() -> AuthenticationViewModel {
-        var account = AccountModel()
-        let store = AccountStore()
-        if let identifier = store.defaultAccountIdentifier() {
-            account.username = identifier
-        }
-
-        let accountViewModel = AccountViewModel(account: account)
-        let accountStore = AccountStore()
-        return AuthenticationViewModel(authenticationManager: AuthenticationManager(accountStore: accountStore),
-                                       accountViewModel: accountViewModel)
     }
 }
 

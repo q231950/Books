@@ -10,20 +10,23 @@ import SwiftUI
 import LibraryCore
 import Combine
 
-struct ContentView : View {
-    @ObservedObject var authenticationViewModel: AuthenticationViewModel
+struct AppContainerView : View {
+
+    @ObservedObject private var viewModel = AppContainerViewModel()
+
     var body: some View {
-        view(for: authenticationViewModel.authenticated).onAppear() {
-            self.authenticationViewModel.attemptAutomaticAuthentication()
-        }
+        viewForState(viewModel.authenticationState)
+            .onAppear {
+                AppEnvironment.current.authenticationInteractor.attemptAutomaticAuthentication()
+            }
     }
 
-    func view(for state: AuthenticationState) -> AnyView {
+    private func viewForState(_ state: AuthenticationState) -> some View {
         switch state {
         case .authenticating:
             return AnyView(ActivityIndicator(isAnimating: .constant(true), style: .medium))
         case .authenticationComplete(.authenticated):
-            return AnyView(SignedInContainerView(authentication: authenticationViewModel))
+            return AnyView(SignedInContainerView())
         case .authenticationComplete(.manualAuthenticationFailed):
             return AnyView(signInView().alert(isPresented: .constant(true)) {
                 Alert(title: Text("Invalid Credentials"), message: Text("The username and password do not match. Have you recently changed your password?"), dismissButton: .default(Text("Ok")))
@@ -46,12 +49,13 @@ struct ContentView : View {
             return AnyView(signInView().alert(isPresented: .constant(true)) {
                 Alert(title: Text("Error"), message: Text("Please enter a password"), dismissButton: .default(Text("Ok")))
             })
+        case .idle:
+            return AnyView(Text("AppContainerView: .idle"))
         }
-
     }
 
     func signInView() -> some View {
-        return SignInView(authentication: authenticationViewModel)
+        SignInView(viewModel: SignInViewModel(), appContainerViewModel: viewModel)
     }
 }
 
@@ -61,7 +65,7 @@ struct ActivityIndicator: UIViewRepresentable {
     let style: UIActivityIndicatorView.Style
 
     func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
-        return UIActivityIndicatorView(style: style)
+        UIActivityIndicatorView(style: style)
     }
 
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
@@ -69,15 +73,16 @@ struct ActivityIndicator: UIViewRepresentable {
     }
 }
 
-#if DEBUG
-struct ContentView_Previews : PreviewProvider {
-    static var previews: some View {
-        let accountViewModel = AccountViewModel(account: AccountModel())
-        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
-        let authenticationViewModel = AuthenticationViewModel(authenticationManager: authenticationManager, accountViewModel: accountViewModel)
-        return ContentView(authenticationViewModel: authenticationViewModel)
-            .preferredColorScheme(.dark)
-    }
-}
-#endif
-
+//#if DEBUG
+//struct ContentView_Previews : PreviewProvider {
+//    static var previews: some View {
+//        let credentialsProvider = AccountViewModel()
+//        let authenticationManager = AuthenticationManager(accountStore: AccountStore())
+//        let viewModel = AppContainerViewModel(authenticationManager: authenticationManager, credentialsProvider: credentialsProvider)
+//        let interactor = AppContainerInteractor()
+//        return ContentView(viewModel: viewModel, interactor: interactor)
+//            .preferredColorScheme(.dark)
+//    }
+//}
+//#endif
+//

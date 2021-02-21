@@ -28,7 +28,7 @@ final class RequestBuilder {
     /// - parameter sessionIdentifier: The session identifier that identifies the user
     func accountRequest(sessionIdentifier: String) -> URLRequest? {
         let requestBody = accountRequestBody(sessionIdentifier: sessionIdentifier)
-        return request(with: requestBody, path: "app_webuser/WebUserSvc.asmx", action:"webuser/GetBorrowerAccount")
+        return request(with: requestBody, path: "app_webuser/WebUserSvc.asmx", action:"webuser/GetBorrowerSummary")
     }
 
     /// - returns: The optional data that represents the request body for retrieving an account.
@@ -121,15 +121,15 @@ final class RequestBuilder {
 
     /// - returns: An optional `URLRequest` for the given body and SOAP action
     private func request(with body: Data?, path: String, action: String) -> URLRequest? {
-        return URLRequest.request(method: "POST",
-                                  host: "zones.buecherhallen.de",
-                                  path: path,
-                                  body: body,
-                                  headers: ["Content-Type": "text/xml; charset=utf-8",
-                                            "SOAPAction": "http://bibliomondo.com/websevices/\(action)",
-                                    "Accept": "*/*",
-                                    "Accept-Language": "en-us",
-                                    "Accept-Encoding": "br, gzip, deflate"])
+        URLRequest.request(method: "POST",
+                           host: "zones.buecherhallen.de",
+                           path: path,
+                           body: body,
+                           headers: ["Content-Type": "text/xml; charset=utf-8",
+                                     "SOAPAction": "http://bibliomondo.com/websevices/\(action)",
+                                     "Accept": "*/*",
+                                     "Accept-Language": "en-us",
+                                     "Accept-Encoding": "br, gzip, deflate"])
     }
 
     /**

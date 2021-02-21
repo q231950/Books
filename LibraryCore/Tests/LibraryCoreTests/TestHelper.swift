@@ -22,10 +22,19 @@ final class TestHelper {
     }
     
     static var keychainMock: TestableKeychainProvider {
-        return KeychainMock()
+        KeychainMock()
     }
 
-    static func accountStub() -> AccountModel {
-        return AccountModel()
+    static func accountStub(username: String? = nil, password: String? = nil) -> AccountModel {
+        var credentials = Credentials()
+        if let username = username {
+            credentials = credentials.withUsername(username)
+        }
+
+        if let password = password {
+            credentials = credentials.withPassword(password)
+        }
+
+        return AccountModel(credentials: credentials)
     }
 }

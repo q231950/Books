@@ -9,11 +9,18 @@ import Foundation
 
 struct NoOpAccountStore: AccountStoring {
 
-    func storeAccount(identifier: String) {
-        // no op..
+    var accountPublisher: AccountPublisher
+
+    func storeSignedInAccountIdentifier(_ identifier: String) {
+        // no op…
     }
 
-    func defaultAccountIdentifier() -> String? {
+    func removeSignedInAccountIdentifier(_ identifier: String) {
+        // no op…
+    }
+
+    func signedInAccountIdentifier() -> String? {
         nil
     }
+
 }
