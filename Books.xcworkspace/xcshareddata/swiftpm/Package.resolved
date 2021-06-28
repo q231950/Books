@@ -20,7 +20,7 @@
         }
       },
       {
-        "package": "StubbornNetwork",
+        "package": "the-stubborn-network",
         "repositoryURL": "http://github.com/q231950/the-stubborn-network.git",
         "state": {
           "branch": "master",

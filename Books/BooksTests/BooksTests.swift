@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Books
+@testable import BTLB
 
 class BooksTests: XCTestCase {
 

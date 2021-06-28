@@ -60,7 +60,7 @@
 /* Begin PBXFileReference section */
 		3B25DE6723C9B9AE008A5486 /* LoanDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoanDetailView.swift; path = Views/LoanDetailView.swift; sourceTree = "<group>"; };
 		3B2C06A0239AE644003A8199 /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
-		3B47FDCD22ABAFE600D39567 /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B47FDCD22ABAFE600D39567 /* BTLB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTLB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47FDD222ABAFE600D39567 /* BooksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksApp.swift; sourceTree = "<group>"; };
 		3B47FDD522ABAFE700D39567 /* Books.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Books.xcdatamodel; sourceTree = "<group>"; };
 		3B47FDD722ABAFE700D39567 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 		3B47FDCE22ABAFE600D39567 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3B47FDCD22ABAFE600D39567 /* Books.app */,
+				3B47FDCD22ABAFE600D39567 /* BTLB.app */,
 				3B47FDE622ABAFE800D39567 /* BooksTests.xctest */,
 				3B47FDF122ABAFE800D39567 /* BooksUITests.xctest */,
 			);
@@ -282,7 +282,7 @@
 				3B6179D722DB760300D77E84 /* StubbornNetwork */,
 			);
 			productName = Books;
-			productReference = 3B47FDCD22ABAFE600D39567 /* Books.app */;
+			productReference = 3B47FDCD22ABAFE600D39567 /* BTLB.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3B47FDE522ABAFE800D39567 /* BooksTests */ = {
@@ -339,7 +339,6 @@
 					};
 					3B47FDE522ABAFE800D39567 = {
 						CreatedOnToolsVersion = 11.0;
-						TestTargetID = 3B47FDCC22ABAFE600D39567;
 					};
 					3B47FDF022ABAFE800D39567 = {
 						CreatedOnToolsVersion = 11.0;
@@ -602,8 +601,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.sync;
+				PRODUCT_NAME = BTLB;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -626,8 +625,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.books;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.elbedev.sync;
+				PRODUCT_NAME = BTLB;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -638,7 +637,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X29V4JPQ55;
 				INFOPLIST_FILE = BooksTests/Info.plist;
@@ -651,7 +649,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Books.app/Books";
 			};
 			name = Debug;
 		};
@@ -659,7 +656,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X29V4JPQ55;
 				INFOPLIST_FILE = BooksTests/Info.plist;
@@ -672,7 +668,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Books.app/Books";
 			};
 			name = Release;
 		};
